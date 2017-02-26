@@ -6,5 +6,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  public isCollapsed: boolean = true;
+
+  constructor() {
+
+  }
+
+  public toggleNavigation() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  public collapsed(event: any): void {
+    console.log(event);
+  }
+
+  public expanded(event: any): void {
+    console.log(event);
+  }
 }

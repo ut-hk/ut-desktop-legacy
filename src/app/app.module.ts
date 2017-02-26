@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from "@angular/router";
 
+import { LocalStorageModule } from "angular-2-local-storage";
+import { CollapseModule } from "ng2-bootstrap";
+import { AbpHttpModule } from "../abp-http/abp-http.module";
+
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -30,10 +34,21 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    LocalStorageModule.withConfig({
+      prefix: 'ut',
+      storageType: 'localStorage'
+    }),
+    AbpHttpModule,
+
+    // Bootstrap
+    CollapseModule.forRoot(),
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule {
 }
