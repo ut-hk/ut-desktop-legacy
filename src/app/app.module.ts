@@ -13,11 +13,18 @@ import { WorldComponent } from './world/world.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ActivityPlansComponent } from './activity-plans/activity-plans.component';
+import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
+
+  {path: 'activity-plans', component: ActivityPlansComponent},
+  {path: 'activity-templates', component: ActivityTemplatesComponent},
+
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
+
   {path: '', redirectTo: '/world', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];
@@ -28,7 +35,9 @@ const appRoutes: Routes = [
     WorldComponent,
     LogInComponent,
     SignUpComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ActivityPlansComponent,
+    ActivityTemplatesComponent
   ],
   imports: [
     BrowserModule,
@@ -44,8 +53,7 @@ const appRoutes: Routes = [
     // Bootstrap
     CollapseModule.forRoot(),
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [
     AppComponent
   ]

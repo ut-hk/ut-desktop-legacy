@@ -23,7 +23,7 @@ import { LogService } from "./http/log.service";
     UtilsService,
     {provide: Http, useExisting: AbpHttp},
 
-    api.App_categoryApi
+    api.APIS
   ],
   declarations: []
 })
