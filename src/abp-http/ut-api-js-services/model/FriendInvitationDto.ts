@@ -12,25 +12,23 @@
 
 import * as models from './models';
 
-export interface ActivityTemplateDto {
-    referenceStartTime?: Date;
+export interface FriendInvitationDto {
+    content?: string;
 
-    referenceEndTime?: Date;
+    status?: FriendInvitationDto.StatusEnum;
 
-    name?: string;
+    invitee?: models.UserDto;
 
-    description?: string;
-
-    location?: models.LocationDto;
-
-    tags?: Array<models.TagDto>;
-
-    ratings?: Array<models.RatingDto>;
-
-    comments?: Array<models.CommentDto>;
-
-    ownerId?: number;
+    owner?: models.UserDto;
 
     id?: string;
 
+}
+export namespace FriendInvitationDto {
+    export enum StatusEnum {
+        NUMBER_0 = <any> 0,
+        NUMBER_1 = <any> 1,
+        NUMBER_2 = <any> 2,
+        NUMBER_3 = <any> 3
+    }
 }

@@ -12,25 +12,9 @@
 
 import * as models from './models';
 
-export interface ActivityTemplateDto {
-    referenceStartTime?: Date;
+export interface CreateFriendInvitationInput {
+    content?: string;
 
-    referenceEndTime?: Date;
-
-    name?: string;
-
-    description?: string;
-
-    location?: models.LocationDto;
-
-    tags?: Array<models.TagDto>;
-
-    ratings?: Array<models.RatingDto>;
-
-    comments?: Array<models.CommentDto>;
-
-    ownerId?: number;
-
-    id?: string;
+    inviteeId?: number;
 
 }

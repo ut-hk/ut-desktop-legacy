@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class App_ratingApi {
+export class App_activityInvitationApi {
     protected basePath = 'http://unitime-dev-api.azurewebsites.net';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -45,8 +45,8 @@ export class App_ratingApi {
      * 
      * @param input 
      */
-    public appRatingCreateRating(input: models.CreateRatingInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
-        return this.appRatingCreateRatingWithHttpInfo(input, extraHttpRequestParams)
+    public appActivityInvitationCreateActivityInvitation(input: models.CreateActivityInvitationInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
+        return this.appActivityInvitationCreateActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -60,8 +60,8 @@ export class App_ratingApi {
      * 
      * 
      */
-    public appRatingGetMyRatings(extraHttpRequestParams?: any): Observable<models.GetRatingsOutput> {
-        return this.appRatingGetMyRatingsWithHttpInfo(extraHttpRequestParams)
+    public appActivityInvitationGetMyActivityInvitations(extraHttpRequestParams?: any): Observable<models.GetActivityInvitationsOutput> {
+        return this.appActivityInvitationGetMyActivityInvitationsWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -77,14 +77,14 @@ export class App_ratingApi {
      * 
      * @param input 
      */
-    public appRatingCreateRatingWithHttpInfo(input: models.CreateRatingInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/rating/CreateRating`;
+    public appActivityInvitationCreateActivityInvitationWithHttpInfo(input: models.CreateActivityInvitationInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/CreateActivityInvitation`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appRatingCreateRating.');
+            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationCreateActivityInvitation.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -115,8 +115,8 @@ export class App_ratingApi {
      * 
      * 
      */
-    public appRatingGetMyRatingsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/rating/GetMyRatings`;
+    public appActivityInvitationGetMyActivityInvitationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/GetMyActivityInvitations`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

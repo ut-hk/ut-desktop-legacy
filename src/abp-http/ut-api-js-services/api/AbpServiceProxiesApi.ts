@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class App_ratingApi {
+export class AbpServiceProxiesApi {
     protected basePath = 'http://unitime-dev-api.azurewebsites.net';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -43,25 +43,11 @@ export class App_ratingApi {
     /**
      * 
      * 
-     * @param input 
+     * @param name 
+     * @param type 
      */
-    public appRatingCreateRating(input: models.CreateRatingInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
-        return this.appRatingCreateRatingWithHttpInfo(input, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * 
-     */
-    public appRatingGetMyRatings(extraHttpRequestParams?: any): Observable<models.GetRatingsOutput> {
-        return this.appRatingGetMyRatingsWithHttpInfo(extraHttpRequestParams)
+    public abpServiceProxiesGet(name: string, type?: number, extraHttpRequestParams?: any): Observable<any> {
+        return this.abpServiceProxiesGetWithHttpInfo(name, type, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -75,61 +61,46 @@ export class App_ratingApi {
     /**
      * 
      * 
-     * @param input 
+     * @param name 
+     * @param type 
      */
-    public appRatingCreateRatingWithHttpInfo(input: models.CreateRatingInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/rating/CreateRating`;
+    public abpServiceProxiesGetWithHttpInfo(name: string, type?: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/AbpServiceProxies`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'input' is not null or undefined
-        if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appRatingCreateRating.');
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling abpServiceProxiesGet.');
         }
+        if (name !== undefined) {
+            if(name instanceof Date) {
+                queryParameters.set('name', <any>name.d.toISOString());
+            } else {
+                queryParameters.set('name', <any>name);
+            }
+        }
+
+        if (type !== undefined) {
+            if(type instanceof Date) {
+                queryParameters.set('type', <any>type.d.toISOString());
+            } else {
+                queryParameters.set('type', <any>type);
+            }
+        }
+
         // to determine the Content-Type header
         let consumes: string[] = [
         ];
 
         // to determine the Accept header
         let produces: string[] = [
-        ];
-
-        headers.set('Content-Type', 'application/json');
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
-            search: queryParameters
-        });
-
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * 
-     * 
-     */
-    public appRatingGetMyRatingsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/rating/GetMyRatings`;
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
+            'application/json', 
+            'text/json'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
+            method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });

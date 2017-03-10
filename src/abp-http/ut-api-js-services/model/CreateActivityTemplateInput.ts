@@ -13,7 +13,7 @@
 import * as models from './models';
 
 export interface CreateActivityTemplateInput {
-    referenceStarTime?: Date;
+    referenceStartTime?: Date;
 
     referenceEndTime?: Date;
 

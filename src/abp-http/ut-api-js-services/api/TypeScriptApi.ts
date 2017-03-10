@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class App_ratingApi {
+export class TypeScriptApi {
     protected basePath = 'http://unitime-dev-api.azurewebsites.net';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -43,25 +43,10 @@ export class App_ratingApi {
     /**
      * 
      * 
-     * @param input 
+     * @param isCompleteService 
      */
-    public appRatingCreateRating(input: models.CreateRatingInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
-        return this.appRatingCreateRatingWithHttpInfo(input, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * 
-     */
-    public appRatingGetMyRatings(extraHttpRequestParams?: any): Observable<models.GetRatingsOutput> {
-        return this.appRatingGetMyRatingsWithHttpInfo(extraHttpRequestParams)
+    public typeScriptGet(isCompleteService?: boolean, extraHttpRequestParams?: any): Observable<any> {
+        return this.typeScriptGetWithHttpInfo(isCompleteService, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -75,61 +60,33 @@ export class App_ratingApi {
     /**
      * 
      * 
-     * @param input 
+     * @param isCompleteService 
      */
-    public appRatingCreateRatingWithHttpInfo(input: models.CreateRatingInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/rating/CreateRating`;
+    public typeScriptGetWithHttpInfo(isCompleteService?: boolean, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/TypeScript`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'input' is not null or undefined
-        if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appRatingCreateRating.');
+        if (isCompleteService !== undefined) {
+            if(isCompleteService instanceof Date) {
+                queryParameters.set('isCompleteService', <any>isCompleteService.d.toISOString());
+            } else {
+                queryParameters.set('isCompleteService', <any>isCompleteService);
+            }
         }
+
         // to determine the Content-Type header
         let consumes: string[] = [
         ];
 
         // to determine the Accept header
         let produces: string[] = [
-        ];
-
-        headers.set('Content-Type', 'application/json');
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
-            search: queryParameters
-        });
-
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * 
-     * 
-     */
-    public appRatingGetMyRatingsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/rating/GetMyRatings`;
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
+            'application/json', 
+            'text/json'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
+            method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
