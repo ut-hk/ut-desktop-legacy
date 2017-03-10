@@ -1,7 +1,5 @@
 export * from './AbpCacheApi';
 import { AbpCacheApi }  from './AbpCacheApi';
-export * from './AbpServiceProxiesApi';
-import { AbpServiceProxiesApi }  from './AbpServiceProxiesApi';
 export * from './AccountApi';
 import { AccountApi }  from './AccountApi';
 export * from './App_activityApi';
@@ -38,6 +36,4 @@ export * from './App_userApi';
 import { App_userApi }  from './App_userApi';
 export * from './FileApi';
 import { FileApi }  from './FileApi';
-export * from './TypeScriptApi';
-import { TypeScriptApi }  from './TypeScriptApi';
-export const APIS = [ AbpCacheApi, AbpServiceProxiesApi, AccountApi, App_activityApi, App_activityPlanApi, App_activityPlanTimeSlotApi, App_activityTemplateApi, App_analysisApi, App_chatRoomApi, App_chatRoomMessageApi, App_commentApi, App_descriptionApi, App_locationApi, App_ratingApi, App_replyApi, App_sessionApi, App_tagApi, App_tenantApi, App_userApi, FileApi, TypeScriptApi, ];
+export const APIS = [ AbpCacheApi, AccountApi, App_activityApi, App_activityPlanApi, App_activityPlanTimeSlotApi, App_activityTemplateApi, App_analysisApi, App_chatRoomApi, App_chatRoomMessageApi, App_commentApi, App_descriptionApi, App_locationApi, App_ratingApi, App_replyApi, App_sessionApi, App_tagApi, App_tenantApi, App_userApi, FileApi, ];

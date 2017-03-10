@@ -15,12 +15,15 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ActivityPlansComponent } from './activity-plans/activity-plans.component';
 import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
+import { MyUserComponent } from './my-user/my-user.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
 
   {path: 'activity-plans', component: ActivityPlansComponent},
   {path: 'activity-templates', component: ActivityTemplatesComponent},
+
+  {path: 'my-user', component: MyUserComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
@@ -37,7 +40,8 @@ const appRoutes: Routes = [
     SignUpComponent,
     PageNotFoundComponent,
     ActivityPlansComponent,
-    ActivityTemplatesComponent
+    ActivityTemplatesComponent,
+    MyUserComponent
   ],
   imports: [
     BrowserModule,
