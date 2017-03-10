@@ -15,6 +15,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ActivityPlansComponent } from './activity-plans/activity-plans.component';
 import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
+import { ActivitiesComponent } from './activity-details/activity-details.component';
 import { MyUserComponent } from './my-user/my-user.component';
 
 const appRoutes: Routes = [
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
 
   {path: 'activity-plans', component: ActivityPlansComponent},
   {path: 'activity-templates', component: ActivityTemplatesComponent},
+  {path: 'activity-details', component: ActivitiesComponent},
 
   {path: 'my-user', component: MyUserComponent},
 
