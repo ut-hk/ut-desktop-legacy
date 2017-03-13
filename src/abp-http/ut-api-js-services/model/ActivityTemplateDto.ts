@@ -13,9 +13,7 @@
 import * as models from './models';
 
 export interface ActivityTemplateDto {
-    referenceStartTime?: Date;
-
-    referenceEndTime?: Date;
+    referenceTimeSlots?: Array<models.ActivityTemplateReferenceTimeSlotDto>;
 
     name?: string;
 

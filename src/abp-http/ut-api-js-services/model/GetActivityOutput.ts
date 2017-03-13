@@ -12,11 +12,7 @@
 
 import * as models from './models';
 
-export interface CreateActivityTemplateInput {
-    referenceTimeSlots?: Array<models.ActivityTemplateReferenceTimeSlotDto>;
-
-    name?: string;
-
-    description?: string;
+export interface GetActivityOutput {
+    activity?: models.ActivityDto;
 
 }
