@@ -13,7 +13,7 @@
 import * as models from './models';
 
 export interface CreateReplyInput {
-    commentId?: number;
+    commentId?: string;
 
     content?: string;
 

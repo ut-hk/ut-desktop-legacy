@@ -17,7 +17,7 @@ export interface RatingDto {
 
     ownerId?: number;
 
-    id?: string;
+    id?: number;
 
 }
 export namespace RatingDto {

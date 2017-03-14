@@ -21,6 +21,8 @@ export interface ActivityTemplateDto {
 
     location?: models.LocationDto;
 
+    images?: Array<models.FileDto>;
+
     tags?: Array<models.TagDto>;
 
     ratings?: Array<models.RatingDto>;

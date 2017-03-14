@@ -12,19 +12,13 @@
 
 import * as models from './models';
 
-export interface CommentDto {
+export interface CreateTextCommentInput {
     content?: string;
 
-    type?: CommentDto.TypeEnum;
+    activityId?: string;
 
-    replies?: Array<models.ReplyDto>;
+    activityTemplateId?: string;
 
-    id?: string;
+    activityPlanId?: string;
 
-}
-export namespace CommentDto {
-    export enum TypeEnum {
-        NUMBER_0 = <any> 0,
-        NUMBER_1 = <any> 1
-    }
 }

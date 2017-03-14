@@ -15,9 +15,11 @@ import * as models from './models';
 export interface CreateRatingInput {
     ratingStatus?: CreateRatingInput.RatingStatusEnum;
 
-    abstractActivityId?: string;
+    activityId?: string;
 
     activityPlanId?: string;
+
+    activityTemplateId?: string;
 
 }
 export namespace CreateRatingInput {

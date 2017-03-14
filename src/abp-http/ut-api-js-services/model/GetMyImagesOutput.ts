@@ -12,19 +12,7 @@
 
 import * as models from './models';
 
-export interface CommentDto {
-    content?: string;
+export interface GetMyImagesOutput {
+    images?: Array<models.FileDto>;
 
-    type?: CommentDto.TypeEnum;
-
-    replies?: Array<models.ReplyDto>;
-
-    id?: string;
-
-}
-export namespace CommentDto {
-    export enum TypeEnum {
-        NUMBER_0 = <any> 0,
-        NUMBER_1 = <any> 1
-    }
 }

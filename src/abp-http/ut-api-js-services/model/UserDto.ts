@@ -27,10 +27,19 @@ export interface UserDto {
 
     lastLoginTime?: Date;
 
-    isActive?: boolean;
+    gender?: UserDto.GenderEnum;
 
-    creationTime?: Date;
+    birthday?: Date;
+
+    coverId?: string;
 
     id?: number;
 
+}
+export namespace UserDto {
+    export enum GenderEnum {
+        NUMBER_1 = <any> 1,
+        NUMBER_2 = <any> 2,
+        NUMBER_3 = <any> 3
+    }
 }

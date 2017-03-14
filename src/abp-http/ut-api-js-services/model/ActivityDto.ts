@@ -23,6 +23,8 @@ export interface ActivityDto {
 
     location?: models.LocationDto;
 
+    images?: Array<models.FileDto>;
+
     tags?: Array<models.TagDto>;
 
     ratings?: Array<models.RatingDto>;

@@ -12,11 +12,24 @@
 
 import * as models from './models';
 
-export interface CreateCommentInput {
-    content?: string;
+export interface UpdateMyUserInput {
+    name: string;
 
-    abstractActivityId?: string;
+    surname: string;
 
-    activityPlanId?: string;
+    phoneNumber?: string;
 
+    gender?: UpdateMyUserInput.GenderEnum;
+
+    birthday?: Date;
+
+    coverId?: string;
+
+}
+export namespace UpdateMyUserInput {
+    export enum GenderEnum {
+        NUMBER_1 = <any> 1,
+        NUMBER_2 = <any> 2,
+        NUMBER_3 = <any> 3
+    }
 }

@@ -15,8 +15,6 @@ import * as models from './models';
 export interface FileDto {
     id?: string;
 
-    fileName?: string;
-
     description?: string;
 
     creationTime?: Date;
