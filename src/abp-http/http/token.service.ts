@@ -9,17 +9,16 @@ export class TokenService {
   }
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return this.localStorageService.get<string>('token');
   }
 
 
   setToken(authToken: string, expireDate?: Date): void {
-    localStorage.setItem('token', authToken);
-
+    this.localStorageService.set('token', authToken);
   }
 
   clearToken(): void {
-    localStorage.removeItem('token');
+    this.localStorageService.remove('token');
   }
 
 }

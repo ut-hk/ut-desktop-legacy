@@ -1,0 +1,14 @@
+.tag {
+  margin-right: 5px;
+  color: lightgray;
+}
+
+.comment {
+  > .content {
+
+  }
+
+  > .replies {
+    margin-left: 12px;
+  }
+}

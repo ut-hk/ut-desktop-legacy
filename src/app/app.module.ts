@@ -10,14 +10,26 @@ import { AbpHttpModule } from "../abp-http/abp-http.module";
 
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
-import { SignInComponent } from './sign-in/sign-in.component';
+import { LogInComponent } from './log-in/log-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ActivityPlansComponent } from './activity-plans/activity-plans.component';
+import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
+import { MyUserComponent } from './my-user/my-user.component';
+import { ActivityPlanComponent } from './activity-plan/activity-plan.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
-  {path: 'sign-in', component: SignInComponent},
+
+  {path: 'activity-plans', component: ActivityPlansComponent},
+  {path: 'activity-templates', component: ActivityTemplatesComponent},
+  {path: 'activity-plan', component: ActivityPlanComponent},
+
+  {path: 'my-user', component: MyUserComponent},
+
+  {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
+
   {path: '', redirectTo: '/world', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];
@@ -26,9 +38,14 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     WorldComponent,
-    SignInComponent,
+    LogInComponent,
     SignUpComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ActivityPlansComponent,
+    ActivityTemplatesComponent,
+    ActivityPlanComponent,
+    MyUserComponent,
+    ActivityPlanComponent
   ],
   imports: [
     BrowserModule,
@@ -44,8 +61,7 @@ const appRoutes: Routes = [
     // Bootstrap
     CollapseModule.forRoot(),
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [
     AppComponent
   ]

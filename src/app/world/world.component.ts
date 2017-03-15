@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { App_categoryApi } from "../../abp-http/ut-api-js-services/api/App_categoryApi";
+import { App_activityPlanApi } from "../../abp-http/ut-api-js-services/api/App_activityPlanApi";
+import { ActivityPlanDto } from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
 
 @Component({
   selector: 'app-world',
@@ -9,18 +10,10 @@ import { App_categoryApi } from "../../abp-http/ut-api-js-services/api/App_categ
 })
 export class WorldComponent implements OnInit {
 
-  constructor(private categoryService: App_categoryApi) {
+  constructor() {
   }
 
   ngOnInit() {
-  }
-
-  public onClickLearnMore() {
-    this.categoryService.appCategoryGetCategories({})
-      .subscribe((project) => {
-        console.log(1);
-        console.log(project);
-      });
   }
 
 }
