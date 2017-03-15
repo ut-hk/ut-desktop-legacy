@@ -17,6 +17,13 @@ import { ActivityPlansComponent } from './activity-plans/activity-plans.componen
 import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
 import { MyUserComponent } from './my-user/my-user.component';
 import { ActivityPlanComponent } from './activity-plan/activity-plan.component';
+import { FriendsComponent } from './friends/friends.component';
+import { CreationOfActivityPlanComponent } from './creation-of-activity-plan/creation-of-activity-plan.component';
+import { CreationOfActivityTemplateComponent } from './creation-of-activity-template/creation-of-activity-template.component';
+import { CreationOfActivityComponent } from './creation-of-activity/creation-of-activity.component';
+import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
+import { ActivityTemplateComponent } from './activity-template/activity-template.component';
+import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -45,6 +52,13 @@ const appRoutes: Routes = [
     ActivityTemplatesComponent,
     ActivityPlanComponent,
     MyUserComponent,
+    FriendsComponent,
+    CreationOfActivityPlanComponent,
+    CreationOfActivityTemplateComponent,
+    CreationOfActivityComponent,
+    ChatRoomsComponent,
+    ActivityTemplateComponent,
+    AdvancedSearchComponent,
   ],
   imports: [
     BrowserModule,
