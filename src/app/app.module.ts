@@ -22,8 +22,8 @@ const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
 
   {path: 'activity-plans', component: ActivityPlansComponent},
+  {path: 'activity-plan/:id', component: ActivityPlanComponent},
   {path: 'activity-templates', component: ActivityTemplatesComponent},
-  {path: 'activity-plan', component: ActivityPlanComponent},
 
   {path: 'my-user', component: MyUserComponent},
 
@@ -45,7 +45,6 @@ const appRoutes: Routes = [
     ActivityTemplatesComponent,
     ActivityPlanComponent,
     MyUserComponent,
-    ActivityPlanComponent
   ],
   imports: [
     BrowserModule,
