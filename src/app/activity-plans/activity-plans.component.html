@@ -1,19 +1,12 @@
 <div class="container">
   <div class="col-xs-12">
     <div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
-<<<<<<< HEAD
-      <h2>{{activityPlan.name}}</h2>
-      <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
-        <p *ngSwitchCase="0">{{description.content}}</p>
-        <img *ngSwitchCase="1" [src]="description.content">
-=======
       <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
       <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
         <p *ngSwitchCase="0">{{description.content}}</p>
         <div class="text-center">
           <img *ngSwitchCase="1" [src]="description.content">
         </div>
->>>>>>> 142342263a8802250eb0704d53e881fdbb2a40b0
       </div>
       <p class="text-right">
         <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
