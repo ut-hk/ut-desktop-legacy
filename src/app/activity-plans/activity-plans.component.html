@@ -1,6 +1,6 @@
 <div class="container">
   <div class="col-xs-12">
-    <div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
+    <div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id" routerLink="/activity-plan/{{activityPlan.id}}" routerLinkActive="active">
       <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
       <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
         <p *ngSwitchCase="0">{{description.content}}</p>
