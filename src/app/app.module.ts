@@ -15,15 +15,16 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ActivityPlansComponent } from './activity-plans/activity-plans.component';
 import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
-import { MyUserComponent } from './my-user/my-user.component';
 import { ActivityPlanComponent } from './activity-plan/activity-plan.component';
 import { FriendsComponent } from './friends/friends.component';
-import { CreationOfActivityPlanComponent } from './creation-of-activity-plan/creation-of-activity-plan.component';
-import { CreationOfActivityTemplateComponent } from './creation-of-activity-template/creation-of-activity-template.component';
-import { CreationOfActivityComponent } from './creation-of-activity/creation-of-activity.component';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { ActivityTemplateComponent } from './activity-template/activity-template.component';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
+import { CreateActivityPlanComponent } from './create-activity-plan/create-activity-plan.component';
+import { CreateActivityComponent } from './create-activity/create-activity.component';
+import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
+import { UserComponent } from './user/user.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -32,8 +33,6 @@ const appRoutes: Routes = [
   {path: 'activity-plan/:id', component: ActivityPlanComponent},
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
-
-  {path: 'my-user', component: MyUserComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
@@ -52,14 +51,15 @@ const appRoutes: Routes = [
     ActivityPlansComponent,
     ActivityTemplatesComponent,
     ActivityPlanComponent,
-    MyUserComponent,
     FriendsComponent,
-    CreationOfActivityPlanComponent,
-    CreationOfActivityTemplateComponent,
-    CreationOfActivityComponent,
     ChatRoomsComponent,
     ActivityTemplateComponent,
     AdvancedSearchComponent,
+    CreateActivityPlanComponent,
+    CreateActivityComponent,
+    CreateActivityTemplateComponent,
+    UserComponent,
+    UpdateUserComponent,
   ],
   imports: [
     BrowserModule,
