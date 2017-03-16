@@ -1,8 +1,8 @@
 <div class="container">
   <div class="col-xs-12">
-    <div>
+    <div *ngIf="activityPlan">
       <h2>{{activityPlan.name}}</h2>
-      <div [ngSwitch]="description.type">
+      <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
         <p *ngSwitchCase="0">{{description.content}}</p>
         <div class="text-center">
           <img *ngSwitchCase="1" [src]="description.content">
