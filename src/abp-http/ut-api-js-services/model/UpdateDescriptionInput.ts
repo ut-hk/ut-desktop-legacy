@@ -12,11 +12,9 @@
 
 import * as models from './models';
 
-export interface UpdateAbstractActivityInput {
-    name?: string;
+export interface UpdateDescriptionInput {
+    htmlClasses?: Array<string>;
 
-    description?: string;
-
-    id?: string;
+    id?: number;
 
 }

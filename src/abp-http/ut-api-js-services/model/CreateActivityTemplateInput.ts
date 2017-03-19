@@ -19,4 +19,6 @@ export interface CreateActivityTemplateInput {
 
     description?: string;
 
+    locationId?: string;
+
 }
