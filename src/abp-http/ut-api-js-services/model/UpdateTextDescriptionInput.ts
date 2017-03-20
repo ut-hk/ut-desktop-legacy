@@ -15,6 +15,8 @@ import * as models from './models';
 export interface UpdateTextDescriptionInput {
     text?: string;
 
+    htmlClasses?: Array<string>;
+
     id?: number;
 
 }

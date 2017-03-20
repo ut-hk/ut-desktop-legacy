@@ -3,6 +3,10 @@ import { App_userApi } from "../abp-http/ut-api-js-services/api/App_userApi";
 import { LocalStorageService } from "angular-2-local-storage";
 import { UserDto } from "../abp-http/ut-api-js-services/model/UserDto";
 import { TokenService } from "../abp-http/http/token.service";
+import { NavigationStart, Router, RoutesRecognized } from "@angular/router";
+import { App_analysisApi } from "../abp-http/ut-api-js-services/api/App_analysisApi";
+import { EntityDtoGuid } from "../abp-http/ut-api-js-services/model/EntityDtoGuid";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -12,16 +16,21 @@ import { TokenService } from "../abp-http/http/token.service";
 export class AppComponent {
 
   public isCollapsed: boolean = true;
-  public myUser: UserDto;
+  public myUser: UserDto = null;
+  public guest: EntityDtoGuid = null;
+  public depth: number = 0;
 
   constructor(private localStorageService: LocalStorageService,
+              private router: Router,
               private tokenService: TokenService,
-              private userService: App_userApi) {
+              private userService: App_userApi,
+              private analysisService: App_analysisApi) {
+
+    this.myUser = this.localStorageService.get('myUser');
+    this.guest = localStorageService.get<EntityDtoGuid>("guest");
   }
 
   ngOnInit() {
-    this.myUser = this.localStorageService.get('myUser');
-
     if (this.tokenService.getToken())
       this.userService
         .appUserGetMyUser({})
@@ -29,6 +38,14 @@ export class AppComponent {
           this.localStorageService.set('myUser', output.myUser);
           this.myUser = output.myUser;
         });
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof RoutesRecognized) {
+        this.isCollapsed = true;
+
+        this.createHistory(event.urlAfterRedirects);
+      }
+    });
   }
 
   public toggleNavigation() {
@@ -36,10 +53,35 @@ export class AppComponent {
   }
 
   public collapsed(event: any): void {
-    console.log(event);
   }
 
   public expanded(event: any): void {
-    console.log(event);
+  }
+
+  private createHistory(urlAfterRedirects: string): void {
+    let parameters = {
+      depth: this.depth
+    };
+
+    if (this.guest == null)
+      this.createGuest();
+    else
+      this.analysisService.appAnalysisCreateRouteHistory({
+        guestId: this.guest.id,
+        routeName: urlAfterRedirects,
+        parameters: JSON.stringify(parameters)
+      }).subscribe((output) => {
+        console.log(output);
+      });
+
+    this.depth = this.depth + 1;
+  }
+
+  private createGuest(): void {
+    this.analysisService.appAnalysisCreateGuest({})
+      .subscribe((output) => {
+        this.localStorageService.add("guest", output);
+        this.guest = output;
+      });
   }
 }

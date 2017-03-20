@@ -20,7 +20,6 @@ export class ActivityPlansComponent implements OnInit {
       .appActivityPlanGetActivityPlans({})
       .subscribe((output) => {
         this.activityPlans = output.activityPlans;
-        console.log(this.activityPlans);
       });
   }
 }

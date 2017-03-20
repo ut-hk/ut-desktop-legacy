@@ -17,9 +17,9 @@ export interface FriendInvitationDto {
 
     status?: FriendInvitationDto.StatusEnum;
 
-    invitee?: models.UserDto;
+    invitee?: models.UserListDto;
 
-    owner?: models.UserDto;
+    owner?: models.UserListDto;
 
     id?: string;
 

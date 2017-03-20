@@ -29,7 +29,7 @@ export interface ActivityTemplateDto {
 
     comments?: Array<models.CommentDto>;
 
-    ownerId?: number;
+    owner?: models.UserListDto;
 
     id?: string;
 

@@ -15,7 +15,7 @@ import * as models from './models';
 export interface RatingDto {
     ratingStatus?: RatingDto.RatingStatusEnum;
 
-    ownerId?: number;
+    owner?: models.UserListDto;
 
     id?: number;
 

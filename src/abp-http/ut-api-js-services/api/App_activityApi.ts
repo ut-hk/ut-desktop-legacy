@@ -92,7 +92,7 @@ export class App_activityApi {
      * 
      * @param input 
      */
-    public appActivityUpdateActivity(input: models.UpdateAbstractActivityInput, extraHttpRequestParams?: any): Observable<{}> {
+    public appActivityUpdateActivity(input: models.UpdateActivityInput, extraHttpRequestParams?: any): Observable<{}> {
         return this.appActivityUpdateActivityWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -218,7 +218,7 @@ export class App_activityApi {
      * 
      * @param input 
      */
-    public appActivityUpdateActivityWithHttpInfo(input: models.UpdateAbstractActivityInput, extraHttpRequestParams?: any): Observable<Response> {
+    public appActivityUpdateActivityWithHttpInfo(input: models.UpdateActivityInput, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/api/services/app/activity/UpdateActivity`;
 
         let queryParameters = new URLSearchParams();
