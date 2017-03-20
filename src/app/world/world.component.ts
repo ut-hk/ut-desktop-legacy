@@ -4,16 +4,24 @@ import { App_activityPlanApi } from "../../abp-http/ut-api-js-services/api/App_a
 import { ActivityPlanDto } from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
 
 @Component({
-  selector: 'app-world',
+  selector: 'app-activity-plans',
   templateUrl: './world.component.html',
   styleUrls: ['./world.component.scss']
 })
 export class WorldComponent implements OnInit {
 
-  constructor() {
+  public activityPlans: ActivityPlanDto[];
+
+  constructor(private activityPlanService: App_activityPlanApi) {
   }
 
   ngOnInit() {
+    this.activityPlanService
+      .appActivityPlanGetActivityPlans({})
+      .subscribe((output) => {
+        this.activityPlans = output.activityPlans;
+        console.log(this.activityPlans);
+      });
   }
 
 }
