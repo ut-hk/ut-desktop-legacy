@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { App_activityPlanApi } from "../../abp-http/ut-api-js-services/api/App_activityPlanApi";
-import { ActivityPlanDto } from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
+import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
 
 @Component({
   selector: 'app-activity-plans',
@@ -23,5 +23,6 @@ export class ActivityPlansComponent implements OnInit {
         console.log(this.activityPlans);
       });
   }
-
 }
+
+
