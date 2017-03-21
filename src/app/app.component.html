@@ -18,6 +18,10 @@
         <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>
         <li><a routerLink="/create-activity-template" routerLinkActive="active">Create Template</a></li>
       </ul>
+      <input class="search-bar" type="text" placeholder="Search for...">
+      <!--<button type="button">-->
+        <!--<i class="glyphicon glyphicon-search"></i>-->
+      <!--</button>-->
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
         <li><a routerLink="/user-profile" routerLinkActive="active">{{myUser.name}}</a></li>
