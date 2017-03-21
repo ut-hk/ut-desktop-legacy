@@ -19,7 +19,7 @@ export interface UpdateActivityInput {
 
     name?: string;
 
-    description?: string;
+    descriptionIds?: Array<number>;
 
     tagIds?: Array<number>;
 
