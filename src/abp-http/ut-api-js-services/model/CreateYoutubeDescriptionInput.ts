@@ -17,4 +17,6 @@ export interface CreateYoutubeDescriptionInput {
 
     activityPlanId?: string;
 
+    abstractActivityId?: string;
+
 }

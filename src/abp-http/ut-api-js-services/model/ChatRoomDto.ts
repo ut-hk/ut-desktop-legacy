@@ -15,7 +15,7 @@ import * as models from './models';
 export interface ChatRoomDto {
     name?: string;
 
-    participants?: Array<models.UserDto>;
+    participants?: Array<models.UserListDto>;
 
     id?: string;
 

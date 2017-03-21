@@ -4,7 +4,7 @@ import { App_activityPlanApi } from "../../abp-http/ut-api-js-services/api/App_a
 import { ActivityPlanDto } from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
 
 @Component({
-  selector: 'app-activity-plans',
+  selector: 'app-world',
   templateUrl: './world.component.html',
   styleUrls: ['./world.component.scss']
 })

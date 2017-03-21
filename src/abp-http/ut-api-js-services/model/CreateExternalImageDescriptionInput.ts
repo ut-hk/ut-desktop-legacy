@@ -17,4 +17,6 @@ export interface CreateExternalImageDescriptionInput {
 
     activityPlanId?: string;
 
+    abstractActivityId?: string;
+
 }

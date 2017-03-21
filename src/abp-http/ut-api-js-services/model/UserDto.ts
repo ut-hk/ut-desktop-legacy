@@ -13,12 +13,6 @@
 import * as models from './models';
 
 export interface UserDto {
-    name?: string;
-
-    surname?: string;
-
-    userName?: string;
-
     fullName?: string;
 
     emailAddress?: string;
@@ -27,9 +21,15 @@ export interface UserDto {
 
     lastLoginTime?: Date;
 
-    gender?: UserDto.GenderEnum;
-
     birthday?: Date;
+
+    name?: string;
+
+    surname?: string;
+
+    userName?: string;
+
+    gender?: UserDto.GenderEnum;
 
     coverId?: string;
 

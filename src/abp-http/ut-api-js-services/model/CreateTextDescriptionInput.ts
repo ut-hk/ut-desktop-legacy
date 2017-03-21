@@ -13,6 +13,10 @@
 import * as models from './models';
 
 export interface CreateTextDescriptionInput {
+    text?: string;
+
     activityPlanId?: string;
+
+    abstractActivityId?: string;
 
 }

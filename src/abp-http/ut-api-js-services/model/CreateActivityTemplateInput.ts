@@ -15,8 +15,10 @@ import * as models from './models';
 export interface CreateActivityTemplateInput {
     referenceTimeSlots?: Array<models.ActivityTemplateReferenceTimeSlotDto>;
 
+    referenceId?: string;
+
     name?: string;
 
-    description?: string;
+    locationId?: string;
 
 }
