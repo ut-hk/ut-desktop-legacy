@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorldComponent } from './world.component';
+import { WorldComponent } from "./world.component";
 
-describe('WorldComponent', () => {
+describe('ActivityPlansComponent', () => {
   let component: WorldComponent;
   let fixture: ComponentFixture<WorldComponent>;
 
@@ -10,7 +10,7 @@ describe('WorldComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ WorldComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
