@@ -19,9 +19,9 @@ export interface ActivityInvitationDto {
 
     status?: ActivityInvitationDto.StatusEnum;
 
-    invitee?: models.UserDto;
+    invitee?: models.UserListDto;
 
-    owner?: models.UserDto;
+    owner?: models.UserListDto;
 
     id?: string;
 

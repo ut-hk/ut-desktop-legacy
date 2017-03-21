@@ -93,7 +93,7 @@ export class App_activityTemplateApi {
      * 
      * @param input 
      */
-    public appActivityTemplateUpdateActivityTemplate(input: models.UpdateAbstractActivityInput, extraHttpRequestParams?: any): Observable<{}> {
+    public appActivityTemplateUpdateActivityTemplate(input: models.UpdateActivityTemplateInput, extraHttpRequestParams?: any): Observable<{}> {
         return this.appActivityTemplateUpdateActivityTemplateWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -227,7 +227,7 @@ export class App_activityTemplateApi {
      * 
      * @param input 
      */
-    public appActivityTemplateUpdateActivityTemplateWithHttpInfo(input: models.UpdateAbstractActivityInput, extraHttpRequestParams?: any): Observable<Response> {
+    public appActivityTemplateUpdateActivityTemplateWithHttpInfo(input: models.UpdateActivityTemplateInput, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/api/services/app/activityTemplate/UpdateActivityTemplate`;
 
         let queryParameters = new URLSearchParams();

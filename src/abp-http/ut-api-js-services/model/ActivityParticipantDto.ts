@@ -12,27 +12,9 @@
 
 import * as models from './models';
 
-export interface ActivityDto {
-    startTime?: Date;
-
-    endTime?: Date;
-
-    participants?: Array<models.ActivityParticipantDto>;
-
-    name?: string;
-
-    descriptions?: Array<models.DescriptionDto>;
-
-    location?: models.LocationDto;
-
-    tags?: Array<models.TagDto>;
-
-    ratings?: Array<models.RatingDto>;
-
-    comments?: Array<models.CommentDto>;
-
+export interface ActivityParticipantDto {
     owner?: models.UserListDto;
 
-    id?: string;
+    id?: number;
 
 }

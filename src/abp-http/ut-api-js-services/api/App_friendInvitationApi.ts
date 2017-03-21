@@ -60,8 +60,8 @@ export class App_friendInvitationApi {
      * 
      * 
      */
-    public appFriendInvitationGetMyFriendInvitations(extraHttpRequestParams?: any): Observable<models.GetFriendInvitationsOutput> {
-        return this.appFriendInvitationGetMyFriendInvitationsWithHttpInfo(extraHttpRequestParams)
+    public appFriendInvitationGetMyPendingFriendInvitations(extraHttpRequestParams?: any): Observable<models.GetFriendInvitationsOutput> {
+        return this.appFriendInvitationGetMyPendingFriendInvitationsWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -115,8 +115,8 @@ export class App_friendInvitationApi {
      * 
      * 
      */
-    public appFriendInvitationGetMyFriendInvitationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/friendInvitation/GetMyFriendInvitations`;
+    public appFriendInvitationGetMyPendingFriendInvitationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/friendInvitation/GetMyPendingFriendInvitations`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
