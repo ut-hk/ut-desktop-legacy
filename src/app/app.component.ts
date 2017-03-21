@@ -13,7 +13,6 @@ export class AppComponent {
 
   public isCollapsed: boolean = true;
   public myUser: UserDto;
-  public show: boolean = false;
 
   constructor(private localStorageService: LocalStorageService,
               private tokenService: TokenService,

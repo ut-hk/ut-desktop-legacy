@@ -1,26 +1,26 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header customised-header">
+    <div class="navbar-header">
       <button type="button" class="navbar-toggle" (click)="toggleNavigation()">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand customised-button" href="#">UniTime</a>
+      <a class="navbar-brand" href="#">UniTime</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse customised-header" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
-      <!--<ul class="nav navbar-nav" *ngIf="show">-->
-        <!--<li><a routerLink="/world" routerLinkActive="active">World</a></li>-->
-        <!--<li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>-->
-      <!--</ul>-->
+    <div class="collapse navbar-collapse" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
+      <ul class="nav navbar-nav">
+        <li><a routerLink="/world" routerLinkActive="active">World</a></li>
+        <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>
+      </ul>
       <input class="search-bar" type="text" placeholder="Search for...">
-      <button type="button">
-        <i class="glyphicon glyphicon-search"></i>
-      </button>
+      <!--<button type="button">-->
+        <!--<i class="glyphicon glyphicon-search"></i>-->
+      <!--</button>-->
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
         <li><a routerLink="/user-profile" routerLinkActive="active">{{myUser.name}}</a></li>

@@ -1,11 +1,7 @@
-.customised-photo{
-  padding: 0;
-  margin: 0;
-  width: 800px;
-  height: 600px;
-  border: none;
-  border-radius: 0;
-  background-color: lightskyblue;
+.photo-container{
+  .customised-photo{
+    //width: 800px;
+  }
 }
 
 .timeline ul li {
@@ -26,7 +22,7 @@
   height: 30px;
   border-radius: 50%;
   background: inherit;
-  margin-bottom: 665px;
+  margin-bottom: 235px;
 }
 
 .timeline ul li div {

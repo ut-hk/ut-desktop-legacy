@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { App_activityPlanApi } from "../../abp-http/ut-api-js-services/api/App_activityPlanApi";
-import { ActivityPlanDto } from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
-import { ActivatedRoute } from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {App_activityPlanApi} from "../../abp-http/ut-api-js-services/api/App_activityPlanApi";
+import {ActivityPlanDto} from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
+import {UserDto} from "../../abp-http/ut-api-js-services/model/UserDto";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-activity-plan',
@@ -10,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ActivityPlanComponent implements OnInit {
 
-  public activityPlan: ActivityPlanDto;
+  // public activityPlan: ActivityPlanDto;
 
   constructor(private route: ActivatedRoute, private activityPlanService: App_activityPlanApi) {
   }
@@ -23,6 +24,7 @@ export class ActivityPlanComponent implements OnInit {
         .appActivityPlanGetActivityPlan({id: id})
         .subscribe((output) => {
           this.activityPlan = output.activityPlan;
+          console.log(output.activityPlan.owner);
         });
     });
 

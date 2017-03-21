@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivityDto} from "../../abp-http/ut-api-js-services/model/ActivityDto";
 import {App_activityApi} from "../../abp-http/ut-api-js-services/api/App_activityApi";
+import {FileDto} from "../../abp-http/ut-api-js-services/model/FileDto";
+import {App_fileApi} from "../../abp-http/ut-api-js-services/api/App_fileApi";
 
 @Component({
   selector: 'app-user-profile',
