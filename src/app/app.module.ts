@@ -8,6 +8,9 @@ import { LocalStorageModule } from "angular-2-local-storage";
 import { CollapseModule } from "ng2-bootstrap";
 import { AbpHttpModule } from "../abp-http/abp-http.module";
 
+import { CommonModule } from '@angular/common';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
 import { LogInComponent } from './log-in/log-in.component';
@@ -68,6 +71,10 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    CommonModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE'
+    }),
     RouterModule.forRoot(appRoutes),
     LocalStorageModule.withConfig({
       prefix: 'ut',
