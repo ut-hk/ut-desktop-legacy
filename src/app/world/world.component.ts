@@ -10,10 +10,18 @@ import { ActivityPlanDto } from "../../abp-http/ut-api-js-services/model/Activit
 })
 export class WorldComponent implements OnInit {
 
-  constructor() {
+  public activityPlans: ActivityPlanDto[];
+
+  constructor(private activityPlanService: App_activityPlanApi) {
   }
 
   ngOnInit() {
+    this.activityPlanService
+      .appActivityPlanGetActivityPlans({})
+      .subscribe((output) => {
+        this.activityPlans = output.activityPlans;
+        console.log(this.activityPlans);
+      });
   }
 
 }

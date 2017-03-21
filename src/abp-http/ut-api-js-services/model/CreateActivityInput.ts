@@ -19,8 +19,6 @@ export interface CreateActivityInput {
 
     name?: string;
 
-    description?: string;
-
     locationId?: string;
 
 }
