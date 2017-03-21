@@ -1,3 +1,33 @@
-<p>
-  create-activity-template works!
-</p>
+<div class="container">
+  <div class="col-xs-12">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Activity Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" placeholder="Name" [(ngModel)]="createActivityTemplateInput.name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="referenceTimeSlots" class="col-sm-2 control-label">Time</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="referenceTimeSlots" placeholder="Time" [(ngModel)]="createActivityTemplateInput.referenceTimeSlots">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="locationId" class="col-sm-2 control-label">Location</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="locationId" placeholder="Location" [(ngModel)]="createActivityTemplateInput.locationId">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description" class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="createActivityTemplateInput.description">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-2">
+        <button type="submit" class="btn btn-primary" (click)="createActivityTemplate()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

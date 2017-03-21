@@ -33,6 +33,7 @@ const appRoutes: Routes = [
   {path: 'activity-plan/:id', component: ActivityPlanComponent},
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
+  {path: 'create-activity-template', component: CreateActivityTemplateComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
