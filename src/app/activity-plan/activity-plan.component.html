@@ -28,7 +28,7 @@
   <h3>
     {{activityPlan.name}}
   </h3>
-  <p>created by {{activityPlan.owner.username}}</p>
+  <p>created by {{activityPlan.owner.userName}}</p>
 
   <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
     <p *ngSwitchCase="0">{{description.content}}</p>
@@ -37,18 +37,18 @@
     </div>
   </div>
 
-  <!--<p class="text-right">-->
-    <!--<span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>-->
-  <!--</p>-->
-  <!--<h3>Comments</h3>-->
-  <!--<div>-->
-    <!--<div class="comment" *ngFor="let comment of activityPlan.comments; trackBy: comment?.id">-->
-      <!--<p class="content">{{comment.content}}</p>-->
+  <p class="text-right">
+    <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">#{{tag.text}}</span>
+  </p>
+  <h3>Comments</h3>
+  <div>
+    <div class="comment" *ngFor="let comment of activityPlan.comments; trackBy: comment?.id">
+      <p class="content">{{comment.content}}</p>
 
-      <!--<div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">-->
-        <!--<p class="content">{{reply.content}}</p>-->
-      <!--</div> -->
-    <!--</div>-->
-  <!--</div>-->
+      <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
+        <p class="content">&emsp;&emsp;{{reply.content}}</p>
+      </div>
+    </div>
+  </div>
 
 </div>
