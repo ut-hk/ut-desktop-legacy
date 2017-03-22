@@ -11,7 +11,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ActivityPlanComponent implements OnInit {
 
-  // public activityPlan: ActivityPlanDto;
+  public activityPlan: ActivityPlanDto;
 
   constructor(private route: ActivatedRoute, private activityPlanService: App_activityPlanApi) {
   }
