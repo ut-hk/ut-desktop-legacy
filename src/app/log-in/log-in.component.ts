@@ -5,6 +5,7 @@ import { LogInInput } from "../../abp-http/ut-api-js-services/model/LogInInput";
 import { AccountApi } from "../../abp-http/ut-api-js-services/api/AccountApi";
 import { App_userApi } from "../../abp-http/ut-api-js-services/api/App_userApi";
 import { LocalStorageService } from "angular-2-local-storage";
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -21,7 +22,8 @@ export class LogInComponent implements OnInit {
   constructor(private tokenService: TokenService,
               private localStorageService: LocalStorageService,
               private accountService: AccountApi,
-              private userService: App_userApi) {
+              private userService: App_userApi,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -38,7 +40,11 @@ export class LogInComponent implements OnInit {
           .subscribe((output) => {
             this.localStorageService.set('myUser', output.myUser);
           });
+
       });
+    this.router.navigate(['./world']);
+
+
   }
 
 }
