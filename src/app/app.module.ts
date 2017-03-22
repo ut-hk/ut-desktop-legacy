@@ -2,14 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from "@angular/router";
-
-import { LocalStorageModule } from "angular-2-local-storage";
-import { CollapseModule } from "ng2-bootstrap";
-import { AbpHttpModule } from "../abp-http/abp-http.module";
-
+import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+import { AbpHttpModule } from '../abp-http/abp-http.module';
+
+import { LocalStorageModule } from 'angular-2-local-storage';
+import { CollapseModule } from 'ng2-bootstrap';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
@@ -28,7 +29,6 @@ import { CreateActivityTemplateComponent } from './create-activity-template/crea
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -40,6 +40,8 @@ const appRoutes: Routes = [
 
 
   {path: 'user-profile', component: UserProfileComponent},
+  // {path: 'activity-plans', component: ActivityPlansComponent},
+  {path: 'create-activity-plan', component: CreateActivityPlanComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
@@ -66,7 +68,8 @@ const appRoutes: Routes = [
     CreateActivityTemplateComponent,
     UserComponent,
     UpdateUserComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    // ActivityPlansComponent
   ],
   imports: [
     BrowserModule,
