@@ -1,33 +1,32 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from "@angular/router";
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {RouterModule, Routes} from "@angular/router";
+import {LocalStorageModule} from "angular-2-local-storage";
+import {CollapseModule} from "ng2-bootstrap";
+import {AbpHttpModule} from "../abp-http/abp-http.module";
+import {AppComponent} from './app.component';
+import {WorldComponent} from './world/world.component';
+import {LogInComponent} from './log-in/log-in.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {ActivityTemplatesComponent} from './activity-templates/activity-templates.component';
+import {ActivityPlanComponent} from './activity-plan/activity-plan.component';
+import {FriendsComponent} from './friends/friends.component';
+import {ChatRoomsComponent} from './chat-rooms/chat-rooms.component';
+import {ActivityTemplateComponent} from './activity-template/activity-template.component';
+import {AdvancedSearchComponent} from './advanced-search/advanced-search.component';
+import {CreateActivityPlanComponent} from './create-activity-plan/create-activity-plan.component';
+import {CreateActivityComponent} from './create-activity/create-activity.component';
+import {CreateActivityTemplateComponent} from './create-activity-template/create-activity-template.component';
+import {UserComponent} from './user/user.component';
+import {UpdateUserComponent} from './update-user/update-user.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
+// import {ActivityPlansComponent} from './activity-plans/activity-plans.component';
+import {CommonModule} from '@angular/common';
+import {AgmCoreModule} from 'angular2-google-maps/core';
 
-import { LocalStorageModule } from "angular-2-local-storage";
-import { CollapseModule } from "ng2-bootstrap";
-import { AbpHttpModule } from "../abp-http/abp-http.module";
-
-import { CommonModule } from '@angular/common';
-import { AgmCoreModule } from 'angular2-google-maps/core';
-
-import { AppComponent } from './app.component';
-import { WorldComponent } from './world/world.component';
-import { LogInComponent } from './log-in/log-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ActivityTemplatesComponent } from './activity-templates/activity-templates.component';
-import { ActivityPlanComponent } from './activity-plan/activity-plan.component';
-import { FriendsComponent } from './friends/friends.component';
-import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
-import { ActivityTemplateComponent } from './activity-template/activity-template.component';
-import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
-import { CreateActivityPlanComponent } from './create-activity-plan/create-activity-plan.component';
-import { CreateActivityComponent } from './create-activity/create-activity.component';
-import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
-import { UserComponent } from './user/user.component';
-import { UpdateUserComponent } from './update-user/update-user.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -39,6 +38,8 @@ const appRoutes: Routes = [
 
 
   {path: 'user-profile', component: UserProfileComponent},
+  // {path: 'activity-plans', component: ActivityPlansComponent},
+  {path: 'create-activity-plan', component: CreateActivityPlanComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
@@ -65,16 +66,14 @@ const appRoutes: Routes = [
     CreateActivityTemplateComponent,
     UserComponent,
     UpdateUserComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    // ActivityPlansComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     CommonModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE'
-    }),
     RouterModule.forRoot(appRoutes),
     LocalStorageModule.withConfig({
       prefix: 'ut',
@@ -84,6 +83,11 @@ const appRoutes: Routes = [
 
     // Bootstrap
     CollapseModule.forRoot(),
+
+    // Angular Map
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE'
+    })
   ],
   providers: [],
   bootstrap: [
