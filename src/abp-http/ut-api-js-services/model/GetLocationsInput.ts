@@ -12,18 +12,8 @@
 
 import * as models from './models';
 
-export interface GetActivityTemplatesInput {
-    tagTexts?: Array<string>;
-
+export interface GetLocationsInput {
     queryKeywords?: string;
-
-    startTime?: Date;
-
-    endTime?: Date;
-
-    longitude?: number;
-
-    latitude?: number;
 
     maxResultCount?: number;
 

@@ -1,8 +1,13 @@
 <div class="container">
-  <div class="col-xs-12">
-    <div *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id" routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">
-      <h2>{{activityTemplate.name}}</h2>
-      <p>{{activityTemplate.description}}</p>
+  <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
+    <div class="activity-template col-xs-12 col-sm-6" *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+      <h2><a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a></h2>
+      <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
+        <p *ngSwitchCase="0">{{description.content}}</p>
+        <p *ngSwitchCase="1">
+          <img [src]="description.content">
+        </p>
+      </div>
     </div>
   </div>
 </div>

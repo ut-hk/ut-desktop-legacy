@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, XHRBackend, Headers, Request, Response, RequestOptionsArgs, ResponseOptions, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { LocalStorageService } from "angular-2-local-storage";
+import { LocalStorageService } from 'angular-2-local-storage';
 
-import { MessageService } from "./message.service";
-import { LogService } from "./log.service";
-import { TokenService } from "./token.service";
-import { UtilsService } from "./utils.service";
+import { MessageService } from './message.service';
+import { LogService } from './log.service';
+import { TokenService } from './token.service';
+import { UtilsService } from './utils.service';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -164,13 +164,13 @@ export class AbpHttpConfiguration {
   }
 
   getAbpAjaxResponseOrNull(response: Response): IAjaxResponse {
-    let contentType = response.headers.get('Content-Type');
+    const contentType = response.headers.get('Content-Type');
     if (!contentType) {
       this._logService.warn('Content-Type is not sent!');
       return null;
     }
 
-    if (contentType.indexOf("application/json") < 0) {
+    if (contentType.indexOf('application/json') < 0) {
       this._logService.warn('Content-Type is not application/json: ' + contentType);
       return null;
     }
@@ -287,14 +287,14 @@ export class AbpHttp extends Http {
   }
 
   protected addAcceptLanguageHeader(options: RequestOptionsArgs) {
-    let cookieLangValue = this._utilsService.getCookieValue("Abp.Localization.CultureName");
+    const cookieLangValue = this._utilsService.getCookieValue('Abp.Localization.CultureName');
     if (cookieLangValue && !options.headers.has('Accept-Language')) {
       options.headers.append('Accept-Language', cookieLangValue);
     }
   }
 
   protected addTenantIdHeader(options: RequestOptionsArgs) {
-    let cookieTenantIdValue = this._utilsService.getCookieValue('Abp.TenantId');
+    const cookieTenantIdValue = this._utilsService.getCookieValue('Abp.TenantId');
     if (cookieTenantIdValue && !options.headers.has('Abp.TenantId')) {
       options.headers.append('Abp.TenantId', cookieTenantIdValue);
     }
@@ -307,7 +307,7 @@ export class AbpHttp extends Http {
     }
 
     if (!this.itemExists(authorizationHeaders, (item: string) => item.indexOf('Bearer ') == 0)) {
-      let token = this._tokenService.getToken();
+      const token = this._tokenService.getToken();
       if (token) {
         options.headers.append('Authorization', 'Bearer ' + token);
       }

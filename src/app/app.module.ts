@@ -28,6 +28,7 @@ import { CreateActivityTemplateComponent } from './create-activity-template/crea
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -78,6 +79,7 @@ const appRoutes: Routes = [
       storageType: 'localStorage'
     }),
     AbpHttpModule,
+    InfiniteScrollModule,
 
     // Bootstrap
     CollapseModule.forRoot(),
@@ -94,3 +96,4 @@ const appRoutes: Routes = [
 })
 export class AppModule {
 }
+

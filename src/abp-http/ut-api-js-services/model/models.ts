@@ -49,6 +49,7 @@ export * from './GetChatRoomMessagesOutput';
 export * from './GetCurrentLoginInformationsOutput';
 export * from './GetFriendInvitationsOutput';
 export * from './GetFriendsOutput';
+export * from './GetLocationsInput';
 export * from './GetLocationsOutput';
 export * from './GetMyActivitiesOutput';
 export * from './GetMyChatRoomsOutput';
