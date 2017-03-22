@@ -1,4 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { App_chatRoomApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomApi';
+import { ChatRoomDto } from '../../abp-http/ut-api-js-services/model/ChatRoomDto';
+import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/ChatRoomMessageDto';
+import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
+import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
+import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { LocalStorageService } from 'angular-2-local-storage';
+
+interface ChatRoom extends ChatRoomDto {
+  messages: Array<ChatRoomMessageDto>;
+  participantDictionary: object;
+}
 
 @Component({
   selector: 'app-chat-rooms',
@@ -7,9 +20,67 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatRoomsComponent implements OnInit {
 
-  constructor() { }
+  public chatRooms: Array<ChatRoom>;
+  public selectedChatRoom: ChatRoom;
+  public createTextChatRoomMessageInput: CreateTextChatRoomMessageInput = {
+    text: ''
+  };
+  public myUser: UserDto = null;
+
+  private lastChatMessageId: number;
+
+  constructor(private localStorageService: LocalStorageService,
+              private chatRoomService: App_chatRoomApi,
+              private chatRoomMessageService: App_chatRoomMessageApi) {
+    this.myUser = this.localStorageService.get('myUser');
+  }
 
   ngOnInit() {
+    this.chatRoomService
+      .appChatRoomGetMyChatRooms({})
+      .subscribe((output) => {
+        this.chatRooms = <Array<ChatRoom>> output.chatRooms;
+      });
+  }
+
+  onClickChatRoom(chatRoom: ChatRoom) {
+    this.chatRoomMessageService
+      .appChatRoomMessageGetChatRoomMessages({
+        chatRoomId: chatRoom.id,
+        startId: 0
+      })
+      .subscribe((output) => {
+        chatRoom.messages = output.chatRoomMessages;
+
+        chatRoom.participantDictionary = {};
+        for (let i = 0; i < chatRoom.participants.length; i++) {
+          const participant = chatRoom.participants[i];
+          chatRoom.participantDictionary[participant.id] = participant;
+        }
+
+        this.selectedChatRoom = chatRoom;
+        this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
+      });
+  }
+
+  onClickSendMessage() {
+    this.createTextChatRoomMessageInput.chatRoomId = this.selectedChatRoom.id;
+
+    this.chatRoomMessageService
+      .appChatRoomMessageCreateTextChatRoomMessage(this.createTextChatRoomMessageInput)
+      .subscribe(() => {
+
+        this.chatRoomMessageService
+          .appChatRoomMessageGetChatRoomMessages({
+            chatRoomId: this.selectedChatRoom.id,
+            startId: this.lastChatMessageId
+          })
+          .subscribe((output) => {
+            for (let i = 0; i < output.chatRoomMessages.length; i++) {
+              this.selectedChatRoom.messages.push(output.chatRoomMessages[i]);
+            }
+          });
+      });
   }
 
 }

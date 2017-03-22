@@ -29,22 +29,22 @@ import { CreateActivityTemplateComponent } from './create-activity-template/crea
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
 
   {path: 'activity-plan/:id', component: ActivityPlanComponent},
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
-  {path: 'create-activity-template', component: CreateActivityTemplateComponent},
 
+  {path: 'create-activity-template', component: CreateActivityTemplateComponent},
+  {path: 'create-activity-plan', component: CreateActivityPlanComponent},
 
   {path: 'user-profile', component: UserProfileComponent},
-  // {path: 'activity-plans', component: ActivityPlansComponent},
-  {path: 'create-activity-plan', component: CreateActivityPlanComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
+
+  {path: 'chat-rooms', component: ChatRoomsComponent},
 
   {path: '', redirectTo: '/world', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
@@ -69,7 +69,6 @@ const appRoutes: Routes = [
     UserComponent,
     UserProfileComponent,
     UpdateUserComponent,
-    // ActivityPlansComponent
   ],
   imports: [
     BrowserModule,

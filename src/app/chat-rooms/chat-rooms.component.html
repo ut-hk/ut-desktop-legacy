@@ -1,3 +1,55 @@
-<p>
-  chat-rooms works!
-</p>
+<div class="messenger">
+  <div class="buddy-list">
+    <div class="buddy-list-header">
+      <h1 class="h2">Chat Rooms</h1>
+    </div>
+
+    <div class="buddy-list-buddy">
+      <div class="buddy" *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id">
+        <p class="h4" (click)="onClickChatRoom(chatRoom)">{{chatRoom.name}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container" *ngIf="selectedChatRoom">
+
+      <div class="chat-header">
+        <h2 class="text-center">{{selectedChatRoom.name}}</h2>
+      </div>
+
+      <div class="chat-content">
+        <div class="chat-container">
+          <div class="chat-messages">
+
+            <div *ngFor="let message of selectedChatRoom.messages; trackBy: message?.id;">
+              <p *ngIf="message.ownerId != myUser.id">@{{selectedChatRoom.participantDictionary[message.ownerId].userName}}<br>{{message.message}}</p>
+              <p *ngIf="message.ownerId == myUser.id" class="text-right">{{message.message}}</p>
+            </div>
+          </div>
+
+          <div class="chat-input">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Please type your message." [(ngModel)]="createTextChatRoomMessageInput.text">
+              <span class="input-group-btn">
+              <button class="btn btn-default" type="submit" (click)="onClickSendMessage()">Send</button>
+            </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-content">
+          <div class="participants" *ngIf="selectedChatRoom">
+            <p class="h4">Participants</p>
+            <div *ngFor="let participant of selectedChatRoom.participants; trackBy: participant?.id;">
+              @{{participant.userName}}
+            </div>
+          </div>
+
+          <div style="padding: 3px;">
+            <button class="btn btn-default" style="width: 100%;">Invite Friends</button>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>

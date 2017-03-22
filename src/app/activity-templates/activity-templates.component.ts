@@ -10,6 +10,7 @@ import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/Act
 export class ActivityTemplatesComponent implements OnInit {
 
   public activityTemplates: ActivityTemplateDto[] = [];
+
   private skipCount = 0;
 
   constructor(private activityTemplateService: App_activityTemplateApi) {
