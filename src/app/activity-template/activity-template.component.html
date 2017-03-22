@@ -9,7 +9,7 @@
          [ngSwitch]="description.type">
       <p *ngSwitchCase="0">{{description.content}}</p>
       <div class="text-center">
-        <img *ngSwitchCase="1" [src]="description.content" onError="this.src='./assets/noFoundImag.png';">
+        <img *ngSwitchCase="1" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
       </div>
     </div>
 
