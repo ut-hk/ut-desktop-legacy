@@ -67,8 +67,8 @@ const appRoutes: Routes = [
     CreateActivityComponent,
     CreateActivityTemplateComponent,
     UserComponent,
-    UpdateUserComponent,
     UserProfileComponent,
+    UpdateUserComponent,
     // ActivityPlansComponent
   ],
   imports: [
