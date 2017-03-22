@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {App_activityPlanApi} from "../../abp-http/ut-api-js-services/api/App_activityPlanApi";
-import {ActivityPlanDto} from "../../abp-http/ut-api-js-services/model/ActivityPlanDto";
-import {UserDto} from "../../abp-http/ut-api-js-services/model/UserDto";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-activity-plan',
@@ -11,14 +11,14 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ActivityPlanComponent implements OnInit {
 
-  // public activityPlan: ActivityPlanDto;
+  public activityPlan: ActivityPlanDto;
 
   constructor(private route: ActivatedRoute, private activityPlanService: App_activityPlanApi) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      let id = params['id'];
+      const id = params['id'];
 
       this.activityPlanService
         .appActivityPlanGetActivityPlan({id: id})

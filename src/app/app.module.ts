@@ -72,9 +72,6 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     CommonModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE'
-    }),
     RouterModule.forRoot(appRoutes),
     LocalStorageModule.withConfig({
       prefix: 'ut',
@@ -84,6 +81,11 @@ const appRoutes: Routes = [
 
     // Bootstrap
     CollapseModule.forRoot(),
+
+    // Angular Map
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE'
+    })
   ],
   providers: [],
   bootstrap: [
