@@ -21,6 +21,8 @@ export interface ActivityDto {
 
     name?: string;
 
+    coverImageDescription?: models.DescriptionDto;
+
     descriptions?: Array<models.DescriptionDto>;
 
     location?: models.LocationDto;

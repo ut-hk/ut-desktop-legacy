@@ -44,4 +44,4 @@ export * from './App_userApi';
 import { App_userApi }  from './App_userApi';
 export * from './FileApi';
 import { FileApi }  from './FileApi';
-export const APIS = [AbpCacheApi, AccountApi, App_activityApi, App_activityInvitationApi, App_activityPlanApi, App_activityPlanTimeSlotApi, App_activityTemplateApi, App_analysisApi, App_chatRoomApi, App_chatRoomMessageApi, App_commentApi, App_descriptionApi, App_fileApi, App_friendInvitationApi, App_locationApi, App_ratingApi, App_replyApi, App_sessionApi, App_tagApi, App_tenantApi, App_trackApi, App_userApi, FileApi,];
+export const APIS = [ AbpCacheApi, AccountApi, App_activityApi, App_activityInvitationApi, App_activityPlanApi, App_activityPlanTimeSlotApi, App_activityTemplateApi, App_analysisApi, App_chatRoomApi, App_chatRoomMessageApi, App_commentApi, App_descriptionApi, App_fileApi, App_friendInvitationApi, App_locationApi, App_ratingApi, App_replyApi, App_sessionApi, App_tagApi, App_tenantApi, App_trackApi, App_userApi, FileApi, ];
