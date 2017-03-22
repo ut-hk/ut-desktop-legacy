@@ -40,6 +40,10 @@ export class ChatRoomsComponent implements OnInit {
       .appChatRoomGetMyChatRooms({})
       .subscribe((output) => {
         this.chatRooms = <Array<ChatRoom>> output.chatRooms;
+
+        if (this.chatRooms.length > 0) {
+          this.onClickChatRoom(this.chatRooms[0]);
+        }
       });
   }
 
@@ -69,6 +73,8 @@ export class ChatRoomsComponent implements OnInit {
     this.chatRoomMessageService
       .appChatRoomMessageCreateTextChatRoomMessage(this.createTextChatRoomMessageInput)
       .subscribe(() => {
+
+        this.createTextChatRoomMessageInput.text = '';
 
         this.chatRoomMessageService
           .appChatRoomMessageGetChatRoomMessages({
