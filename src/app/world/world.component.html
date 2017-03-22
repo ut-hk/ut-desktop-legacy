@@ -1,3 +1,29 @@
-<p>
-  world works!
-</p>
+<div class="container">
+  <div class="col-xs-12">
+    <div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id"
+         routerLink="/activity-plan/{{activityPlan.id}}" routerLinkActive="active">
+      <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
+      <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"
+           [ngSwitch]="description.type">
+        <p *ngSwitchCase="0">{{description.content}}</p>
+        <div class="text-center">
+          <img *ngSwitchCase="1" [src]="description.content">
+        </div>
+      </div>
+      <!--<img src="https://www.w3schools.com/css/trolltunga.jpg">-->
+      <p class="text-right">
+        <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+      </p>
+      <h3>Comments</h3>
+      <div>
+        <div class="comment" *ngFor="let comment of activityPlan.comments; trackBy: comment?.id">
+          <p class="content">{{comment.content}}</p>
+
+          <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
+            <p class="content">{{reply.content}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

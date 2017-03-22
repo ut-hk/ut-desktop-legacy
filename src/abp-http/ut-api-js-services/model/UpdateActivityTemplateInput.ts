@@ -12,17 +12,17 @@
 
 import * as models from './models';
 
-export interface RatingDto {
-    ratingStatus?: RatingDto.RatingStatusEnum;
+export interface UpdateActivityTemplateInput {
+    referenceTimeSlots?: Array<models.ActivityTemplateReferenceTimeSlotDto>;
 
-    owner?: models.UserListDto;
+    name?: string;
 
-    id?: number;
+    descriptionIds?: Array<number>;
 
-}
-export namespace RatingDto {
-    export enum RatingStatusEnum {
-        NUMBER_0 = <any> 0,
-        NUMBER_1 = <any> 1
-    }
+    tagIds?: Array<number>;
+
+    locationId?: string;
+
+    id?: string;
+
 }

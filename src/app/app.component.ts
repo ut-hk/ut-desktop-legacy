@@ -19,6 +19,9 @@ export class AppComponent {
   public myUser: UserDto = null;
   public guest: EntityDtoGuid = null;
   public depth: number = 0;
+  // title: string = 'My first angular2-google-maps project';
+  // lat: number = 51.678418;
+  // lng: number = 7.809007;
 
   constructor(private localStorageService: LocalStorageService,
               private router: Router,

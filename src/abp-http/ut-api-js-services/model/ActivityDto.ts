@@ -17,13 +17,15 @@ export interface ActivityDto {
 
     endTime?: Date;
 
+    participants?: Array<models.ActivityParticipantDto>;
+
     name?: string;
 
-    description?: string;
+    coverImageDescription?: models.DescriptionDto;
+
+    descriptions?: Array<models.DescriptionDto>;
 
     location?: models.LocationDto;
-
-    images?: Array<models.FileDto>;
 
     tags?: Array<models.TagDto>;
 
@@ -31,7 +33,7 @@ export interface ActivityDto {
 
     comments?: Array<models.CommentDto>;
 
-    ownerId?: number;
+    owner?: models.UserListDto;
 
     id?: string;
 

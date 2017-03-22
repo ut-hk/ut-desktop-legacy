@@ -25,7 +25,7 @@ export interface ActivityPlanDto {
 
     ratings?: Array<models.RatingDto>;
 
-    ownerId?: number;
+    owner?: models.UserListDto;
 
     id?: string;
 

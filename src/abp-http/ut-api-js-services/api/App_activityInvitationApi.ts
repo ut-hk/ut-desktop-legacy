@@ -45,6 +45,22 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
+    public appActivityInvitationAcceptActivityInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appActivityInvitationAcceptActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
     public appActivityInvitationCreateActivityInvitation(input: models.CreateActivityInvitationInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
         return this.appActivityInvitationCreateActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
@@ -60,8 +76,8 @@ export class App_activityInvitationApi {
      * 
      * 
      */
-    public appActivityInvitationGetMyActivityInvitations(extraHttpRequestParams?: any): Observable<models.GetActivityInvitationsOutput> {
-        return this.appActivityInvitationGetMyActivityInvitationsWithHttpInfo(extraHttpRequestParams)
+    public appActivityInvitationGetMyPendingActivityInvitations(extraHttpRequestParams?: any): Observable<models.GetActivityInvitationsOutput> {
+        return this.appActivityInvitationGetMyPendingActivityInvitationsWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -71,6 +87,77 @@ export class App_activityInvitationApi {
             });
     }
 
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityInvitationIgnoreActivityInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appActivityInvitationIgnoreActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityInvitationRejectActivityInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appActivityInvitationRejectActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityInvitationAcceptActivityInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/AcceptActivityInvitation`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationAcceptActivityInvitation.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
 
     /**
      * 
@@ -115,8 +202,8 @@ export class App_activityInvitationApi {
      * 
      * 
      */
-    public appActivityInvitationGetMyActivityInvitationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/GetMyActivityInvitations`;
+    public appActivityInvitationGetMyPendingActivityInvitationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/GetMyPendingActivityInvitations`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -131,6 +218,84 @@ export class App_activityInvitationApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityInvitationIgnoreActivityInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/IgnoreActivityInvitation`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationIgnoreActivityInvitation.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityInvitationRejectActivityInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/RejectActivityInvitation`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationRejectActivityInvitation.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
 

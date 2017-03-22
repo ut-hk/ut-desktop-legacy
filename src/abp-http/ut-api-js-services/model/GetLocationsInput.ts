@@ -12,17 +12,11 @@
 
 import * as models from './models';
 
-export interface RatingDto {
-    ratingStatus?: RatingDto.RatingStatusEnum;
+export interface GetLocationsInput {
+    queryKeywords?: string;
 
-    owner?: models.UserListDto;
+    maxResultCount?: number;
 
-    id?: number;
+    skipCount?: number;
 
-}
-export namespace RatingDto {
-    export enum RatingStatusEnum {
-        NUMBER_0 = <any> 0,
-        NUMBER_1 = <any> 1
-    }
 }

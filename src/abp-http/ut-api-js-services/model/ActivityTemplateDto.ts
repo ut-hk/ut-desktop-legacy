@@ -17,11 +17,11 @@ export interface ActivityTemplateDto {
 
     name?: string;
 
-    description?: string;
+    coverImageDescription?: models.DescriptionDto;
+
+    descriptions?: Array<models.DescriptionDto>;
 
     location?: models.LocationDto;
-
-    images?: Array<models.FileDto>;
 
     tags?: Array<models.TagDto>;
 
@@ -29,7 +29,7 @@ export interface ActivityTemplateDto {
 
     comments?: Array<models.CommentDto>;
 
-    ownerId?: number;
+    owner?: models.UserListDto;
 
     id?: string;
 

@@ -12,17 +12,9 @@
 
 import * as models from './models';
 
-export interface RatingDto {
-    ratingStatus?: RatingDto.RatingStatusEnum;
-
+export interface ActivityParticipantDto {
     owner?: models.UserListDto;
 
     id?: number;
 
-}
-export namespace RatingDto {
-    export enum RatingStatusEnum {
-        NUMBER_0 = <any> 0,
-        NUMBER_1 = <any> 1
-    }
 }

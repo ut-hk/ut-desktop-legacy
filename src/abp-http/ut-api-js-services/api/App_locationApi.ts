@@ -59,9 +59,10 @@ export class App_locationApi {
     /**
      * 
      * 
+     * @param input 
      */
-    public appLocationGetLocations(extraHttpRequestParams?: any): Observable<models.GetLocationsOutput> {
-        return this.appLocationGetLocationsWithHttpInfo(extraHttpRequestParams)
+    public appLocationGetLocations(input: models.GetLocationsInput, extraHttpRequestParams?: any): Observable<models.GetLocationsOutput> {
+        return this.appLocationGetLocationsWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -114,12 +115,17 @@ export class App_locationApi {
     /**
      * 
      * 
+     * @param input 
      */
-    public appLocationGetLocationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+    public appLocationGetLocationsWithHttpInfo(input: models.GetLocationsInput, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/api/services/app/location/GetLocations`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appLocationGetLocations.');
+        }
         // to determine the Content-Type header
         let consumes: string[] = [
         ];
@@ -128,9 +134,12 @@ export class App_locationApi {
         let produces: string[] = [
         ];
 
+        headers.set('Content-Type', 'application/json');
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
 

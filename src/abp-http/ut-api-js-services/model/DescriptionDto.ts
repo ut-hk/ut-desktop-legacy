@@ -13,9 +13,11 @@
 import * as models from './models';
 
 export interface DescriptionDto {
+    type?: DescriptionDto.TypeEnum;
+
     content?: string;
 
-    type?: DescriptionDto.TypeEnum;
+    htmlClasses?: string;
 
     priority?: number;
 

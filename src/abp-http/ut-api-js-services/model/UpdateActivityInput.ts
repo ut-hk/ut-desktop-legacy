@@ -12,17 +12,19 @@
 
 import * as models from './models';
 
-export interface RatingDto {
-    ratingStatus?: RatingDto.RatingStatusEnum;
+export interface UpdateActivityInput {
+    startTime?: Date;
 
-    owner?: models.UserListDto;
+    endTime?: Date;
 
-    id?: number;
+    name?: string;
 
-}
-export namespace RatingDto {
-    export enum RatingStatusEnum {
-        NUMBER_0 = <any> 0,
-        NUMBER_1 = <any> 1
-    }
+    descriptionIds?: Array<number>;
+
+    tagIds?: Array<number>;
+
+    locationId?: string;
+
+    id?: string;
+
 }

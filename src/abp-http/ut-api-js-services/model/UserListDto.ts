@@ -13,6 +13,23 @@
 import * as models from './models';
 
 export interface UserListDto {
+    name?: string;
+
+    surname?: string;
+
+    userName?: string;
+
+    gender?: UserListDto.GenderEnum;
+
+    coverId?: string;
+
     id?: number;
 
+}
+export namespace UserListDto {
+    export enum GenderEnum {
+        NUMBER_1 = <any> 1,
+        NUMBER_2 = <any> 2,
+        NUMBER_3 = <any> 3
+    }
 }
