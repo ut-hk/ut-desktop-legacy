@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenService } from '../../abp-http/http/token.service';
+import {Component, OnInit} from '@angular/core';
+import {TokenService} from '../../abp-http/http/token.service';
+import {LogInInput} from "../../abp-http/ut-api-js-services/model/LogInInput";
+import {AccountApi} from "../../abp-http/ut-api-js-services/api/AccountApi";
+import {App_userApi} from "../../abp-http/ut-api-js-services/api/App_userApi";
+import {LocalStorageService} from "angular-2-local-storage";
+import {Router, ActivatedRoute} from '@angular/router';
 
-<<<<<<< HEAD
-import { LogInInput } from "../../abp-http/ut-api-js-services/model/LogInInput";
-import { AccountApi } from "../../abp-http/ut-api-js-services/api/AccountApi";
-import { App_userApi } from "../../abp-http/ut-api-js-services/api/App_userApi";
-import { LocalStorageService } from "angular-2-local-storage";
-import { Router, ActivatedRoute } from '@angular/router';
-=======
-import { LogInInput } from '../../abp-http/ut-api-js-services/model/LogInInput';
-import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
-import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
-import { LocalStorageService } from 'angular-2-local-storage';
->>>>>>> c19286420016d0c5fa47c998f2fed7993e205840
 
 @Component({
   selector: 'app-log-in',

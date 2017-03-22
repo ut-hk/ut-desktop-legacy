@@ -1,3 +1,27 @@
-<p>
-  activity-template works!
-</p>
+<div class="has-padding" *ngIf="activityTemplate">
+  <h3>
+    {{activityTemplate.name}}
+  </h3>
+  <p>created by {{activityTemplate.owner.userName}}</p>
+
+  <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
+    <p *ngSwitchCase="0">{{description.content}}</p>
+    <div class="text-center">
+      <img *ngSwitchCase="1" [src]="description.content">
+    </div>
+  </div>
+
+  <p class="text-right">
+    <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">#{{tag.text}}</span>
+  </p>
+  <h3>Comments</h3>
+  <div>
+    <div class="comment" *ngFor="let comment of activityTemplate.comments; trackBy: comment?.id">
+      <p class="content">{{comment.content}}</p>
+
+      <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
+        <p class="content">&emsp;&emsp;{{reply.content}}</p>
+      </div>
+    </div>
+  </div>
+</div>
