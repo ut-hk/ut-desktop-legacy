@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -73,6 +73,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     CommonModule,
     RouterModule.forRoot(appRoutes),
@@ -88,7 +89,8 @@ const appRoutes: Routes = [
 
     // Angular Map
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE'
+      apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE',
+      libraries: ['places']
     })
   ],
   providers: [],
