@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -14,9 +14,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
-        <li><a routerLink="/world" routerLinkActive="active">World</a></li>
-        <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>
-
+        <li><a routerLink="/activity-templates" routerLinkActive="active">World</a></li>
+        <li><a routerLink="/world" routerLinkActive="active">Activity Plans</a></li>
+        <li *ngIf="myUser"><a routerLink="/chat-rooms" routerLinkActive="active">Chat Rooms</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
@@ -32,15 +32,3 @@
 </nav>
 
 <router-outlet></router-outlet>
-
-<footer class="footer">
-  <div class="container">
-    <div class="row expanded">
-      <div class="col-xs-12 text-center">
-        <div class="">
-          <p>Copyright © 2017 Diamond Queen</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>

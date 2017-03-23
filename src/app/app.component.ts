@@ -1,27 +1,23 @@
-import { Component } from '@angular/core';
-import { App_userApi } from "../abp-http/ut-api-js-services/api/App_userApi";
-import { LocalStorageService } from "angular-2-local-storage";
-import { UserDto } from "../abp-http/ut-api-js-services/model/UserDto";
-import { TokenService } from "../abp-http/http/token.service";
-import { NavigationStart, Router, RoutesRecognized } from "@angular/router";
-import { App_analysisApi } from "../abp-http/ut-api-js-services/api/App_analysisApi";
-import { EntityDtoGuid } from "../abp-http/ut-api-js-services/model/EntityDtoGuid";
-import { Subscription } from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { App_userApi } from '../abp-http/ut-api-js-services/api/App_userApi';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { UserDto } from '../abp-http/ut-api-js-services/model/UserDto';
+import { TokenService } from '../abp-http/http/token.service';
+import { NavigationStart, Router, RoutesRecognized } from '@angular/router';
+import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
+import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGuid';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  public isCollapsed: boolean = true;
+  public isCollapsed = true;
   public myUser: UserDto = null;
   public guest: EntityDtoGuid = null;
-  public depth: number = 0;
-  // title: string = 'My first angular2-google-maps project';
-  // lat: number = 51.678418;
-  // lng: number = 7.809007;
+  public depth = 0;
 
   constructor(private localStorageService: LocalStorageService,
               private router: Router,
@@ -30,17 +26,18 @@ export class AppComponent {
               private analysisService: App_analysisApi) {
 
     this.myUser = this.localStorageService.get('myUser');
-    this.guest = localStorageService.get<EntityDtoGuid>("guest");
+    this.guest = localStorageService.get<EntityDtoGuid>('guest');
   }
 
   ngOnInit() {
-    if (this.tokenService.getToken())
+    if (this.tokenService.getToken()) {
       this.userService
         .appUserGetMyUser({})
         .subscribe((output) => {
           this.localStorageService.set('myUser', output.myUser);
           this.myUser = output.myUser;
         });
+    }
 
     this.router.events.subscribe((event) => {
       if (event instanceof RoutesRecognized) {
@@ -62,13 +59,11 @@ export class AppComponent {
   }
 
   private createHistory(urlAfterRedirects: string): void {
-    let parameters = {
+    const parameters = {
       depth: this.depth
     };
 
-    if (this.guest == null)
-      this.createGuest();
-    else
+    if (this.guest != null) {
       this.analysisService.appAnalysisCreateRouteHistory({
         guestId: this.guest.id,
         routeName: urlAfterRedirects,
@@ -76,6 +71,9 @@ export class AppComponent {
       }).subscribe((output) => {
         console.log(output);
       });
+    } else {
+      this.createGuest();
+    }
 
     this.depth = this.depth + 1;
   }
@@ -83,7 +81,7 @@ export class AppComponent {
   private createGuest(): void {
     this.analysisService.appAnalysisCreateGuest({})
       .subscribe((output) => {
-        this.localStorageService.add("guest", output);
+        this.localStorageService.add('guest', output);
         this.guest = output;
       });
   }

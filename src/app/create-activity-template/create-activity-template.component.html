@@ -28,6 +28,13 @@
       </div>
     </div>
     <div class="from-group">
+      <label for="description" class="col-sm-2 control-label">Location Name</label>
+      <div class="col-sm-10">
+        <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+               class="form-control" #search [formControl]="searchControl">
+      </div>
+    </div>
+    <div class="from-group">
       <div class="col-sm-10">
         <sebm-google-map
           [latitude]="lat"
@@ -52,12 +59,12 @@
 
           </sebm-google-map-marker>
 
-          <sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng"
-                                  [radius]="5000"
-                                  [fillColor]="'red'"
-                                  [circleDraggable]="true"
-                                  [editable]="true">
-          </sebm-google-map-circle>
+          <!--<sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng"-->
+                                  <!--[radius]="5000"-->
+                                  <!--[fillColor]="'red'"-->
+                                  <!--[circleDraggable]="true"-->
+                                  <!--[editable]="true">-->
+          <!--</sebm-google-map-circle>-->
 
         </sebm-google-map>
       </div>
