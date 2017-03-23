@@ -37,10 +37,8 @@ export class CreateActivityTemplateComponent implements OnInit {
 
   markers: Marker[] = [
     {
-
       lat: 22.4223236,
       lng: 114.20414459999999,
-
       label: '',
       draggable: true
     }
@@ -85,8 +83,9 @@ export class CreateActivityTemplateComponent implements OnInit {
               label: '',
               draggable: true
             }];
+          console.log(place);
           console.log(this.markers);
-          this.zoom = 4;
+          this.zoom = 12;
         });
       });
     });
@@ -95,6 +94,7 @@ export class CreateActivityTemplateComponent implements OnInit {
   private setCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
         this.markers = [
           {
             lat: position.coords.latitude,
