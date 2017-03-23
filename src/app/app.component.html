@@ -14,8 +14,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
-        <li><a routerLink="/world" routerLinkActive="active">World</a></li>
-        <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>
+        <li><a routerLink="/activity-templates" routerLinkActive="active">World</a></li>
+        <li><a routerLink="/world" routerLinkActive="active">Activity Plans</a></li>
         <li *ngIf="myUser"><a routerLink="/chat-rooms" routerLinkActive="active">Chat Rooms</a></li>
       </ul>
 

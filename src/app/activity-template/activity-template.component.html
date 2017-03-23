@@ -1,10 +1,20 @@
+<ul class="navbar-right">
+  <div class="position">
+    <p><a routerLink="/create-activity-template" routerLinkActive="active">Add to Timeline</a></p>
+  </div>
+</ul>
 <div class="container">
   <div class="has-padding" *ngIf="activityTemplate">
     <h3>
       {{activityTemplate.name}}
     </h3>
     <p>created by {{activityTemplate.owner.userName}}</p>
-
+    <div *ngFor="let information of activityTemplate.referenceTimeSlots; trackBy: information?.startTime"
+         [ngSwitch]="information.endTime">
+      <p *ngSwitchDefault>Date: {{information.startTime | date}} To {{information.endTime}}</p>
+      <p *ngSwitchCase="">Date: {{information.startTime | date}}</p>
+    </div>
+    <p>Venue: {{activityTemplate.location.name}}</p>
     <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
          [ngSwitch]="description.type">
       <p *ngSwitchCase="0">{{description.content}}</p>
