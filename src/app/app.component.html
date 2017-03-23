@@ -15,8 +15,8 @@
     <div class="collapse navbar-collapse" (collapsed)="collapsed($event)" (expanded)="expanded($event)"
          [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
-        <li><a routerLink="/activity-templates" routerLinkActive="active">World</a></li>
-        <li><a routerLink="/world" routerLinkActive="active">Activity Plans</a></li>
+        <li><a routerLink="/world" routerLinkActive="active">World</a></li>
+        <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Plans</a></li>
         <li *ngIf="myUser"><a routerLink="/chat-rooms" routerLinkActive="active">Chat Rooms</a></li>
       </ul>
 
@@ -28,6 +28,7 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
+        <li><a routerLink="/create-activity-template" routerLinkActive="active">Create Activity</a></li>
         <li><a routerLink="/user-profile" routerLinkActive="active">{{myUser.name}}</a></li>
       </ul>
 
