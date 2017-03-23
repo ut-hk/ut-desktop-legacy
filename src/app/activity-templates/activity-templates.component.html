@@ -1,16 +1,30 @@
 <div class="container">
-  <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
-    <div class="activity-template col-xs-12 col-sm-6"
-         *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
-      <h2><a routerLink="/activity-template/{{activityTemplate.id}}"
-             routerLinkActive="active">{{activityTemplate.name}}</a></h2>
-      <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
-           [ngSwitch]="description.type">
-        <p *ngSwitchCase="0">{{description.content}}</p>
-        <p *ngSwitchCase="1">
-          <img [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
-        </p>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10">
+      <div class="form-group">
+        <input type="text" class="form-control" id="keywords" placeholder="Keywords" [(ngModel)]="queryKeywords">
       </div>
     </div>
+    <div class="col-xs-12 col-sm-2">
+      <button class="btn btn-default btn-block">Advanced</button>
+    </div>
   </div>
+
+  <br>
+
+  <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
+    <div class="activity-template col-xs-12 col-sm-6 "
+         *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+      <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">
+        <div class="cover-image" *ngIf="activityTemplate.coverImageDescription" [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
+      </a>
+      <h2 class="h3 title"><a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a></h2>
+
+    </div>
+  </div>
+
+  <div class="text-center" *ngIf="isLoading">
+    Loading...
+  </div>
+  <br>
 </div>
