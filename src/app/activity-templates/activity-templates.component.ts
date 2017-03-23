@@ -9,7 +9,9 @@ import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/Act
 })
 export class ActivityTemplatesComponent implements OnInit {
 
+  public isLoading = true;
   public activityTemplates: ActivityTemplateDto[] = [];
+  public queryKeywords = '';
 
   private skipCount = 0;
 
@@ -21,19 +23,25 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   onScroll() {
-    this.getActivityTemplates();
+    if (!this.isLoading) {
+      this.isLoading = true;
+
+      this.getActivityTemplates();
+    }
   }
 
   private getActivityTemplates() {
     this.activityTemplateService
       .appActivityTemplateGetActivityTemplates({
         maxResultCount: 10,
-        skipCount: 0
+        skipCount: this.skipCount
       })
       .subscribe((output) => {
         for (let i = 0; i < output.activityTemplates.length; i++) {
           this.activityTemplates.push(output.activityTemplates[i]);
         }
+
+        this.isLoading = false;
       });
 
     this.skipCount = this.skipCount + 10;
