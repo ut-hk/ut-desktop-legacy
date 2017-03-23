@@ -33,6 +33,7 @@
     "@angular/cli": "^1.0.0-rc.4",
     "@angular/compiler-cli": "^2.4.10",
     "@angular/language-service": "^2.4.10",
+    "@types/googlemaps": "^3.26.6",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
     "codelyzer": "~2.0.1",
