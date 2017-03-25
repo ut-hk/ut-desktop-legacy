@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="row">
     <div class="col-xs-12 col-sm-10">
       <div class="form-group">
@@ -24,15 +25,15 @@
       </h2>
       <p class="text-left" *ngIf="activityTemplate.referenceTimeSlots.length > 0">
         {{activityTemplate.referenceTimeSlots[0].startTime | date : 'medium'}}</p>
-      <!--<p class="text-right">Created by <a routerLink="/user/{{activityTemplate.owner.id}}">{{activityTemplate.owner.userName}}</a>-->
-      <!--</p>-->
+      <p class="text-right">Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></p>
     </div>
   </div>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <div class="text-center" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
 
-  <div class="text-center" *ngIf="isLoading">Loading<i class="fa fa-spinner fa-spin" style="font-size:24px" *ngIf="isLoading"></i></div>
-  <i class="fa fa-spinner fa-spin" style="font-size:24px" *ngIf="isLoading"></i>
   <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
+
   <br>
 </div>

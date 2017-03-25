@@ -54,25 +54,27 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   private getActivityTemplates() {
-    if (!this.isLoading) {
-      this.isLoading = true;
-
-      this.activityTemplateService
-        .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
-        .subscribe((output) => {
-          if (output.activityTemplates.length === 0) {
-            this.isNoMoreResults = true;
-          }
-
-          for (let i = 0; i < output.activityTemplates.length; i++) {
-            this.activityTemplates.push(output.activityTemplates[i]);
-          }
-
-          this.isLoading = false;
-        });
-
-      this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
+    if (this.isLoading) {
+      return;
     }
+
+    this.isLoading = true;
+
+    this.activityTemplateService
+      .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
+      .subscribe((output) => {
+        if (output.activityTemplates.length === 0) {
+          this.isNoMoreResults = true;
+        }
+
+        for (let i = 0; i < output.activityTemplates.length; i++) {
+          this.activityTemplates.push(output.activityTemplates[i]);
+        }
+
+        this.isLoading = false;
+      });
+
+    this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
   }
 
 }

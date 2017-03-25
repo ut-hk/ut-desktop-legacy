@@ -1,40 +1,68 @@
-<ul class="navbar-right">
-  <div class="position">
-    <p><a routerLink="/create-activity-template" routerLinkActive="active">Add to Timeline</a></p>
-  </div>
-</ul>
 <div class="container">
-  <div class="has-padding" *ngIf="activityTemplate">
-    <h3>
-      {{activityTemplate.name}}
-    </h3>
-    <p>created by {{activityTemplate.owner.userName}}</p>
-    <div *ngFor="let information of activityTemplate.referenceTimeSlots; trackBy: information?.startTime"
-         [ngSwitch]="information.endTime">
-      <p *ngSwitchDefault>Date: {{information.startTime | date}} To {{information.endTime}}</p>
-      <p *ngSwitchCase="">Date: {{information.startTime | date}}</p>
-    </div>
-    <p>Venue: {{activityTemplate.location.name}}</p>
-    <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
-         [ngSwitch]="description.type">
-      <p *ngSwitchCase="0">{{description.content}}</p>
-      <div class="text-center">
-        <img *ngSwitchCase="1" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+
+  <div class="row">
+    <div class="col-xs-12">
+
+      <div class="text-right">
+        <a class="btn btn-default">Edit</a>
+        <a class="btn btn-default" (click)="onClickAddToMyActivities()">Add to My Activities</a>
       </div>
+
     </div>
+  </div>
 
-    <p class="text-right">
-      <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">#{{tag.text}}</span>
-    </p>
-    <h3>Comments</h3>
-    <div>
-      <div class="comment" *ngFor="let comment of activityTemplate.comments; trackBy: comment?.id">
-        <p class="content">{{comment.content}}</p>
+  <div class="row">
 
-        <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
-          <p class="content">&emsp;&emsp;{{reply.content}}</p>
+    <div class="col-xs-12">
+      <div *ngIf="activityTemplate">
+        <!-- Name and Owner -->
+        <h1 class="h3">{{activityTemplate.name}}</h1>
+        <div class="text-right">Provided by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></div>
+
+        <!-- Reference Time Slots-->
+        <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
+          <div>Time: {{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
         </div>
+
+        <!-- Location -->
+        <p>Location: {{activityTemplate.location.name}}</p>
+
+        <!-- Descriptions -->
+        <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
+             [ngSwitch]="description.type">
+          <p *ngSwitchCase="0">{{description.content}}</p>
+          <div class="text-center" *ngSwitchCase="1">
+            <img style="margin-bottom: 10px;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          </div>
+        </div>
+
+        <!-- Tags-->
+        <p class="text-right">
+          <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">#{{tag.text}}</span>
+        </p>
+
+        <!-- Comments -->
+        <h3>Comments</h3>
+        <div>
+          <div class="comment" *ngFor="let comment of activityTemplate.comments; trackBy: comment?.id">
+            <p class="content"><a routerLink="/user/{{comment.owner.id}}">@{{comment.owner.userName}}</a> {{comment.content}}</p>
+
+            <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
+              <p class="content">{{reply.content}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Please enter your comment." [(ngModel)]="createTextCommentInput.content">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="onClickTextComment()">Comment</button>
+            </span>
+          </div>
+        </div>
+
       </div>
     </div>
+
   </div>
 </div>

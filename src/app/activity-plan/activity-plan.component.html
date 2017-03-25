@@ -1,53 +1,47 @@
-<!--<div class="container">-->
-<!--<div class="col-xs-12">-->
-<!--<div>-->
-<!--<h2>{{activityPlan.name}}</h2>-->
-<!--<div [ngSwitch]="description.type">-->
-<!--<p *ngSwitchCase="0">{{description.content}}</p>-->
-<!--<div class="text-center">-->
-<!--<img *ngSwitchCase="1" [src]="description.content">-->
-<!--</div>-->
-<!--</div>-->
-<!--<p class="text-right">-->
-<!--<span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>-->
-<!--</p>-->
-<!--<h3>Comments</h3>-->
-<!--<div>-->
-<!--<div class="comment" *ngFor="let comment of activityPlan.comments; trackBy: comment?.id">-->
-<!--<p class="content">{{comment.content}}</p>-->
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div *ngIf="activityPlan">
+        <!-- Name and Owner-->
+        <h1 class="h3">{{activityPlan.name}}</h1>
+        <div class="text-right">Provided by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></div>
 
-<!--<div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">-->
-<!--<p class="content">{{reply.content}}</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<div class="has-padding" *ngIf="activityPlan">
-  <h3>
-    {{activityPlan.name}}
-  </h3>
-  <p>created by {{activityPlan.owner.userName}}</p>
+        <!-- Descriptions -->
+        <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"
+             [ngSwitch]="description.type">
+          <p *ngSwitchCase="0">{{description.content}}</p>
+          <div class="text-center" *ngSwitchCase="1">
+            <img style="margin-bottom: 10px;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          </div>
+        </div>
 
-  <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id" [ngSwitch]="description.type">
-    <p *ngSwitchCase="0">{{description.content}}</p>
-    <div class="text-center">
-      <img *ngSwitchCase="1" [src]="description.content">
-    </div>
-  </div>
+        <!-- Tags -->
+        <p class="text-right">
+          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">#{{tag.text}}</span>
+        </p>
 
-  <p class="text-right">
-    <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">#{{tag.text}}</span>
-  </p>
-  <h3>Comments</h3>
-  <div>
-    <div class="comment" *ngFor="let comment of activityPlan.comments; trackBy: comment?.id">
-      <p class="content">{{comment.content}}</p>
+        <!-- Comments -->
+        <h3>Comments</h3>
+        <div>
+          <div class="comment" *ngFor="let comment of activityPlan.comments; trackBy: comment?.id">
+            <p class="content"><a routerLink="/user/{{comment.owner.id}}">@{{comment.owner.userName}}</a> {{comment.content}}</p>
 
-      <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
-        <p class="content">&emsp;&emsp;{{reply.content}}</p>
+            <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
+              <p class="content">{{reply.content}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Please enter your comment." [(ngModel)]="createTextCommentInput.content">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="onClickTextComment()">Comment</button>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+
