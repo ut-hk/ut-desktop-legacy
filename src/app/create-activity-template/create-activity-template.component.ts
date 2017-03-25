@@ -1,9 +1,10 @@
-import {Component, OnInit, NgZone, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, Directive } from '@angular/core';
 
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import {MouseEvent, MapsAPILoader} from 'angular2-google-maps/core';
-import { FormControl,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
+import { MouseEvent, MapsAPILoader, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMap } from 'angular2-google-maps/core/services/google-maps-types';
 
 
 declare var google: any;
@@ -15,36 +16,17 @@ declare var google: any;
 })
 export class CreateActivityTemplateComponent implements OnInit {
 
+  @ViewChild('locationNameField')
+  public locationNameElement: ElementRef;
+  public locationNameControl: FormControl = new FormControl();
 
-  @ViewChild("search")
-  public searchElementRef: ElementRef;
   // initial center position for the map
-  public lat: number;
-
-  public lng: number;
-
-  public searchControl: FormControl;
-
-  // google maps zoom level
-  public zoom: number = 8;
-
-
-  constructor(private activityTemplateService: App_activityTemplateApi,
-              private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
-  }
-
-
-  markers: Marker[] = [
-    {
-
-      lat: 22.4223236,
-      lng: 114.20414459999999,
-
-      label: '',
-      draggable: true
-    }
-  ];
+  public map = {
+    lat: 22.4223236,
+    lng: 114.20414459999999,
+    zoom: 12
+  };
+  public markers: Marker[] = [];
 
   public createActivityTemplateInput: CreateActivityTemplateInput = {
     name: '',
@@ -52,58 +34,45 @@ export class CreateActivityTemplateComponent implements OnInit {
     locationId: ''
   };
 
+  constructor(private activityTemplateService: App_activityTemplateApi,
+              private mapsAPILoader: MapsAPILoader,
+              private ngZone: NgZone) {
+  }
+
   ngOnInit() {
-    this.zoom = 4;
-    this.lat = 22.4223236;
-    this.lng = 114.20414459999999;
-
-    this.searchControl = new FormControl();
-
-    //set current position
+    // set current position
     this.setCurrentPosition();
 
-    //load Places Autocomplete
+    // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
+      const autocomplete = new google.maps.places.Autocomplete(this.locationNameElement.nativeElement, {
+        types: ['address']
       });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-          //verify result
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+          // verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
 
-          //set lat, lng and zoom
-          this.markers = [
-            {
-              lat: place.geometry.location.lat(),
-              lng: place.geometry.location.lng(),
-              label: '',
-              draggable: true
-            }];
-          console.log(this.markers);
-          this.zoom = 4;
+          this.updateMarker(place.geometry.location.lat(), place.geometry.location.lng(), '');
         });
       });
     });
   }
 
   private setCurrentPosition() {
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.markers = [
-          {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            label: '',
-            draggable: true
-          }];
-        console.log(this.markers);
-        this.zoom = 12;
+        // By current location
+        this.updateMarker(position.coords.latitude, position.coords.longitude, '');
+      }, () => {
+        // Default value
+        this.updateMarker(this.map.lat, this.map.lng, '');
       });
     }
   }
@@ -111,39 +80,36 @@ export class CreateActivityTemplateComponent implements OnInit {
   public createActivityTemplate() {
     this.activityTemplateService
       .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
+      .flatMap((output) => this.activityTemplateService.appActivityTemplateGetActivityTemplate({id: output.id}))
       .subscribe((output) => {
-        this.activityTemplateService
-          .appActivityTemplateGetActivityTemplate({id: output.id})
-          .subscribe((output2) => {
-
-            console.log(output2);
-          });
         console.log(output);
       });
   }
 
-  clickedMarker(label: string, index: number) {
-    console.log(`clicked the marker: ${label || index}`);
+  public onClickMap($event: MouseEvent) {
+    this.updateMarker($event.coords.lat, $event.coords.lng, '');
+
   }
 
-  mapClicked($event: MouseEvent) {
+  public onClickMarker(label: string, index: number) {
+    console.log('Clicked the marker.');
+  }
+
+  private updateMarker(lat: number, lng: number, label: string) {
     this.markers = [
       {
-        lat: $event.coords.lat,
-        lng: $event.coords.lng,
+        lat: lat,
+        lng: lng,
 
-        label: '',
-        draggable: true
-      }];
+        label: label,
+        draggable: false
+      }
+    ];
 
-    console.log(this.markers);
+    this.map.lat = lat;
+    this.map.lng = lng;
+    this.map.zoom = 13;
   }
-
-  markerDragEnd(m: Marker, $event: MouseEvent) {
-    console.log('dragEnd', m, $event);
-  }
-
-
 }
 
 // just an interface for type safety.

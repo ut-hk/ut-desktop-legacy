@@ -9,7 +9,7 @@ import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { CollapseModule, PopoverModule } from 'ng2-bootstrap';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
@@ -95,7 +95,9 @@ const appRoutes: Routes = [
     CollapseModule.forRoot(),
     PopoverModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    GoogleMapsAPIWrapper
+  ],
   bootstrap: [
     AppComponent
   ]

@@ -28,7 +28,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" id="locationName" placeholder="Search for location"
                    autocorrect="off" autocapitalize="off" spellcheck="off"
-                   #search [formControl]="searchControl">
+                   #locationNameField [formControl]="locationNameControl">
           </div>
         </div>
 
@@ -36,21 +36,20 @@
           <div class="col-xs-12 col-sm-2"></div>
           <div class="col-xs-12 col-sm-10">
             <sebm-google-map
-              [latitude]="lat"
-              [longitude]="lng"
-              [zoom]="zoom"
+              [latitude]="map.lat"
+              [longitude]="map.lng"
+              [zoom]="map.zoom"
               [disableDefaultUI]="false"
-              [zoomControl]="false"
-              (mapClick)="mapClicked($event)">
+              [zoomControl]="true"
+              (mapClick)="onClickMap($event)">
 
               <sebm-google-map-marker
-                *ngFor="let m of markers; let i = index"
-                (markerClick)="clickedMarker(m.label, i)"
-                [latitude]="m.lat"
-                [longitude]="m.lng"
-                [label]="m.label"
-                [markerDraggable]="m.draggable"
-                (dragEnd)="markerDragEnd(m, $event)">
+                *ngFor="let marker of markers; let i = index"
+                [latitude]="marker.lat"
+                [longitude]="marker.lng"
+                [label]="marker.label"
+                [markerDraggable]="marker.draggable"
+                (markerClick)="onClickMarker(marker.label, i)">
 
                 <sebm-google-map-info-window>
                   <strong>InfoWindow content</strong>
@@ -58,15 +57,9 @@
 
               </sebm-google-map-marker>
 
-              <!--<sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng"-->
-              <!--[radius]="5000"-->
-              <!--[fillColor]="'red'"-->
-              <!--[circleDraggable]="true"-->
-              <!--[editable]="true">-->
-              <!--</sebm-google-map-circle>-->
-
             </sebm-google-map>
             <br>
+
             <button type="button" class="btn btn-primary" (click)="createActivityTemplate()">Submit</button>
           </div>
         </div>
