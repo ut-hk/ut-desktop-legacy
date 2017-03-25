@@ -2,8 +2,8 @@ import {Component, OnInit, NgZone, ViewChild, ElementRef} from '@angular/core';
 
 import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import {MouseEvent, MapsAPILoader} from 'angular2-google-maps/core';
-import { FormControl,FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MouseEvent, MapsAPILoader, LatLng} from 'angular2-google-maps/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 declare var google: any;
@@ -26,14 +26,16 @@ export class CreateActivityTemplateComponent implements OnInit {
   public searchControl: FormControl;
 
   // google maps zoom level
-  public zoom: number = 8;
+  public zoom: number;
 
+  private map: google.maps.Map;
 
   constructor(private activityTemplateService: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone) {
   }
 
+  public currLocation: LatLng;
 
   markers: Marker[] = [
     {
@@ -51,11 +53,11 @@ export class CreateActivityTemplateComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.zoom = 4;
+    this.zoom = 2;
     this.lat = 22.4223236;
     this.lng = 114.20414459999999;
-
     this.searchControl = new FormControl();
+
 
     //set current position
     this.setCurrentPosition();
@@ -65,6 +67,7 @@ export class CreateActivityTemplateComponent implements OnInit {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ["address"]
       });
+
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
@@ -83,18 +86,19 @@ export class CreateActivityTemplateComponent implements OnInit {
               label: '',
               draggable: true
             }];
-          console.log(place);
+          console.log(place.geometry.location);
           console.log(this.markers);
           this.zoom = 12;
         });
       });
     });
+
   }
 
   private setCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
+
         this.markers = [
           {
             lat: position.coords.latitude,
@@ -103,9 +107,20 @@ export class CreateActivityTemplateComponent implements OnInit {
             draggable: true
           }];
         console.log(this.markers);
-        this.zoom = 12;
       });
+    } else {
+      this.markers = [
+        {
+          lat: 22.4223236,
+          lng: 114.20414459999999,
+          label: '',
+          draggable: true
+        }
+      ];
+      console.log("Default Location");
     }
+    this.zoom = 12;
+
   }
 
   public createActivityTemplate() {
@@ -116,9 +131,9 @@ export class CreateActivityTemplateComponent implements OnInit {
           .appActivityTemplateGetActivityTemplate({id: output.id})
           .subscribe((output2) => {
 
-            console.log(output2);
+            // console.log(output2);
           });
-        console.log(output);
+        // console.log(output);
       });
   }
 
@@ -143,6 +158,13 @@ export class CreateActivityTemplateComponent implements OnInit {
     console.log('dragEnd', m, $event);
   }
 
+  zoomIn(map) {
+    map.setZoom(map.getZoom() + 1);
+  }
+
+  zoomOut(map) {
+    map.setZoom(map.getZoom() - 1);
+  }
 
 }
 

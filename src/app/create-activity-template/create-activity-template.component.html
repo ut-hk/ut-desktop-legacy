@@ -1,77 +1,73 @@
 <div class="container">
   <div class="row">
-    <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Activity Name</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="name" placeholder="Name"
-               [(ngModel)]="createActivityTemplateInput.name">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="referenceTimeSlots" class="col-sm-2 control-label">Time</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="referenceTimeSlots" placeholder="Time"
-               [(ngModel)]="createActivityTemplateInput.referenceTimeSlots">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="locationId" class="col-sm-2 control-label">Location</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="locationId" placeholder="Location"
-               [(ngModel)]="createActivityTemplateInput.locationId">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="description" class="col-sm-2 control-label">Description</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="description" placeholder="Description">
-      </div>
-    </div>
-    <div class="from-group">
-      <label for="description" class="col-sm-2 control-label">Location Name</label>
-      <div class="col-sm-10">
-        <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
-               class="form-control" #search [formControl]="searchControl">
-      </div>
-    </div>
-    <div class="from-group">
-      <div class="col-sm-10 pull-right">
-        <sebm-google-map
-          [latitude]="lat"
-          [longitude]="lng"
-          [zoom]="zoom"
-          [disableDefaultUI]="false"
-          [zoomControl]="false"
-          (mapClick)="mapClicked($event)">
+    <div class="form-horizontal">
 
-          <sebm-google-map-marker
-            *ngFor="let m of markers; let i = index"
-            (markerClick)="clickedMarker(m.label, i)"
-            [latitude]="m.lat"
-            [longitude]="m.lng"
-            [label]="m.label"
-            [markerDraggable]="m.draggable"
-            (dragEnd)="markerDragEnd(m, $event)">
-
-            <sebm-google-map-info-window>
-              <strong>InfoWindow content</strong>
-            </sebm-google-map-info-window>
-
-          </sebm-google-map-marker>
-
-          <!--<sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng"-->
-                                  <!--[radius]="5000"-->
-                                  <!--[fillColor]="'red'"-->
-                                  <!--[circleDraggable]="true"-->
-                                  <!--[editable]="true">-->
-          <!--</sebm-google-map-circle>-->
-
-        </sebm-google-map>
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Activity Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="name" placeholder="Name"
+                 [(ngModel)]="createActivityTemplateInput.name">
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-10 col-sm-offset-2">
-        <button type="submit" class="btn btn-primary" (click)="createActivityTemplate()">Submit</button>
+      <div class="form-group">
+        <label for="referenceTimeSlots" class="col-sm-2 control-label">Time</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="referenceTimeSlots" placeholder="Time"
+                 [(ngModel)]="createActivityTemplateInput.referenceTimeSlots">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="description" placeholder="Description">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="locationName" class="col-sm-2 control-label">Location Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="locationName" placeholder="Search for location"
+                 autocorrect="off" autocapitalize="off" spellcheck="off"
+                 #search [formControl]="searchControl">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-2"></div>
+        <div class="col-xs-12 col-sm-10">
+          <sebm-google-map
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom"
+            [disableDefaultUI]="false"
+            [zoomControl]="false"
+            (mapClick)="mapClicked($event)">
+
+            <sebm-google-map-marker
+              *ngFor="let m of markers; let i = index"
+              (markerClick)="clickedMarker(m.label, i)"
+              [latitude]="m.lat"
+              [longitude]="m.lng"
+              [label]="m.label"
+              [markerDraggable]="m.draggable"
+              (dragEnd)="markerDragEnd(m, $event)">
+
+              <sebm-google-map-info-window>
+                <strong>InfoWindow content</strong>
+              </sebm-google-map-info-window>
+
+            </sebm-google-map-marker>
+
+            <!--<sebm-google-map-circle [latitude]="lat + 0.3" [longitude]="lng"-->
+            <!--[radius]="5000"-->
+            <!--[fillColor]="'red'"-->
+            <!--[circleDraggable]="true"-->
+            <!--[editable]="true">-->
+            <!--</sebm-google-map-circle>-->
+
+          </sebm-google-map>
+          <br>
+          <button type="button" class="btn btn-primary" (click)="createActivityTemplate()">Submit</button>
+        </div>
       </div>
     </div>
   </div>
