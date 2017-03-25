@@ -68,8 +68,6 @@ export class AppComponent implements OnInit {
         guestId: this.guest.id,
         routeName: urlAfterRedirects,
         parameters: JSON.stringify(parameters)
-      }).subscribe((output) => {
-        console.log(output);
       });
     } else {
       this.createGuest();
