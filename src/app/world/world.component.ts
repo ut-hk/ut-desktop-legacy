@@ -47,6 +47,8 @@ export class WorldComponent implements OnInit {
         }
 
         this.isLoading = false;
+
+        console.log(this.activityPlans);
       });
 
     this.getActivityPlansInput.skipCount = this.getActivityPlansInput.skipCount + 10;

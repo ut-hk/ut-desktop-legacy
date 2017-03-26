@@ -5,6 +5,8 @@ import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/A
 import { GetActivityTemplatesInput } from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
 import { FormControl } from '@angular/forms';
+import { CreateActivityPlanTimeSlotInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanTimeSlotInput';
+import { DragulaService } from 'ng2-dragula';
 
 
 @Component({
@@ -28,9 +30,10 @@ export class CreateActivityPlanComponent implements OnInit {
   public queryKeywordsControl = new FormControl();
 
   public activityTemplates: ActivityTemplateDto[] = [];
-  public selectedActivityTemplates: ActivityTemplateDto[] = [];
+  public selectedActivityTemplates: CreateActivityPlanTimeSlotInput[] = [];
 
-  constructor(private activityPlanService: App_activityPlanApi,
+  constructor(private dragulaService: DragulaService,
+              private activityPlanService: App_activityPlanApi,
               private activityTemplateService: App_activityTemplateApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
@@ -39,6 +42,10 @@ export class CreateActivityPlanComponent implements OnInit {
         this.getActivityTemplatesInput.queryKeywords = queryKeywords;
         this.onQueryKeywordsChanged();
       });
+
+    dragulaService.drop.subscribe((value) => {
+      console.log(value);
+    });
   }
 
   ngOnInit() {
@@ -46,11 +53,11 @@ export class CreateActivityPlanComponent implements OnInit {
   }
 
   public createActivityPlan() {
-    this.activityPlanService
-      .appActivityPlanCreateActivityPlan(this.createActivityPlanInput)
-      .subscribe((output) => {
-
-      });
+    // this.activityPlanService
+    //   .appActivityPlanCreateActivityPlan(this.createActivityPlanInput)
+    //   .subscribe((output) => {
+    //
+    //   });
   }
 
   public onScroll() {

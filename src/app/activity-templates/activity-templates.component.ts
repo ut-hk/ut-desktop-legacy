@@ -5,6 +5,7 @@ import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/takeWhile';
 
 @Component({
   selector: 'app-activity-templates',
@@ -15,19 +16,23 @@ export class ActivityTemplatesComponent implements OnInit {
 
   public isLoading = false;
   public isNoMoreResults = false;
+  public queryKeywordsControl = new FormControl();
+
   public getActivityTemplatesInput: GetActivityTemplatesInput = {
     queryKeywords: '',
     maxResultCount: 10,
     skipCount: 0
   };
-  public queryKeywordsControl = new FormControl();
 
   public activityTemplates: ActivityTemplateDto[] = [];
+
+  private isAlive = true;
 
   constructor(private activityTemplateService: App_activityTemplateApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
+      .takeWhile(() => this.isAlive)
       .subscribe(queryKeywords => {
         this.getActivityTemplatesInput.queryKeywords = queryKeywords;
         this.onQueryKeywordsChanged();
@@ -62,6 +67,7 @@ export class ActivityTemplatesComponent implements OnInit {
 
     this.activityTemplateService
       .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
+      .takeWhile(() => this.isAlive)
       .subscribe((output) => {
         if (output.activityTemplates.length === 0) {
           this.isNoMoreResults = true;
