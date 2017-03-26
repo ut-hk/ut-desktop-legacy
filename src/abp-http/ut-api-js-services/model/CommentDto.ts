@@ -19,6 +19,8 @@ export interface CommentDto {
 
     replies?: Array<models.ReplyDto>;
 
+    owner?: models.UserListDto;
+
     id?: string;
 
 }

@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class App_chatRoomApi {
-    protected basePath = 'http://unitime-dev-api.azurewebsites.net';
+    protected basePath = 'https://unitime-dev-api.azurewebsites.net';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 

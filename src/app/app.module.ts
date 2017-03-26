@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { CollapseModule, PopoverModule } from 'ng2-bootstrap';
+import { CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
@@ -30,6 +30,7 @@ import { CreateActivityComponent } from './create-activity/create-activity.compo
 import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
+import { DateTimePickerModule } from 'ng2-date-time-picker';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -90,10 +91,12 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE',
       libraries: ['places']
     }),
+    DateTimePickerModule,
 
     // Bootstrap
     CollapseModule.forRoot(),
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
+    TimepickerModule.forRoot()
   ],
   providers: [
     GoogleMapsAPIWrapper
