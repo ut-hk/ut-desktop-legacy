@@ -1,13 +1,25 @@
-import {Component, OnInit, NgZone, ViewChild, ElementRef, Directive} from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, Directive } from '@angular/core';
 
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import {MouseEvent, MapsAPILoader, GoogleMapsAPIWrapper} from 'angular2-google-maps/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {GoogleMap} from 'angular2-google-maps/core/services/google-maps-types';
-
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
+import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
+import { FormControl } from '@angular/forms';
+import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
+import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 
 declare var google: any;
+
+
+// just an interface for type safety.
+interface Marker {
+
+  lat: number;
+  lng: number;
+
+  label ?: string;
+  draggable: boolean;
+
+}
 
 @Component({
   selector: 'app-create-activity-template',
@@ -16,7 +28,7 @@ declare var google: any;
 })
 export class CreateActivityTemplateComponent implements OnInit {
 
-  @ViewChild('locationNameField')
+  @ViewChild('locationNameElement')
   public locationNameElement: ElementRef;
   public locationNameControl: FormControl = new FormControl();
 
@@ -33,6 +45,7 @@ export class CreateActivityTemplateComponent implements OnInit {
     referenceTimeSlots: [],
     locationId: ''
   };
+  public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 
   constructor(private activityTemplateService: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
@@ -65,16 +78,19 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
-  private setCurrentPosition() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        // By current location
-        this.updateMarker(position.coords.latitude, position.coords.longitude, '');
-      }, () => {
-        // Default value
-        this.updateMarker(this.map.lat, this.map.lng, '');
-      });
-    }
+  public onClickAddATimeSlot() {
+    const currentTime = new Date();
+
+    this.createActivityTemplateInput.referenceTimeSlots.push({
+      startTime: currentTime,
+      endTime: currentTime,
+    });
+  }
+
+  public onClickAddADescription() {
+    this.createTextDescriptionInputs.push({
+      text: ''
+    });
   }
 
   public createActivityTemplate() {
@@ -95,6 +111,18 @@ export class CreateActivityTemplateComponent implements OnInit {
     console.log('Clicked the marker.');
   }
 
+  private setCurrentPosition() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // By current location
+        this.updateMarker(position.coords.latitude, position.coords.longitude, '');
+      }, () => {
+        // Default value
+        this.updateMarker(this.map.lat, this.map.lng, '');
+      });
+    }
+  }
+
   private updateMarker(lat: number, lng: number, label: string) {
     this.markers = [
       {
@@ -110,15 +138,4 @@ export class CreateActivityTemplateComponent implements OnInit {
     this.map.lng = lng;
     this.map.zoom = 13;
   }
-}
-
-// just an interface for type safety.
-interface Marker {
-
-  lat: number;
-  lng: number;
-
-  label ?: string;
-  draggable: boolean;
-
 }
