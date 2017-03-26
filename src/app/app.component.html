@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -12,15 +12,19 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
+    <div class="collapse navbar-collapse" (collapsed)="collapsed($event)" (expanded)="expanded($event)"
+         [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
-        <li><a routerLink="/activity-templates" routerLinkActive="active">World</a></li>
-        <li><a routerLink="/world" routerLinkActive="active">Activity Plans</a></li>
+        <li><a routerLink="/world" routerLinkActive="active">World</a></li>
+        <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>
         <li *ngIf="myUser"><a routerLink="/chat-rooms" routerLinkActive="active">Chat Rooms</a></li>
+        <li *ngIf="myUser"><a routerLink="/create-activity-template" routerLinkActive="active">Create Activity Template</a></li>
+        <li *ngIf="myUser"><a routerLink="/create-activity-plan" routerLinkActive="active">Create Activity Plan</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
-        <li><a routerLink="/user-profile" routerLinkActive="active">{{myUser.name}}</a></li>
+        <li><a routerLink="/create-activity" routerLinkActive="active">Create Activity</a></li>
+        <li><a routerLink="/user/{{myUser.id}}" routerLinkActive="active">{{myUser.name}}</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right" *ngIf="!myUser">

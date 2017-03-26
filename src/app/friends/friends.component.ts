@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
 import { App_trackApi } from '../../abp-http/ut-api-js-services/api/App_trackApi';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';

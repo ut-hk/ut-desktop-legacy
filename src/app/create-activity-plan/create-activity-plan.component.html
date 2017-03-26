@@ -1,22 +1,62 @@
 <div class="container">
-  <div class="col-sm-12">
-    <div class="form-horizontal">
 
-      <div class="form-group">
-        <label for="password" class="col-sm-2 control-label">Name</label>
-        <div class="col-sm-10">
-          <input type="name" class="form-control" id="name" placeholder="Name" [(ngModel)]="CreateActivityPlanInput.name">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-          <button type="submit" class="btn btn-primary" (click)="create()">Submit</button>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Name</label>
+          <div class="col-sm-10">
+            <input type="name" class="form-control" id="name" placeholder="Name" [(ngModel)]="createActivityPlanInput.name">
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<br>
-<br>
-<br>
 
+  <div class="row">
+    <div class="hidden-xs col-sm-2"></div>
+    <div class="col-xs-12 col-sm-10">
+      <button type="submit" class="btn btn-primary btn-block" (click)="createActivityPlan()">Create</button>
+    </div>
+  </div>
+  <br>
+
+  <div class="row">
+
+    <div class="hidden-xs col-sm-2"></div>
+
+    <div class="col-xs-6 col-sm-5" >
+      <div class="selected-activity-templates" [dragula]="'bag-one'" [dragulaModel]="selectedActivityTemplates">
+        <div class="activity-template"
+             *ngFor="let activityTemplate of selectedActivityTemplates; trackBy: activityTemplate?.id">
+          <div class="cover">
+            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription" [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
+          </div>
+          <div class="h3 title">{{activityTemplate.name}}</div>
+        </div>
+      </div>
+    </div>
+
+    <sticky class="col-xs-6 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="0">
+      <div class="form-group">
+        <input type="text" class="form-control" id="keywords" placeholder="Keywords" [formControl]="queryKeywordsControl">
+      </div>
+
+      <div class="activity-templates" [dragula]="'bag-one'" [dragulaModel]="activityTemplates" infinite-scroll (scrolled)="onScroll()">
+        <div class="activity-template"
+             *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+          <div class="cover">
+            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription" [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
+          </div>
+          <div class="h3 title">{{activityTemplate.name}}</div>
+        </div>
+
+        <div class="text-center" *ngIf="isLoading">Loading...</div>
+        <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
+      </div>
+      <br>
+    </sticky>
+
+  </div>
+
+</div>

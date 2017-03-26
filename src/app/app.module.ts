@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,9 +8,11 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { CollapseModule } from 'ng2-bootstrap';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { DragulaModule } from 'ng2-dragula';
+import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
 
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
@@ -28,7 +30,8 @@ import { CreateActivityComponent } from './create-activity/create-activity.compo
 import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { DateTimePickerModule } from 'ng2-date-time-picker';
+
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
 
@@ -36,10 +39,12 @@ const appRoutes: Routes = [
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
 
-  {path: 'create-activity-template', component: CreateActivityTemplateComponent},
   {path: 'create-activity-plan', component: CreateActivityPlanComponent},
+  {path: 'create-activity-template', component: CreateActivityTemplateComponent},
+  {path: 'create-activity', component: CreateActivityComponent},
 
-  {path: 'user-profile', component: UserProfileComponent},
+  {path: 'user/:id', component: UserComponent},
+  {path: 'update-user/:id', component: UpdateUserComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
@@ -67,7 +72,6 @@ const appRoutes: Routes = [
     CreateActivityComponent,
     CreateActivityTemplateComponent,
     UserComponent,
-    UserProfileComponent,
     UpdateUserComponent,
   ],
   imports: [
@@ -83,17 +87,22 @@ const appRoutes: Routes = [
     }),
     AbpHttpModule,
     InfiniteScrollModule,
-
-    // Bootstrap
-    CollapseModule.forRoot(),
-
-    // Angular Map
+    DragulaModule,
+    StickyModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBWXu4fJp8B_LF0jOD1-saNJDb4HJx7wHE',
       libraries: ['places']
-    })
+    }),
+    DateTimePickerModule,
+
+    // Bootstrap
+    CollapseModule.forRoot(),
+    PopoverModule.forRoot(),
+    TimepickerModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    GoogleMapsAPIWrapper
+  ],
   bootstrap: [
     AppComponent
   ]

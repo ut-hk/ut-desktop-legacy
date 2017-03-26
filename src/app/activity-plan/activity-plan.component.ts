@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
 import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
 import { ActivatedRoute } from '@angular/router';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
+
 
 @Component({
   selector: 'app-activity-plan',
@@ -11,24 +13,44 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ActivityPlanComponent implements OnInit {
 
+  public activityPlanId: string;
   public activityPlan: ActivityPlanDto;
+  public createTextCommentInput: CreateTextCommentInput = {
+    content: ''
+  };
 
-  constructor(private route: ActivatedRoute, private activityPlanService: App_activityPlanApi) {
+  constructor(private route: ActivatedRoute,
+              private activityPlanService: App_activityPlanApi,
+              private commentService: App_commentApi) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = params['id'];
 
-      this.activityPlanService
-        .appActivityPlanGetActivityPlan({id: id})
-        .subscribe((output) => {
-          this.activityPlan = output.activityPlan;
-          console.log(output.activityPlan.owner);
-        });
+      this.activityPlanId = id;
+      this.createTextCommentInput.activityPlanId = id;
+
+      this.getActivityPlan();
     });
+  }
 
+  public onClickTextComment() {
+    this.commentService
+      .appCommentCreateTextComment(this.createTextCommentInput)
+      .subscribe(output => {
+        this.getActivityPlan();
+      });
+  }
 
+  private getActivityPlan() {
+    this.createTextCommentInput.content = '';
+
+    this.activityPlanService
+      .appActivityPlanGetActivityPlan({id: this.activityPlanId})
+      .subscribe((output) => {
+        this.activityPlan = output.activityPlan;
+      });
   }
 
 }

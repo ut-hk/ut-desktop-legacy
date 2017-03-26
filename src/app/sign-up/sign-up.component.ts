@@ -1,10 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Http, Headers, URLSearchParams}                    from '@angular/http';
-import {RequestMethod, RequestOptions, RequestOptionsArgs} from '@angular/http';
-import {Response, ResponseContentType}                     from '@angular/http';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import {LogInInput} from "../../abp-http/ut-api-js-services/model/LogInInput";
+import { Component, OnInit } from '@angular/core';
+import { Http, Headers } from '@angular/http';
+import { RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,27 +16,22 @@ export class SignUpComponent implements OnInit {
     password: '',
     name: '',
     surname: ''
-  }
+  };
 
-  constructor(protected http: Http,private router: Router) {
-    console.log("Hello World");
-    console.log(this);
-
+  constructor(protected http: Http, private router: Router) {
   }
 
   ngOnInit() {
   }
 
   public register() {
-    console.log("ca");
-    let requestedUrl = 'http://unitime-dev-api.azurewebsites.net/Account/Register';
-    let headers = new Headers({'Content-Type': 'application/json'});
-    let options = new RequestOptions({headers: headers});
+    const requestedUrl = 'http://unitime-dev-api.azurewebsites.net/Account/Register';
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
 
     this.http.post(requestedUrl, this.SignUpInput, options).subscribe((output) => {
       this.router.navigate(['./world']);
     });
-
   }
 
 }
