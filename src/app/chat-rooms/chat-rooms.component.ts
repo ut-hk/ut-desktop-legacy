@@ -4,7 +4,6 @@ import { ChatRoomDto } from '../../abp-http/ut-api-js-services/model/ChatRoomDto
 import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/ChatRoomMessageDto';
 import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
 import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
-import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
 import { LocalStorageService } from 'angular-2-local-storage';
 

@@ -3,7 +3,7 @@ import { App_userApi } from '../abp-http/ut-api-js-services/api/App_userApi';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { UserDto } from '../abp-http/ut-api-js-services/model/UserDto';
 import { TokenService } from '../abp-http/http/token.service';
-import { NavigationStart, Router, RoutesRecognized } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
 import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGuid';
 
@@ -24,9 +24,7 @@ export class AppComponent implements OnInit {
               private tokenService: TokenService,
               private userService: App_userApi,
               private analysisService: App_analysisApi) {
-
-    this.myUser = this.localStorageService.get('myUser');
-    this.guest = localStorageService.get<EntityDtoGuid>('guest');
+    this.guest = this.localStorageService.get<EntityDtoGuid>('guest');
   }
 
   ngOnInit() {
@@ -42,6 +40,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof RoutesRecognized) {
         this.isCollapsed = true;
+        this.myUser = this.localStorageService.get('myUser');
 
         this.createHistory(event.urlAfterRedirects);
       }

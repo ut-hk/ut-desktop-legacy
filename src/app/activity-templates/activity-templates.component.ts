@@ -4,9 +4,6 @@ import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/Act
 import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/takeWhile';
-
 @Component({
   selector: 'app-activity-templates',
   templateUrl: './activity-templates.component.html',

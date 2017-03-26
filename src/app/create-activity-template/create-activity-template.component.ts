@@ -4,7 +4,6 @@ import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/A
 import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
 import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
 import { FormControl } from '@angular/forms';
-import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 
 declare var google: any;
