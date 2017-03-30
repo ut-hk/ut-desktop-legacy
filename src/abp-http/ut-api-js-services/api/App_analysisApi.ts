@@ -43,9 +43,10 @@ export class App_analysisApi {
     /**
      * 
      * 
+     * @param input 
      */
-    public appAnalysisCreateGuest(extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
-        return this.appAnalysisCreateGuestWithHttpInfo(extraHttpRequestParams)
+    public appAnalysisCreateLocationHistory(input: models.CreateLocationHistoryInput, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appAnalysisCreateLocationHistoryWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -74,10 +75,25 @@ export class App_analysisApi {
     /**
      * 
      * 
+     */
+    public appAnalysisGetAnaylsisInsights(extraHttpRequestParams?: any): Observable<models.GetAnalysisInsightsOutput> {
+        return this.appAnalysisGetAnaylsisInsightsWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
      * @param input 
      */
-    public appAnalysisMergeGuestWithOwner(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
-        return this.appAnalysisMergeGuestWithOwnerWithHttpInfo(input, extraHttpRequestParams)
+    public appAnalysisGetGuest(input: models.GetGuestInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
+        return this.appAnalysisGetGuestWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -91,12 +107,17 @@ export class App_analysisApi {
     /**
      * 
      * 
+     * @param input 
      */
-    public appAnalysisCreateGuestWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/analysis/CreateGuest`;
+    public appAnalysisCreateLocationHistoryWithHttpInfo(input: models.CreateLocationHistoryInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/analysis/CreateLocationHistory`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appAnalysisCreateLocationHistory.');
+        }
         // to determine the Content-Type header
         let consumes: string[] = [
         ];
@@ -105,9 +126,12 @@ export class App_analysisApi {
         let produces: string[] = [
         ];
 
+        headers.set('Content-Type', 'application/json');
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
 
@@ -161,16 +185,47 @@ export class App_analysisApi {
     /**
      * 
      * 
+     */
+    public appAnalysisGetAnaylsisInsightsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/analysis/GetAnaylsisInsights`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
      * @param input 
      */
-    public appAnalysisMergeGuestWithOwnerWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/analysis/MergeGuestWithOwner`;
+    public appAnalysisGetGuestWithHttpInfo(input: models.GetGuestInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/analysis/GetGuest`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appAnalysisMergeGuestWithOwner.');
+            throw new Error('Required parameter input was null or undefined when calling appAnalysisGetGuest.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [

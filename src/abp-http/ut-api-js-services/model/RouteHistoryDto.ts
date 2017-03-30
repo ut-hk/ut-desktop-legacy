@@ -12,9 +12,13 @@
 
 import * as models from './models';
 
-export interface GetMyUserOutput {
-    myUser?: models.UserDto;
+export interface RouteHistoryDto {
+    routeName?: string;
+
+    parameters?: string;
 
     guestId?: string;
+
+    creationTime?: Date;
 
 }

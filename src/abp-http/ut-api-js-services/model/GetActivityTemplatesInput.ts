@@ -25,6 +25,8 @@ export interface GetActivityTemplatesInput {
 
     latitude?: number;
 
+    distance?: number;
+
     maxResultCount?: number;
 
     skipCount?: number;
