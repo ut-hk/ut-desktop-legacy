@@ -19,20 +19,12 @@ export class AppComponent implements OnInit {
   public depth = -1;
 
   public myUser: UserDto = null;
-<<<<<<< HEAD
-  // public guest: EntityDtoGuid = null;
-  public depth = 0;
-=======
->>>>>>> 3f9d8dde14fe181efef0610280f4d0578d82785e
 
   constructor(private localStorageService: LocalStorageService,
               private router: Router,
               private tokenService: TokenService,
               private userService: App_userApi,
               private analysisService: App_analysisApi) {
-<<<<<<< HEAD
-    // this.guest = this.localStorageService.get<EntityDtoGuid>('guest');
-=======
     this.checkVersion();
   }
 
@@ -43,7 +35,6 @@ export class AppComponent implements OnInit {
       this.localStorageService.clearAll();
       this.localStorageService.set('version', environment.version);
     }
->>>>>>> 3f9d8dde14fe181efef0610280f4d0578d82785e
   }
 
   ngOnInit() {
@@ -109,32 +100,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
-<<<<<<< HEAD
-  private createHistory(urlAfterRedirects: string): void {
-    // const parameters = {
-    //   depth: this.depth
-    // };
-    //
-    // if (this.guest != null) {
-    //   this.analysisService.appAnalysisCreateRouteHistory({
-    //     guestId: this.guest.id,
-    //     routeName: urlAfterRedirects,
-    //     parameters: JSON.stringify(parameters)
-    //   });
-    // } else {
-    //   this.createGuest();
-    // }
-    //
-    // this.depth = this.depth + 1;
-  }
 
-  private createGuest(): void {
-    // this.analysisService.appAnalysisCreateGuest({})
-    //   .subscribe((output) => {
-    //     this.localStorageService.add('guest', output);
-    //     this.guest = output;
-    //   });
-=======
     const parameters = {
       depth: this.depth
     };
@@ -146,6 +112,5 @@ export class AppComponent implements OnInit {
     }).subscribe(() => {
       subscription.unsubscribe();
     });
->>>>>>> 3f9d8dde14fe181efef0610280f4d0578d82785e
   }
 }
