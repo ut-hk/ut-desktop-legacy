@@ -30,7 +30,7 @@ export class LogInComponent implements OnInit {
   }
 
   public logIn() {
-    this.accountService
+    const subscription = this.accountService
       .accountAuthenticateWithHttpInfo(this.logInInput)
       .flatMap((output) => {
         this.tokenService.setToken(output['_body']);
@@ -40,7 +40,11 @@ export class LogInComponent implements OnInit {
       })
       .subscribe((output) => {
         this.localStorageService.set('myUser', output.myUser);
+        this.localStorageService.set('userGuestId', output.guestId);
+
         this.router.navigate(['./world']);
+
+        subscription.unsubscribe();
       });
   }
 

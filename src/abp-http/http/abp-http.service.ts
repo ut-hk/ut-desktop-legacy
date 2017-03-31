@@ -8,10 +8,6 @@ import { LogService } from './log.service';
 import { TokenService } from './token.service';
 import { UtilsService } from './utils.service';
 
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-
-
 export interface IValidationErrorInfo {
 
   message: string;

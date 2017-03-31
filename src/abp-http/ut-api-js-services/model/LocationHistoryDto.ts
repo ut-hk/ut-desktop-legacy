@@ -12,9 +12,9 @@
 
 import * as models from './models';
 
-export interface GetMyUserOutput {
-    myUser?: models.UserDto;
+export interface LocationHistoryDto {
+    longitude?: number;
 
-    guestId?: string;
+    latitude?: number;
 
 }

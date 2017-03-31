@@ -12,9 +12,9 @@
 
 import * as models from './models';
 
-export interface GetMyUserOutput {
-    myUser?: models.UserDto;
+export interface GetAnalysisInsightsOutput {
+    routeHistories?: Array<models.RouteHistoryDto>;
 
-    guestId?: string;
+    locationHistories?: Array<models.LocationHistoryDto>;
 
 }

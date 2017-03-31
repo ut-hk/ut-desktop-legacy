@@ -12,9 +12,7 @@
 
 import * as models from './models';
 
-export interface GetMyUserOutput {
-    myUser?: models.UserDto;
-
+export interface GetGuestInput {
     guestId?: string;
 
 }
