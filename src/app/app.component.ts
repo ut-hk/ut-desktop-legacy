@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   public isCollapsed = true;
   public myUser: UserDto = null;
-  public guest: EntityDtoGuid = null;
+  // public guest: EntityDtoGuid = null;
   public depth = 0;
 
   constructor(private localStorageService: LocalStorageService,
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
               private tokenService: TokenService,
               private userService: App_userApi,
               private analysisService: App_analysisApi) {
-    this.guest = this.localStorageService.get<EntityDtoGuid>('guest');
+    // this.guest = this.localStorageService.get<EntityDtoGuid>('guest');
   }
 
   ngOnInit() {
@@ -58,28 +58,28 @@ export class AppComponent implements OnInit {
   }
 
   private createHistory(urlAfterRedirects: string): void {
-    const parameters = {
-      depth: this.depth
-    };
-
-    if (this.guest != null) {
-      this.analysisService.appAnalysisCreateRouteHistory({
-        guestId: this.guest.id,
-        routeName: urlAfterRedirects,
-        parameters: JSON.stringify(parameters)
-      });
-    } else {
-      this.createGuest();
-    }
-
-    this.depth = this.depth + 1;
+    // const parameters = {
+    //   depth: this.depth
+    // };
+    //
+    // if (this.guest != null) {
+    //   this.analysisService.appAnalysisCreateRouteHistory({
+    //     guestId: this.guest.id,
+    //     routeName: urlAfterRedirects,
+    //     parameters: JSON.stringify(parameters)
+    //   });
+    // } else {
+    //   this.createGuest();
+    // }
+    //
+    // this.depth = this.depth + 1;
   }
 
   private createGuest(): void {
-    this.analysisService.appAnalysisCreateGuest({})
-      .subscribe((output) => {
-        this.localStorageService.add('guest', output);
-        this.guest = output;
-      });
+    // this.analysisService.appAnalysisCreateGuest({})
+    //   .subscribe((output) => {
+    //     this.localStorageService.add('guest', output);
+    //     this.guest = output;
+    //   });
   }
 }
