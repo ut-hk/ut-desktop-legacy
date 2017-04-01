@@ -66,6 +66,7 @@ export * from './GetTagsInput';
 export * from './GetTagsOutput';
 export * from './GetTrackedByUsersOutput';
 export * from './GetTrackingUsersOutput';
+export * from './GetUserOutput';
 export * from './ListResultDtoTenantListDto';
 export * from './LocationDto';
 export * from './LocationHistoryDto';
