@@ -17,41 +17,54 @@ export class UserComponent implements OnInit {
   id: number;
   private sub;
 
+  private checkMyUser() {
+    const storedMyUser = localStorage.getItem('myUser');
+    let isMyUser: boolean;
+    // console.log(this.id);
+    // console.log(JSON.parse(storedMyUser).id);
+
+    if (this.id === JSON.parse(storedMyUser).id) {
+      isMyUser = true;
+    } else {
+      isMyUser = false;
+    }
+    console.log("isMyUser:" + isMyUser);
+    return isMyUser;
+  }
+
   constructor(private route: ActivatedRoute,
               private activityService: App_activityApi,
               private userService: App_userApi) {
   }
 
   ngOnInit() {
-    this.activityService
-      .appActivityGetMyActivities({})
-      .subscribe((output) => {
-        this.myActivities = output.myActivities;
-        console.log(this.myActivities);
-
-      });
-
     this.userService
       .appUserGetMyUser()
       .subscribe((output) => {
         this.myUser = output.myUser;
-        console.log(this.myUser.id);
-        // if (this.id === this.myUser.id) {
-        //   console.log(1);
-        // }
+        localStorage.setItem('myUser', JSON.stringify(this.myUser));
       });
 
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id'];
     });
 
-    // console.log('stateparam' + this.id);
+    // this.checkMyUser();
+
+    if (this.checkMyUser() === true) {
+      this.activityService
+        .appActivityGetMyActivities({})
+        .subscribe((output) => {
+          this.myActivities = output.myActivities;
+          console.log(this.myActivities);
+        });
+    } else {
+      // Get Another Users' Activities
+    }
+
 
   }
 
-  // private checkUser() {
-  //
-  // }
 
 
 }
