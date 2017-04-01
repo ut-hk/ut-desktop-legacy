@@ -92,6 +92,18 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
+  public onClickDeleteATimeSlot(index) {
+    if (index > -1) {
+      this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
+    }
+  }
+
+  public onClickDeleteADescription(index) {
+    if (index > -1) {
+      this.createTextDescriptionInputs.splice(index, 1);
+    }
+  }
+
   public createActivityTemplate() {
     this.activityTemplateService
       .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
