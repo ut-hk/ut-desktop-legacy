@@ -4,3 +4,9 @@
   width: 100%;
   min-height: 300px;
 }
+
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
