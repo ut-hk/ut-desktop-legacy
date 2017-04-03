@@ -36,6 +36,8 @@ export class UpdateUserComponent implements OnInit {
           birthday: myUser.birthday,
           coverId: myUser.coverId
         };
+
+        getMyUserSubscription.unsubscribe();
       });
   }
 
