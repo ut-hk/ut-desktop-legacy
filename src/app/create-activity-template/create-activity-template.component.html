@@ -22,17 +22,15 @@
           <label class="col-md-3 control-label">Reference Time Slots</label>
           <div class="col-md-9">
             <div *ngFor="let timeSlot of createActivityTemplateInput.referenceTimeSlots; let i = index;" class="row" style="margin-bottom: 5px;">
-              <div class="col-xs-6">
+              <div class="col-xs-5">
                 <input class="form-control" [ngModel]="timeSlot.startTime | date: 'short'" [(dateTimePicker)]="timeSlot.startTime" [mode]="'dropdown'" readonly>
               </div>
-              <div class="col-xs-6">
+              <div class="col-xs-5">
                 <input class="form-control" [ngModel]="timeSlot.endTime | date: 'short'" [(dateTimePicker)]="timeSlot.endTime" [mode]="'dropdown'" readonly>
               </div>
-              <div class="row">
-                <div class="col-xs-10 col-sm-11"></div>
-                <div class="col-lg-1">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteATimeSlot(i)"></span>
-                </div>
+
+              <div class="col-xs-2">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteATimeSlot(i)"></span>
               </div>
             </div>
 

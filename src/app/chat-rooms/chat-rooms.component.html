@@ -4,7 +4,7 @@
       <h1 class="h2">Chat Rooms</h1>
     </div>
 
-    <div class="buddy-list-buddy">
+    <div class="buddy-list-buddy" *ngIf="chatRooms">
       <div class="buddy" *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id">
         <p class="h4" (click)="onClickChatRoom(chatRoom)">{{chatRoom.name}}</p>
       </div>
