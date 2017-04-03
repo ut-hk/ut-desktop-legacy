@@ -19,7 +19,7 @@ export class UserComponent implements OnInit {
 
   public isMyUser = false;
   public activities: ActivityDto[] = [];
-  public activityTemplats: ActivityTemplateDto[] = [];
+  public activityTemplates: ActivityTemplateDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
   public user: UserDto;
   public gender: string;
@@ -124,13 +124,13 @@ export class UserComponent implements OnInit {
 
 
     const getActivityTemplatesSubscription = this.activityTemplateService
-      .appActivityTemplateGetActivityTemplates({userId: id})
+      .appActivityTemplateGetActivityTemplates({userId: id, maxResultCount: 9})
       .subscribe(output => {
         const activitiyTemplates = output.activityTemplates;
 
         console.log(activitiyTemplates.length);
         for (let i = 0; i < activitiyTemplates.length; i++) {
-          this.activities.push(activitiyTemplates[i]);
+          this.activityTemplates.push(activitiyTemplates[i]);
           // console.log(activitiyTemplates[i]);
         }
 
@@ -139,13 +139,13 @@ export class UserComponent implements OnInit {
 
 
     const getActivityPlansSubscription = this.activityPlanService
-      .appActivityPlanGetActivityPlans({userId: id})
+      .appActivityPlanGetActivityPlans({userId: id, maxResultCount: 9})
       .subscribe(output => {
         const activityPlans = output.activityPlans;
 
         console.log(activityPlans.length);
         for (let i = 0; i < activityPlans.length; i++) {
-          this.activities.push(activityPlans[i]);
+          this.activityPlans.push(activityPlans[i]);
           // console.log(activityPlans[i]);
         }
 
