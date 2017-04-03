@@ -3,6 +3,7 @@ import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/A
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
 import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
+import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
 
 @Component({
   selector: 'app-activity-templates',
@@ -21,7 +22,7 @@ export class ActivityTemplatesComponent implements OnInit {
     skipCount: 0
   };
 
-  public activityTemplates: ActivityTemplateDto[] = [];
+  public activityTemplates: ActivityTemplateListDto[] = [];
 
   private isAlive = true;
 

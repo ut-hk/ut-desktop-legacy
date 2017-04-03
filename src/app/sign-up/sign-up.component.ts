@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
+import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
+import { TokenService } from '../../abp-http/http/token.service';
+import { SignUpInput } from '../../abp-http/ut-api-js-services/model/SignUpInput';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
 
-  public SignUpInput = {
+  public signUpInput: SignUpInput = {
     userName: '',
     emailAddress: '',
     password: '',
@@ -18,20 +21,22 @@ export class SignUpComponent implements OnInit {
     surname: ''
   };
 
-  constructor(protected http: Http, private router: Router) {
+  constructor(private router: Router,
+              private accountService: AccountApi,
+              private tokenService: TokenService) {
   }
 
   ngOnInit() {
   }
 
-  public register() {
-    const requestedUrl = 'http://unitime-dev-api.azurewebsites.net/Account/Register';
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
+  public signUp() {
+    this.accountService
+      .accountSignUpWithHttpInfo(this.signUpInput)
+      .subscribe(output => {
+        this.tokenService.setToken(output.text());
 
-    this.http.post(requestedUrl, this.SignUpInput, options).subscribe((output) => {
-      this.router.navigate(['./world']);
-    });
+        this.router.navigate(['./sign-up-profile']);
+      });
   }
 
 }

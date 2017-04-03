@@ -21,10 +21,12 @@
         <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
              [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
       </a>
-      <h2 class="h3 title"><a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
+      <h2 class="h3 title">
+        <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
       </h2>
-      <p class="text-left" *ngIf="activityTemplate.referenceTimeSlots.length > 0">
-        {{activityTemplate.referenceTimeSlots[0].startTime | date : 'medium'}}</p>
+      <p>{{activityTemplate.coverTextDescription.content}}</p>
+      <!--<p class="text-left" *ngIf="activityTemplate.referenceTimeSlots.length > 0">-->
+        <!--{{activityTemplate.referenceTimeSlots[0].startTime | date : 'medium'}}</p>-->
       <p class="text-right">Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></p>
     </div>
   </div>

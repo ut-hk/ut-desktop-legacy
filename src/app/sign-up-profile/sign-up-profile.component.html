@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="col-sm-12">
+
+    <div *ngIf="alerts">
+      <alert *ngFor="let alert of alerts" [type]="alert.type" dismissible="true">{{alert.message}}</alert>
+    </div>
+
+    <div class="form-horizontal" *ngIf="updateMyUserInput">
+
+      <div class="form-group">
+        <label for="phoneNumber" class="col-sm-2 control-label">Phone Number</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" id="phoneNumber" placeholder="Phone Number" [(ngModel)]="updateMyUserInput.phoneNumber">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="gender" class="col-sm-2 control-label">Gender</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" id="gender" placeholder="Gender" [(ngModel)]="updateMyUserInput.gender">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="birthday" class="col-sm-2 control-label">Birthday</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="birthday" [ngModel]="updateMyUserInput.birthday | date: 'longDate'" [(dateTimePicker)]="updateMyUserInput.birthday" [pickerType]="'date'" [mode]="'dropdown'" readonly>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+          <button type="submit" class="btn btn-primary" (click)="updateMyUser()">Update</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<br>
+<br>
+<br>

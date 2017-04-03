@@ -31,6 +31,7 @@ import { CreateActivityTemplateComponent } from './create-activity-template/crea
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { DateTimePickerModule } from 'ng2-date-time-picker';
+import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -47,7 +48,9 @@ const appRoutes: Routes = [
   {path: 'update-user', component: UpdateUserComponent},
 
   {path: 'log-in', component: LogInComponent},
+
   {path: 'sign-up', component: SignUpComponent},
+  {path: 'sign-up-profile', component: SignUpProfileComponent},
 
   {path: 'chat-rooms', component: ChatRoomsComponent},
 
@@ -73,6 +76,7 @@ const appRoutes: Routes = [
     CreateActivityTemplateComponent,
     UserComponent,
     UpdateUserComponent,
+    SignUpProfileComponent,
   ],
   imports: [
     BrowserModule,

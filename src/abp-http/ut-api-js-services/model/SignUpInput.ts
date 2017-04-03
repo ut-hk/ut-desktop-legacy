@@ -12,19 +12,17 @@
 
 import * as models from './models';
 
-export interface ActivityPlanDto {
-    name?: string;
+export interface SignUpInput {
+    tenancyName?: string;
 
-    tags?: Array<models.TagDto>;
+    name: string;
 
-    timeSlots?: Array<models.ActivityPlanTimeSlotDto>;
+    surname: string;
 
-    comments?: Array<models.CommentDto>;
+    userName?: string;
 
-    ratings?: Array<models.RatingDto>;
+    emailAddress: string;
 
-    owner?: models.UserListDto;
-
-    id?: string;
+    password?: string;
 
 }

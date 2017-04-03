@@ -12,16 +12,16 @@
 
 import * as models from './models';
 
-export interface ActivityPlanDto {
+export interface ActivityTemplateListDto {
     name?: string;
 
+    coverImageDescription?: models.DescriptionDto;
+
+    coverTextDescription?: models.DescriptionDto;
+
+    location?: models.LocationDto;
+
     tags?: Array<models.TagDto>;
-
-    timeSlots?: Array<models.ActivityPlanTimeSlotDto>;
-
-    comments?: Array<models.CommentDto>;
-
-    ratings?: Array<models.RatingDto>;
 
     owner?: models.UserListDto;
 

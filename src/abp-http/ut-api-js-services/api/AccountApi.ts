@@ -43,10 +43,26 @@ export class AccountApi {
     /**
      * 
      * 
-     * @param logInInput 
+     * @param input 
      */
-    public accountAuthenticate(logInInput: models.LogInInput, extraHttpRequestParams?: any): Observable<models.AjaxResponse> {
-        return this.accountAuthenticateWithHttpInfo(logInInput, extraHttpRequestParams)
+    public accountLogIn(input: models.LogInInput, extraHttpRequestParams?: any): Observable<models.AjaxResponse> {
+        return this.accountLogInWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public accountSignUp(input: models.SignUpInput, extraHttpRequestParams?: any): Observable<models.AjaxResponse> {
+        return this.accountSignUpWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -60,16 +76,16 @@ export class AccountApi {
     /**
      * 
      * 
-     * @param logInInput 
+     * @param input 
      */
-    public accountAuthenticateWithHttpInfo(logInInput: models.LogInInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/Account`;
+    public accountLogInWithHttpInfo(input: models.LogInInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/Account/LogIn`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'logInInput' is not null or undefined
-        if (logInInput === null || logInInput === undefined) {
-            throw new Error('Required parameter logInInput was null or undefined when calling accountAuthenticate.');
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling accountLogIn.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -89,7 +105,51 @@ export class AccountApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: logInInput == null ? '' : JSON.stringify(logInInput), // https://github.com/angular/angular/issues/10612
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public accountSignUpWithHttpInfo(input: models.SignUpInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/Account/SignUp`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling accountSignUp.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json', 
+            'text/json', 
+            'application/x-www-form-urlencoded'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'text/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
 

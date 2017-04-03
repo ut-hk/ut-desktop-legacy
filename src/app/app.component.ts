@@ -52,6 +52,12 @@ export class AppComponent implements OnInit {
   public expanded(event: any): void {
   }
 
+  public logOut() {
+    this.tokenService.clearToken();
+
+    this.router.navigate(['./log-in']);
+  }
+
   private initializeMyUser() {
     if (this.tokenService.getToken()) {
       const subscription = this.userService
