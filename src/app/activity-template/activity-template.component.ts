@@ -24,14 +24,15 @@ export class ActivityTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const id = params['id'];
+    this.route.params
+      .subscribe(params => {
+        const id = params['id'];
 
-      this.activityTemplateId = id;
-      this.createTextCommentInput.activityTemplateId = id;
+        this.activityTemplateId = id;
+        this.createTextCommentInput.activityTemplateId = id;
 
-      this.getActivityTemplate();
-    });
+        this.getActivityTemplate();
+      });
   }
 
   public onClickAddToMyActivities() {

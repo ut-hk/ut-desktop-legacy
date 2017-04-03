@@ -85,6 +85,7 @@ export * from './UpdateActivityTemplateInput';
 export * from './UpdateChatRoomInput';
 export * from './UpdateDescriptionInput';
 export * from './UpdateMyUserInput';
+export * from './UpdateMyUserPasswordInput';
 export * from './UpdateTextDescriptionInput';
 export * from './UserDto';
 export * from './UserListDto';
