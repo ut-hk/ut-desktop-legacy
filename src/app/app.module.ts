@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
+import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
@@ -44,7 +44,7 @@ const appRoutes: Routes = [
   {path: 'create-activity', component: CreateActivityComponent},
 
   {path: 'user/:id', component: UserComponent},
-  {path: 'update-user/:id', component: UpdateUserComponent},
+  {path: 'update-user', component: UpdateUserComponent},
 
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent},
@@ -98,7 +98,9 @@ const appRoutes: Routes = [
     // Bootstrap
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     GoogleMapsAPIWrapper
