@@ -25,8 +25,7 @@
         <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
       </h2>
       <p>{{activityTemplate.coverTextDescription.content}}</p>
-      <!--<p class="text-left" *ngIf="activityTemplate.referenceTimeSlots.length > 0">-->
-        <!--{{activityTemplate.referenceTimeSlots[0].startTime | date : 'medium'}}</p>-->
+      <p class="text-left">{{activityTemplate.startTime | date : 'medium'}}</p>
       <p class="text-right">Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></p>
     </div>
   </div>

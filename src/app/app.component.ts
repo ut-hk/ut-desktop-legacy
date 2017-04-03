@@ -55,6 +55,10 @@ export class AppComponent implements OnInit {
   public logOut() {
     this.tokenService.clearToken();
 
+    this.localStorageService.remove('myUser');
+    this.localStorageService.remove('userGuestId');
+    this.localStorageService.remove('anonymousGuestId');
+
     this.router.navigate(['./log-in']);
   }
 
@@ -105,7 +109,6 @@ export class AppComponent implements OnInit {
     if (guestId == null) {
       return;
     }
-
 
     const parameters = {
       depth: this.depth

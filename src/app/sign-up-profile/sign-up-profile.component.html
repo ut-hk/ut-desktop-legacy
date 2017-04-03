@@ -1,10 +1,6 @@
 <div class="container">
   <div class="col-sm-12">
 
-    <div *ngIf="alerts">
-      <alert *ngFor="let alert of alerts" [type]="alert.type" dismissible="true">{{alert.message}}</alert>
-    </div>
-
     <div class="form-horizontal" *ngIf="updateMyUserInput">
 
       <div class="form-group">

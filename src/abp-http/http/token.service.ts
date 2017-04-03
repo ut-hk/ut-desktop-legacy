@@ -19,9 +19,6 @@ export class TokenService {
 
   clearToken(): void {
     this.localStorageService.remove('token');
-
-    this.localStorageService.remove('myUser');
-    this.localStorageService.remove('userGuestId');
   }
 
 }

@@ -13,6 +13,8 @@
 import * as models from './models';
 
 export interface ActivityTemplateListDto {
+    startTime?: Date;
+
     name?: string;
 
     coverImageDescription?: models.DescriptionDto;

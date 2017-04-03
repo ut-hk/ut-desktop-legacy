@@ -24,7 +24,7 @@
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
         <li><a routerLink="/create-activity" routerLinkActive="active">Create Activity</a></li>
-        <li dropdown class="dropdown open">
+        <li dropdown class="dropdown">
           <a dropdownToggle class="dropdown-toggle" role="button">{{myUser.name}} <span class="caret"></span></a>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li><a routerLink="/user/{{myUser.id}}">User Page</a></li>

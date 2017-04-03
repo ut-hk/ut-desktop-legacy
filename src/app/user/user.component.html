@@ -9,9 +9,11 @@
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
       <br>
     </div>
-    <div class="col-sm-2"><a href="/users" class="pull-right">
-      <img title="profile image" class="img-circle img-responsive" [src]="user"
-           onError="this.src = './assets/noFoundProfilePicture.png';"></a>
+    <div class="col-sm-2">
+      <a href="/users" class="pull-right">
+        <img title="profile image" class="img-circle img-responsive" [src]="user"
+             onError="this.src = './assets/noFoundProfilePicture.png';">
+      </a>
     </div>
   </div>
   <br>

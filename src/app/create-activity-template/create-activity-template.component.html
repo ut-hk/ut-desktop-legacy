@@ -30,7 +30,9 @@
               </div>
 
               <div class="col-xs-2">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteATimeSlot(i)"></span>
+                <div class="text-right">
+                  <button class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteATimeSlot(i)"></span></button>
+                </div>
               </div>
             </div>
 
@@ -41,11 +43,14 @@
           <label class="col-md-3 control-label">Descriptions</label>
           <div class="col-md-9">
             <div *ngFor="let createTextDescriptionInput of createTextDescriptionInputs; let i = index;" style="margin-bottom: 5px;">
-              <textarea class="form-control" placeholder="Please enter your description" [(ngModel)]="createTextDescriptionInput.text"></textarea>
               <div class="row">
-                <div class="col-xs-10 col-sm-11"></div>
+                <div class="col-xs-11">
+                  <textarea class="form-control" placeholder="Please enter your description" [(ngModel)]="createTextDescriptionInput.text"></textarea>
+                </div>
                 <div class="col-xs-1">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteADescription(i)"></span>
+                  <div class="text-right">
+                    <button class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteADescription(i)"></span></button>
+                  </div>
                 </div>
               </div>
             </div>
