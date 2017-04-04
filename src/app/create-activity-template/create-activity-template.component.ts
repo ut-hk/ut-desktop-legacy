@@ -1,10 +1,13 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef, Directive } from '@angular/core';
+import {Component, OnInit, NgZone, ViewChild, ElementRef, Directive} from '@angular/core';
 
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
-import { FormControl } from '@angular/forms';
-import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
+import {MouseEvent, MapsAPILoader} from 'angular2-google-maps/core';
+import {FormControl} from '@angular/forms';
+import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+
+
+import {FileUploader} from 'ng2-file-upload';
 
 declare var google: any;
 
@@ -45,6 +48,10 @@ export class CreateActivityTemplateComponent implements OnInit {
     locationId: ''
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
+
+  // public uploader: FileUploader = new FileUploader({url: URL});
+  public hasBaseDropZoneOver = false;
+  public hasAnotherDropZoneOver = false;
 
   constructor(private activityTemplateService: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
@@ -149,4 +156,14 @@ export class CreateActivityTemplateComponent implements OnInit {
     this.map.lng = lng;
     this.map.zoom = 13;
   }
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
+
+
 }
