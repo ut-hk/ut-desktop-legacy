@@ -4,6 +4,7 @@ import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/Act
 import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
 
 @Component({
   selector: 'app-activity-templates',
@@ -26,7 +27,8 @@ export class ActivityTemplatesComponent implements OnInit {
 
   private isAlive = true;
 
-  constructor(private activityTemplateService: App_activityTemplateApi) {
+  constructor(private activityTemplateService: App_activityTemplateApi,
+              private ratingService: App_ratingApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
@@ -48,11 +50,20 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onClickLike(activityTemplate: ActivityTemplateListDto) {
+    const createRatingSubscription = this.ratingService
+      .appRatingCreateRating({ratingStatus: 0, activityTemplateId: activityTemplate.id})
+      .subscribe(output => {
+        createRatingSubscription.unsubscribe();
+      });
   }
 
   public onClickDislike(activityTemplate: ActivityTemplateListDto) {
+    const createRatingSubscription = this.ratingService
+      .appRatingCreateRating({ratingStatus: 1, activityTemplateId: activityTemplate.id})
+      .subscribe(output => {
+        createRatingSubscription.unsubscribe();
+      });
   }
-
 
   private onQueryKeywordsChanged() {
     this.isLoading = false;
