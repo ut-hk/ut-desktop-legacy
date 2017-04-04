@@ -5,9 +5,14 @@ import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/mod
 import {MouseEvent, MapsAPILoader} from 'angular2-google-maps/core';
 import {FormControl} from '@angular/forms';
 import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import {URL} from '../../environments/environment';
 
 
-import {FileUploader} from 'ng2-file-upload';
+import {
+  FileSelectDirective,
+  FileDropDirective,
+  FileUploader
+} from 'ng2-file-upload';
 
 declare var google: any;
 
@@ -26,7 +31,7 @@ interface Marker {
 @Component({
   selector: 'app-create-activity-template',
   templateUrl: './create-activity-template.component.html',
-  styleUrls: ['./create-activity-template.component.scss'],
+  styleUrls: ['./create-activity-template.component.scss']
 })
 export class CreateActivityTemplateComponent implements OnInit {
 
@@ -49,9 +54,9 @@ export class CreateActivityTemplateComponent implements OnInit {
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 
-  // public uploader: FileUploader = new FileUploader({url: URL});
-  public hasBaseDropZoneOver = false;
-  public hasAnotherDropZoneOver = false;
+  public uploader: FileUploader = new FileUploader({url: URL});
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
 
   constructor(private activityTemplateService: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
@@ -112,6 +117,7 @@ export class CreateActivityTemplateComponent implements OnInit {
   }
 
   public createActivityTemplate() {
+    this.upload();
     this.activityTemplateService
       .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
       .flatMap((output) => this.activityTemplateService.appActivityTemplateGetActivityTemplate({id: output.id}))
@@ -155,6 +161,11 @@ export class CreateActivityTemplateComponent implements OnInit {
     this.map.lat = lat;
     this.map.lng = lng;
     this.map.zoom = 13;
+  }
+
+  public upload() {
+    console.log(this.uploader.uploadAll());
+    this.uploader.clearQueue();
   }
 
   public fileOverBase(e: any): void {

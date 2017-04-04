@@ -46,7 +46,7 @@ export class ChatRoomsComponent implements OnInit {
       });
   }
 
-  onClickChatRoom(chatRoom: ChatRoom) {
+  public onClickChatRoom(chatRoom: ChatRoom) {
     this.chatRoomMessageService
       .appChatRoomMessageGetChatRoomMessages({
         chatRoomId: chatRoom.id,
@@ -62,11 +62,12 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
+        console.log(this.selectedChatRoom);
         this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
       });
   }
 
-  onClickSendMessage() {
+  public onClickSendMessage() {
     this.createTextChatRoomMessageInput.chatRoomId = this.selectedChatRoom.id;
 
     this.chatRoomMessageService
