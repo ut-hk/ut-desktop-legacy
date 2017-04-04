@@ -47,6 +47,13 @@ export class ActivityTemplatesComponent implements OnInit {
     }
   }
 
+  public onClickLike(activityTemplate: ActivityTemplateListDto) {
+  }
+
+  public onClickDislike(activityTemplate: ActivityTemplateListDto) {
+  }
+
+
   private onQueryKeywordsChanged() {
     this.isLoading = false;
     this.isNoMoreResults = false;

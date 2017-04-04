@@ -32,6 +32,7 @@ import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { DateTimePickerModule } from 'ng2-date-time-picker';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
+import { TruncatePipe } from './truncate.pipe';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -77,6 +78,7 @@ const appRoutes: Routes = [
     UserComponent,
     UpdateUserComponent,
     SignUpProfileComponent,
+    TruncatePipe,
   ],
   imports: [
     BrowserModule,

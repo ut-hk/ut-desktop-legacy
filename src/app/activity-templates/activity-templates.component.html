@@ -17,14 +17,17 @@
   <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
     <div class="activity-template col-xs-12 col-sm-6"
          *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
-      <a class="cover" routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">
+      <div class="cover">
         <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
-             [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
-      </a>
+             [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}">
+          <a class="like" (click)="onClickLike(activityTemplate)"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <a class="dislike" (click)="onClickDislike(activityTemplate)"><i class="fa fa-ban" aria-hidden="true"></i></a>
+        </div>
+      </div>
       <h2 class="h3 title">
-        <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
+        <a routerLink="/activity-template/{{activityTemplate.id}}">{{activityTemplate.name}}</a>
       </h2>
-      <p>{{activityTemplate.coverTextDescription.content}}</p>
+      <p>{{activityTemplate.coverTextDescription.content | truncate}}</p>
       <p class="text-left">{{activityTemplate.startTime | date : 'medium'}}</p>
       <p class="text-right">Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></p>
     </div>
