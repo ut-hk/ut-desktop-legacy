@@ -50,17 +50,25 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onClickLike(activityTemplate: ActivityTemplateListDto) {
+    const ratingStatus = 0;
+
     const createRatingSubscription = this.ratingService
-      .appRatingCreateRating({ratingStatus: 0, activityTemplateId: activityTemplate.id})
+      .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
       .subscribe(output => {
+        activityTemplate.myRatingStatus = ratingStatus;
+
         createRatingSubscription.unsubscribe();
       });
   }
 
   public onClickDislike(activityTemplate: ActivityTemplateListDto) {
+    const ratingStatus = 0;
+
     const createRatingSubscription = this.ratingService
-      .appRatingCreateRating({ratingStatus: 1, activityTemplateId: activityTemplate.id})
+      .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
       .subscribe(output => {
+        activityTemplate.myRatingStatus = ratingStatus;
+
         createRatingSubscription.unsubscribe();
       });
   }

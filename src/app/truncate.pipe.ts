@@ -6,10 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TruncatePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    console.log(value);
-
     const isChinese = value.indexOf(' ') === -1;
-    const defaultLimit = isChinese ? 50 : 180;
+    const defaultLimit = isChinese ? 50 : 140;
 
     const limit = (args != null) && args.length > 0 ? parseInt(args[0], defaultLimit) : defaultLimit;
     const trail = (args != null) && args.length > 1 ? args[1] : '...';

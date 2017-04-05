@@ -23,6 +23,8 @@ export interface ActivityListDto {
 
     coverTextDescription?: models.DescriptionDto;
 
+    myRatingStatus?: ActivityListDto.MyRatingStatusEnum;
+
     location?: models.LocationDto;
 
     tags?: Array<models.TagDto>;
@@ -31,4 +33,10 @@ export interface ActivityListDto {
 
     id?: string;
 
+}
+export namespace ActivityListDto {
+    export enum MyRatingStatusEnum {
+        NUMBER_0 = <any> 0,
+        NUMBER_1 = <any> 1
+    }
 }

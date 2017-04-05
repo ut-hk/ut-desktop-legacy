@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
-import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {ActivityDto} from '../../abp-http/ut-api-js-services/model/ActivityDto';
-import {ActivatedRoute} from '@angular/router';
-import {LocalStorageService} from 'angular-2-local-storage';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { Component, OnInit } from '@angular/core';
+import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { ActivityDto } from '../../abp-http/ut-api-js-services/model/ActivityDto';
+import { ActivatedRoute } from '@angular/router';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
+import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
 
 @Component({
   selector: 'app-user',
@@ -98,12 +98,9 @@ export class UserComponent implements OnInit {
             this.gender = 'Female';
             break;
           default:
-            this.gender = 'Not Provied';
+            this.gender = 'Not Provided';
             break;
-
         }
-
-        console.log(this.user);
 
         getUserSubscription.unsubscribe();
       });
@@ -113,10 +110,8 @@ export class UserComponent implements OnInit {
       .subscribe(output => {
         const activities = output.activities;
 
-        console.log(activities.length);
         for (let i = 0; i < activities.length; i++) {
           this.activities.push(activities[i]);
-          // console.log(activities[i]);
         }
 
         getActivitiesSubscription.unsubscribe();
@@ -126,12 +121,11 @@ export class UserComponent implements OnInit {
     const getActivityTemplatesSubscription = this.activityTemplateService
       .appActivityTemplateGetActivityTemplates({userId: id, maxResultCount: 9})
       .subscribe(output => {
-        const activitiyTemplates = output.activityTemplates;
+        const activityTemplates = output.activityTemplates;
 
-        console.log(activitiyTemplates.length);
-        for (let i = 0; i < activitiyTemplates.length; i++) {
-          this.activityTemplates.push(activitiyTemplates[i]);
-          // console.log(activitiyTemplates[i]);
+        console.log(activityTemplates.length);
+        for (let i = 0; i < activityTemplates.length; i++) {
+          this.activityTemplates.push(activityTemplates[i]);
         }
 
         getActivityTemplatesSubscription.unsubscribe();
@@ -143,10 +137,8 @@ export class UserComponent implements OnInit {
       .subscribe(output => {
         const activityPlans = output.activityPlans;
 
-        console.log(activityPlans.length);
         for (let i = 0; i < activityPlans.length; i++) {
           this.activityPlans.push(activityPlans[i]);
-          // console.log(activityPlans[i]);
         }
 
         getActivityPlansSubscription.unsubscribe();
