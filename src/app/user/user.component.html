@@ -9,11 +9,9 @@
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
       <br>
     </div>
-    <div class="col-sm-2">
-      <a href="/users" class="pull-right">
-        <img title="profile image" class="img-circle img-responsive" [src]="user"
-             onError="this.src = './assets/noFoundProfilePicture.png';">
-      </a>
+    <div class="col-sm-2 text-center">
+      <img class="img-circle img-responsive" style="display: inline-block; margin-top: 20px;"
+           [src]="user.iconId ? user.iconId : './assets/noFoundProfilePicture.png'">
     </div>
   </div>
   <br>
@@ -22,26 +20,26 @@
       <!--left col-->
       <ul class="list-group">
         <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-        <li class="list-group-item text-right truncate"><span class="pull-left"><strong
-          class="">Birthday</strong></span> {{user.birthday| date: 'dd/MM/yyyy'}}
+        <li class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Birthday</strong></span>
+          {{user.birthday| date: 'dd/MM/yyyy'}}
         </li>
-        <li *ngIf="user.emailAddress" class="list-group-item text-right truncate"><span class="pull-left"><strong
-          class="">Email</strong></span>
+        <li *ngIf="user.emailAddress" class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Email</strong></span>
           {{user.emailAddress}}
         </li>
-        <li class="list-group-item text-right truncate"><span class="pull-left"><strong class="">Gender</strong></span>
+        <li class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Gender</strong></span>
           {{gender}}
         </li>
-        <li class="list-group-item text-right truncate"><span class="pull-left"><strong
-          class="">Last seen</strong></span>
-          {{user.lastLoginTime| date:'medium'}}
+        <li class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Last seen</strong></span>
+          {{user.lastLoginTime | amTimeAgo}}
         </li>
       </ul>
 
       <ul class="list-group">
-        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i>
-
-        </li>
+        <li class="list-group-item text-muted">Activity</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
@@ -58,7 +56,7 @@
         </div>
       </div>
       <div class="panel panel-default target">
-        <div class="panel-heading" contenteditable="false">Activity Templatesß</div>
+        <div class="panel-heading" contenteditable="false">Activity Templates</div>
         <div class="panel-body">
 
           <div class="row" *ngIf="activityTemplates">
@@ -72,12 +70,7 @@
                   <h5 class="truncate">
                     <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
                   </h5>
-                  <p class="truncate">
-                    Default caption
-                  </p>
-                  <p>
-
-                  </p>
+                  <p class="truncate" *ngIf="activityTemplate.coverImageDescription">{{activityTemplate.coverTextDescription.content}}</p>
                 </div>
               </div>
             </div>

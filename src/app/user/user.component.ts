@@ -9,6 +9,8 @@ import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/A
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
 import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
 
 @Component({
   selector: 'app-user',
@@ -18,8 +20,8 @@ import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/Activit
 export class UserComponent implements OnInit {
 
   public isMyUser = false;
-  public activities: ActivityDto[] = [];
-  public activityTemplates: ActivityTemplateDto[] = [];
+  public activities: ActivityListDto[] = [];
+  public activityTemplates: ActivityTemplateListDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
   public user: UserDto;
   public gender: string;
