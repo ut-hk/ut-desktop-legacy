@@ -33,8 +33,7 @@ export class CreateActivityPlanComponent implements OnInit {
   public selectedActivityTemplates: CreateActivityPlanTimeSlotInput[] = [];
 
   constructor(private dragulaService: DragulaService,
-              private activityPlanService: App_activityPlanApi,
-              private activityTemplateService: App_activityTemplateApi) {
+              private activityTemplateApi: App_activityTemplateApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
@@ -79,7 +78,7 @@ export class CreateActivityPlanComponent implements OnInit {
     if (!this.isLoading) {
       this.isLoading = true;
 
-      this.activityTemplateService
+      this.activityTemplateApi
         .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
         .subscribe((output) => {
           if (output.activityTemplates.length === 0) {

@@ -8,7 +8,7 @@ import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activ
 })
 export class CreateActivityComponent implements OnInit {
 
-  constructor(private activityService: App_activityApi) { }
+  constructor(private activityApi: App_activityApi) { }
 
   ngOnInit() {
   }

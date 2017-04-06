@@ -16,7 +16,7 @@ export class FriendsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
-              private relationshipService: App_relationshipApi) {
+              private relationshipApi: App_relationshipApi) {
   }
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class FriendsComponent implements OnInit {
   }
 
   private getFriends(userId: number) {
-    const getFriendsSubscription = this.relationshipService
+    const getFriendsSubscription = this.relationshipApi
       .appRelationshipGetFriends({
         targetUserId: userId
       })

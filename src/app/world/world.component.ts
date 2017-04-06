@@ -23,7 +23,7 @@ export class WorldComponent implements OnInit {
 
   public activityPlans: ActivityPlanDto[] = [];
 
-  constructor(private activityPlanService: App_activityPlanApi) {
+  constructor(private activityPlanApi: App_activityPlanApi) {
   }
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class WorldComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.activityPlanService
+    this.activityPlanApi
       .appActivityPlanGetActivityPlans({})
       .subscribe((output) => {
         if (output.activityPlans.length === 0) {

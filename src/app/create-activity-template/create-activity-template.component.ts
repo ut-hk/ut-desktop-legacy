@@ -51,7 +51,7 @@ export class CreateActivityTemplateComponent implements OnInit {
   public hasBaseDropZoneOver = false;
   public hasAnotherDropZoneOver = false;
 
-  constructor(private activityTemplateService: App_activityTemplateApi,
+  constructor(private activityTemplateApi: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone) {
   }
@@ -111,9 +111,9 @@ export class CreateActivityTemplateComponent implements OnInit {
 
   public createActivityTemplate() {
     this.upload();
-    this.activityTemplateService
+    this.activityTemplateApi
       .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
-      .flatMap((output) => this.activityTemplateService.appActivityTemplateGetActivityTemplate({id: output.id}))
+      .flatMap((output) => this.activityTemplateApi.appActivityTemplateGetActivityTemplate({id: output.id}))
       .subscribe((output) => {
         console.log(output);
       });

@@ -21,8 +21,8 @@ export class LogInComponent implements OnInit {
 
   constructor(private tokenService: TokenService,
               private localStorageService: LocalStorageService,
-              private accountService: AccountApi,
-              private userService: App_userApi,
+              private accountApi: AccountApi,
+              private userApi: App_userApi,
               private router: Router) {
   }
 
@@ -30,12 +30,12 @@ export class LogInComponent implements OnInit {
   }
 
   public logIn() {
-    const subscription = this.accountService
+    const subscription = this.accountApi
       .accountLogInWithHttpInfo(this.logInInput)
       .flatMap((output) => {
         this.tokenService.setToken(output.text());
 
-        return this.userService
+        return this.userApi
           .appUserGetMyUser({});
       })
       .subscribe((output) => {

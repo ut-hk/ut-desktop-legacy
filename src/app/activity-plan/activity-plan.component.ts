@@ -20,8 +20,8 @@ export class ActivityPlanComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute,
-              private activityPlanService: App_activityPlanApi,
-              private commentService: App_commentApi) {
+              private activityPlanApi: App_activityPlanApi,
+              private commentApi: App_commentApi) {
   }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class ActivityPlanComponent implements OnInit {
   }
 
   public onClickTextComment() {
-    this.commentService
+    this.commentApi
       .appCommentCreateTextComment(this.createTextCommentInput)
       .subscribe(output => {
         this.getActivityPlan();
@@ -46,7 +46,7 @@ export class ActivityPlanComponent implements OnInit {
   private getActivityPlan() {
     this.createTextCommentInput.content = '';
 
-    this.activityPlanService
+    this.activityPlanApi
       .appActivityPlanGetActivityPlan({id: this.activityPlanId})
       .subscribe((output) => {
         this.activityPlan = output.activityPlan;

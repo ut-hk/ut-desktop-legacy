@@ -31,10 +31,10 @@ export class UserComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
-              private activityService: App_activityApi,
-              private activityTemplateService: App_activityTemplateApi,
-              private activityPlanService: App_activityPlanApi,
-              private userService: App_userApi) {
+              private activityApi: App_activityApi,
+              private activityTemplateApi: App_activityTemplateApi,
+              private activityPlanApi: App_activityPlanApi,
+              private userApi: App_userApi) {
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class UserComponent implements OnInit {
   }
 
   private getMyUserAndMyActivities() {
-    const getMyUserSubscription = this.userService
+    const getMyUserSubscription = this.userApi
       .appUserGetMyUser()
       .subscribe(output => {
         this.user = output.myUser;
@@ -79,7 +79,7 @@ export class UserComponent implements OnInit {
         getMyUserSubscription.unsubscribe();
       });
 
-    const getMyActivitiesSubscription = this.activityService
+    const getMyActivitiesSubscription = this.activityApi
       .appActivityGetMyActivities()
       .subscribe(output => {
         const activities = output.myActivities;
@@ -93,7 +93,7 @@ export class UserComponent implements OnInit {
   }
 
   private getUserAndActivities(id) {
-    const getUserSubscription = this.userService
+    const getUserSubscription = this.userApi
       .appUserGetUser({id: id})
       .subscribe(output => {
         this.user = output.user;
@@ -101,7 +101,7 @@ export class UserComponent implements OnInit {
         getUserSubscription.unsubscribe();
       });
 
-    const getActivitiesSubscription = this.activityService
+    const getActivitiesSubscription = this.activityApi
       .appActivityGetActivities({userId: id})
       .subscribe(output => {
         const activities = output.activities;
@@ -114,7 +114,7 @@ export class UserComponent implements OnInit {
       });
 
 
-    const getActivityTemplatesSubscription = this.activityTemplateService
+    const getActivityTemplatesSubscription = this.activityTemplateApi
       .appActivityTemplateGetActivityTemplates({userId: id, maxResultCount: 9})
       .subscribe(output => {
         const activityTemplates = output.activityTemplates;
@@ -128,7 +128,7 @@ export class UserComponent implements OnInit {
       });
 
 
-    const getActivityPlansSubscription = this.activityPlanService
+    const getActivityPlansSubscription = this.activityPlanApi
       .appActivityPlanGetActivityPlans({userId: id, maxResultCount: 9})
       .subscribe(output => {
         const activityPlans = output.activityPlans;

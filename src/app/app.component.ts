@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService,
               private router: Router,
               private tokenService: TokenService,
-              private userService: App_userApi,
-              private analysisService: App_analysisApi) {
+              private userApi: App_userApi,
+              private analysisApi: App_analysisApi) {
     this.checkVersion();
   }
 
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
 
   private initializeMyUser() {
     if (this.tokenService.getToken()) {
-      const subscription = this.userService
+      const subscription = this.userApi
         .appUserGetMyUser({})
         .subscribe((output) => {
           this.localStorageService.set('myUser', output.myUser);
@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
       const anonymousGuestId = this.localStorageService.get<string>('anonymousGuestId');
 
       if (anonymousGuestId == null) {
-        const subscription = this.analysisService.appAnalysisGetGuest({})
+        const subscription = this.analysisApi.appAnalysisGetGuest({})
           .subscribe((output) => {
             this.localStorageService.set('anonymousGuestId', output.id);
 
@@ -114,7 +114,7 @@ export class AppComponent implements OnInit {
       depth: this.depth
     };
 
-    const subscription = this.analysisService.appAnalysisCreateRouteHistory({
+    const subscription = this.analysisApi.appAnalysisCreateRouteHistory({
       guestId: guestId,
       routeName: urlAfterRedirects,
       parameters: JSON.stringify(parameters)

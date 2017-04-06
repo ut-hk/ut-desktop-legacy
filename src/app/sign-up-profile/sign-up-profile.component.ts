@@ -13,13 +13,13 @@ export class SignUpProfileComponent implements OnInit {
 
   public updateMyUserInput: UpdateMyUserInput;
 
-  constructor(private userService: App_userApi,
+  constructor(private userApi: App_userApi,
               private router: Router,
               private localStorageService: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.userService
+    this.userApi
       .appUserGetMyUser()
       .subscribe(output => {
         const myUser = output.myUser;
@@ -37,10 +37,10 @@ export class SignUpProfileComponent implements OnInit {
   }
 
   public updateMyUser() {
-    const updateMyUserSubscription = this.userService
+    const updateMyUserSubscription = this.userApi
       .appUserUpdateMyUser(this.updateMyUserInput)
       .flatMap(output => {
-        return this.userService
+        return this.userApi
           .appUserGetMyUser({});
       })
       .subscribe(output => {
