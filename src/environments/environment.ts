@@ -5,5 +5,7 @@
 
 export const environment = {
   production: false,
-  version: '0.1.8'
+  version: '0.2.0'
 };
+
+export const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 
 @Component({
   selector: 'app-create-activity',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateActivityComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activityService: App_activityApi) { }
 
   ngOnInit() {
   }
+
+
 
 }

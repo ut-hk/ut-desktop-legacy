@@ -12,19 +12,9 @@
 
 import * as models from './models';
 
-export interface ActivityPlanDto {
-    name?: string;
+export interface UpdateMyUserPasswordInput {
+    oldPassword?: string;
 
-    tags?: Array<models.TagDto>;
-
-    timeSlots?: Array<models.ActivityPlanTimeSlotDto>;
-
-    comments?: Array<models.CommentDto>;
-
-    ratings?: Array<models.RatingDto>;
-
-    owner?: models.UserListDto;
-
-    id?: string;
+    newPassword?: string;
 
 }

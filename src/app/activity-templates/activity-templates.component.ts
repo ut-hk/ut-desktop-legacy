@@ -3,6 +3,8 @@ import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/A
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
 import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
+import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
 
 @Component({
   selector: 'app-activity-templates',
@@ -21,11 +23,12 @@ export class ActivityTemplatesComponent implements OnInit {
     skipCount: 0
   };
 
-  public activityTemplates: ActivityTemplateDto[] = [];
+  public activityTemplates: ActivityTemplateListDto[] = [];
 
   private isAlive = true;
 
-  constructor(private activityTemplateService: App_activityTemplateApi) {
+  constructor(private activityTemplateService: App_activityTemplateApi,
+              private ratingService: App_ratingApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
@@ -44,6 +47,30 @@ export class ActivityTemplatesComponent implements OnInit {
     if (!this.isNoMoreResults) {
       this.getActivityTemplates();
     }
+  }
+
+  public onClickLike(activityTemplate: ActivityTemplateListDto) {
+    const ratingStatus = 0;
+
+    const createRatingSubscription = this.ratingService
+      .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
+      .subscribe(output => {
+        activityTemplate.myRatingStatus = ratingStatus;
+
+        createRatingSubscription.unsubscribe();
+      });
+  }
+
+  public onClickDislike(activityTemplate: ActivityTemplateListDto) {
+    const ratingStatus = 0;
+
+    const createRatingSubscription = this.ratingService
+      .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
+      .subscribe(output => {
+        activityTemplate.myRatingStatus = ratingStatus;
+
+        createRatingSubscription.unsubscribe();
+      });
   }
 
   private onQueryKeywordsChanged() {

@@ -23,6 +23,8 @@ export interface UserDto {
 
     birthday?: Date;
 
+    coverId?: string;
+
     name?: string;
 
     surname?: string;
@@ -31,7 +33,7 @@ export interface UserDto {
 
     gender?: UserDto.GenderEnum;
 
-    coverId?: string;
+    iconId?: string;
 
     id?: number;
 

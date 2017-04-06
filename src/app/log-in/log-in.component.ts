@@ -31,9 +31,9 @@ export class LogInComponent implements OnInit {
 
   public logIn() {
     const subscription = this.accountService
-      .accountAuthenticateWithHttpInfo(this.logInInput)
+      .accountLogInWithHttpInfo(this.logInInput)
       .flatMap((output) => {
-        this.tokenService.setToken(output['_body']);
+        this.tokenService.setToken(output.text());
 
         return this.userService
           .appUserGetMyUser({});
@@ -42,7 +42,11 @@ export class LogInComponent implements OnInit {
         this.localStorageService.set('myUser', output.myUser);
         this.localStorageService.set('userGuestId', output.guestId);
 
-        this.router.navigate(['./world']);
+        if (output.myUser.gender == null) {
+          this.router.navigate(['./sign-up-profile']);
+        } else {
+          this.router.navigate(['./world']);
+        }
 
         subscription.unsubscribe();
       });

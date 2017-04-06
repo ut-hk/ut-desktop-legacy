@@ -12,19 +12,29 @@
 
 import * as models from './models';
 
-export interface ActivityPlanDto {
+export interface ActivityTemplateListDto {
+    startTime?: Date;
+
     name?: string;
 
+    coverImageDescription?: models.DescriptionDto;
+
+    coverTextDescription?: models.DescriptionDto;
+
+    myRatingStatus?: ActivityTemplateListDto.MyRatingStatusEnum;
+
+    location?: models.LocationDto;
+
     tags?: Array<models.TagDto>;
-
-    timeSlots?: Array<models.ActivityPlanTimeSlotDto>;
-
-    comments?: Array<models.CommentDto>;
-
-    ratings?: Array<models.RatingDto>;
 
     owner?: models.UserListDto;
 
     id?: string;
 
+}
+export namespace ActivityTemplateListDto {
+    export enum MyRatingStatusEnum {
+        NUMBER_0 = <any> 0,
+        NUMBER_1 = <any> 1
+    }
 }

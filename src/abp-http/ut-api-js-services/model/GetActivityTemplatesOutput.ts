@@ -13,6 +13,6 @@
 import * as models from './models';
 
 export interface GetActivityTemplatesOutput {
-    activityTemplates?: Array<models.ActivityTemplateDto>;
+    activityTemplates?: Array<models.ActivityTemplateListDto>;
 
 }

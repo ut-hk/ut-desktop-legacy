@@ -8,11 +8,16 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
+import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
+import { FileSelectDirective } from 'ng2-file-upload';
+import { DateTimePickerModule } from 'ng2-date-time-picker';
+import { MomentModule } from 'angular2-moment';
+
+import { TruncatePipe } from './truncate.pipe';
 
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
@@ -30,7 +35,8 @@ import { CreateActivityComponent } from './create-activity/create-activity.compo
 import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
-import { DateTimePickerModule } from 'ng2-date-time-picker';
+import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
+
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -44,10 +50,12 @@ const appRoutes: Routes = [
   {path: 'create-activity', component: CreateActivityComponent},
 
   {path: 'user/:id', component: UserComponent},
-  {path: 'update-user/:id', component: UpdateUserComponent},
+  {path: 'update-user', component: UpdateUserComponent},
 
   {path: 'log-in', component: LogInComponent},
+
   {path: 'sign-up', component: SignUpComponent},
+  {path: 'sign-up-profile', component: SignUpProfileComponent},
 
   {path: 'chat-rooms', component: ChatRoomsComponent},
 
@@ -73,6 +81,9 @@ const appRoutes: Routes = [
     CreateActivityTemplateComponent,
     UserComponent,
     UpdateUserComponent,
+    SignUpProfileComponent,
+    TruncatePipe,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
@@ -94,11 +105,14 @@ const appRoutes: Routes = [
       libraries: ['places']
     }),
     DateTimePickerModule,
+    MomentModule,
 
     // Bootstrap
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     GoogleMapsAPIWrapper

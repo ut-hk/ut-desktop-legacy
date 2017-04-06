@@ -23,6 +23,8 @@ export interface UpdateMyUserInput {
 
     birthday?: Date;
 
+    iconId?: string;
+
     coverId?: string;
 
 }

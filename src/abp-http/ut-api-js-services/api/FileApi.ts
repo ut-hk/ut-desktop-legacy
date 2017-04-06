@@ -78,7 +78,7 @@ export class FileApi {
      * @param id 
      */
     public fileGetFileWithHttpInfo(id: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/File/${id}`;
+        const path = this.basePath + `/api/File/GetFile/${id}`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -115,7 +115,7 @@ export class FileApi {
      * 
      */
     public filePostFileWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/File`;
+        const path = this.basePath + `/api/File/PostFile`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

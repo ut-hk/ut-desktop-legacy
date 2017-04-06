@@ -27,6 +27,8 @@ export interface GetActivityTemplatesInput {
 
     distance?: number;
 
+    userId?: number;
+
     maxResultCount?: number;
 
     skipCount?: number;

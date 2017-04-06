@@ -1,30 +1,98 @@
-<div class="container-fluid">
+<div class="container target" *ngIf="user">
   <div class="row">
-    <div class="col-sm-4">
-      <section class="timeline">
-        <ul>
-          <li>
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                  <time>11:00 - 13:00</time>
-                  <h3>香港行山一天遊</h3>
 
-                  <div class="cover-image" style="background-image: url(https://www.google.com/logos/doodles/2015/googles-new-logo-5078286822539264.3-hp2x.gif)">
-                  </div>
+    <div class="col-sm-10">
+      <h1 class="">{{user.name}} {{user.surname}}</h1>
+
+      <button *ngIf="isMyUser" type="button" class="btn btn-success">Add Friend</button>
+      <button type="button" class="btn btn-info">Send me a message</button>
+      <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
+      <br>
+    </div>
+    <div class="col-sm-2 text-center">
+      <img class="img-circle img-responsive" style="display: inline-block; margin-top: 20px;"
+           [src]="user.iconId ? user.iconId : './assets/noFoundProfilePicture.png'">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-3">
+      <!--left col-->
+      <ul class="list-group">
+        <li class="list-group-item text-muted" contenteditable="false">Profile</li>
+        <li class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Birthday</strong></span>
+          {{user.birthday| date: 'dd/MM/yyyy'}}
+        </li>
+        <li *ngIf="user.emailAddress" class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Email</strong></span>
+          {{user.emailAddress}}
+        </li>
+        <li class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Gender</strong></span>
+          {{gender}}
+        </li>
+        <li class="list-group-item text-right truncate">
+          <span class="pull-left"><strong class="">Last seen</strong></span>
+          {{user.lastLoginTime | amTimeAgo}}
+        </li>
+      </ul>
+
+      <ul class="list-group">
+        <li class="list-group-item text-muted">Activity</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 78
+        </li>
+      </ul>
+    </div>
+    <!--/col-3-->
+    <div class="col-sm-9" contenteditable="false" style="">
+      <div class="panel panel-default">
+        <div class="panel-heading">{{user.name}}'s Bio</div>
+        <div class="panel-body"> A long description about me.
+
+        </div>
+      </div>
+      <div class="panel panel-default target">
+        <div class="panel-heading" contenteditable="false">Activity Templates</div>
+        <div class="panel-body">
+
+          <div class="row" *ngIf="activityTemplates">
+            <div class="col-md-4" *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+              <div class="thumbnail activity-template">
+                <a class="cover" routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">
+                  <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
+                       [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
+                </a>
+                <div class="caption">
+                  <h5 class="truncate">
+                    <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
+                  </h5>
+                  <p class="truncate" *ngIf="activityTemplate.coverImageDescription">{{activityTemplate.coverTextDescription.content}}</p>
                 </div>
               </div>
             </div>
-          </li>
-        </ul>
-      </section>
-    </div>
-    <div class="col-sm-8">
-      <div *ngIf="myUser">
-        <h1>{{myUser.name}} {{myUser.surname}}</h1>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
+
+
+    <div id="push"></div>
   </div>
+  <footer id="footer">
+
+  </footer>
+
+  <script src="/plugins/bootstrap-select.min.js"></script>
+  <script src="/codemirror/jquery.codemirror.js"></script>
+  <script src="/beautifier.js"></script>
+
+
+  <script src="/plugins/bootstrap-pager.js"></script>
 </div>
-
-

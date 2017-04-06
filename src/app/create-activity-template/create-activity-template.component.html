@@ -21,17 +21,21 @@
         <div class="form-group">
           <label class="col-md-3 control-label">Reference Time Slots</label>
           <div class="col-md-9">
-            <div *ngFor="let timeSlot of createActivityTemplateInput.referenceTimeSlots; let i = index;" class="row" style="margin-bottom: 5px;">
-              <div class="col-xs-6">
-                <input class="form-control" [ngModel]="timeSlot.startTime | date: 'short'" [(dateTimePicker)]="timeSlot.startTime" [mode]="'dropdown'" readonly>
+            <div *ngFor="let timeSlot of createActivityTemplateInput.referenceTimeSlots; let i = index;" class="row"
+                 style="margin-bottom: 5px;">
+              <div class="col-xs-5">
+                <input class="form-control" [ngModel]="timeSlot.startTime | date: 'short'"
+                       [(dateTimePicker)]="timeSlot.startTime" [mode]="'dropdown'" readonly>
               </div>
-              <div class="col-xs-6">
-                <input class="form-control" [ngModel]="timeSlot.endTime | date: 'short'" [(dateTimePicker)]="timeSlot.endTime" [mode]="'dropdown'" readonly>
+              <div class="col-xs-5">
+                <input class="form-control" [ngModel]="timeSlot.endTime | date: 'short'"
+                       [(dateTimePicker)]="timeSlot.endTime" [mode]="'dropdown'" readonly>
               </div>
-              <div class="row">
-                <div class="col-xs-10 col-sm-11"></div>
-                <div class="col-lg-1">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteATimeSlot(i)"></span>
+
+              <div class="col-xs-2">
+                <div class="text-right">
+                  <button class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"
+                                                       (click)="onClickDeleteATimeSlot(i)"></span></button>
                 </div>
               </div>
             </div>
@@ -42,17 +46,38 @@
         <div class="form-group">
           <label class="col-md-3 control-label">Descriptions</label>
           <div class="col-md-9">
-            <div *ngFor="let createTextDescriptionInput of createTextDescriptionInputs; let i = index;" style="margin-bottom: 5px;">
-              <textarea class="form-control" placeholder="Please enter your description" [(ngModel)]="createTextDescriptionInput.text"></textarea>
+            <div *ngFor="let createTextDescriptionInput of createTextDescriptionInputs; let i = index;"
+                 style="margin-bottom: 5px;">
               <div class="row">
-                <div class="col-xs-10 col-sm-11"></div>
-                <div class="col-xs-1">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="onClickDeleteADescription(i)"></span>
+                <div class="col-xs-11">
+                  <textarea class="form-control" placeholder="Please enter your description"
+                            [(ngModel)]="createTextDescriptionInput.text"></textarea>
                 </div>
+                <div class="col-xs-1">
+                  <div class="text-right">
+                    <button class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"
+                                                         (click)="onClickDeleteADescription(i)"></span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-11">
+
+
+                <div ng2FileDrop
+                     [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                     (fileOver)="fileOverBase($event)"
+                     [attr.uploader]="uploader"
+                     class="well my-drop-zone">
+                  Base drop zone
+                </div>
+
               </div>
             </div>
 
             <button class="btn btn-default btn-block" (click)="onClickAddADescription()">Add a Description</button>
+            <button class="btn btn-default btn-block" (click)="onClickAddADescription()">Add a Photo</button>
           </div>
         </div>
 
