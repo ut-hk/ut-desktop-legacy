@@ -13,6 +13,41 @@
   </div>
 
   <br>
+  <div class="row">
+    <div class="col-sm-6">
+      <!-- Map -->
+    </div>
+    <div class="col-sm-6">
+      <div class="form-horizontal">
+
+        <div class="form-group">
+          <label for="startTime" class="col-xs-4 control-label">Start Time</label>
+          <div class="col-xs-6">
+            <input class="form-control" id="startTime" placeholder="Start Time" [ngModel]="getActivityTemplatesInput.startTime | date: 'short'"
+                   [(dateTimePicker)]="getActivityTemplatesInput.startTime" [mode]="'dropdown'"
+                   (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+          </div>
+          <div class="col-xs-2">
+            <button class="btn btn-default" (click)="getActivityTemplatesInput.startTime = null">Reset</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="endTime" class="col-xs-4 control-label">End Time</label>
+          <div class="col-xs-6">
+            <input class="form-control" id="endTime" placeholder="End Time" [ngModel]="getActivityTemplatesInput.endTime | date: 'short'"
+                   [(dateTimePicker)]="getActivityTemplatesInput.endTime" [mode]="'dropdown'"
+                   (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+          </div>
+          <div class="col-xs-2">
+            <button class="btn btn-default" (click)="getActivityTemplatesInput.endTime = null">Reset</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <br>
 
   <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
     <div class="activity-template col-xs-12 col-sm-6"

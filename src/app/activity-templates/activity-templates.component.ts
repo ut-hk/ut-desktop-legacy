@@ -18,24 +18,28 @@ export class ActivityTemplatesComponent implements OnInit {
   public queryKeywordsControl = new FormControl();
 
   public getActivityTemplatesInput: GetActivityTemplatesInput = {
+    tagTexts: [],
     queryKeywords: '',
+    startTime: null,
+    endTime: null,
+    longitude: null,
+    latitude: null,
+    distance: null,
+    userId: null,
     maxResultCount: 10,
     skipCount: 0
   };
-
   public activityTemplates: ActivityTemplateListDto[] = [];
 
-  private isAlive = true;
 
   constructor(private activityTemplateService: App_activityTemplateApi,
               private ratingService: App_ratingApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
-      .takeWhile(() => this.isAlive)
       .subscribe(queryKeywords => {
         this.getActivityTemplatesInput.queryKeywords = queryKeywords;
-        this.onQueryKeywordsChanged();
+        this.onConditionsChange();
       });
   }
 
@@ -47,6 +51,10 @@ export class ActivityTemplatesComponent implements OnInit {
     if (!this.isNoMoreResults) {
       this.getActivityTemplates();
     }
+  }
+
+  public onDateTimePickerChange() {
+    this.onConditionsChange();
   }
 
   public onClickLike(activityTemplate: ActivityTemplateListDto) {
@@ -62,7 +70,7 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onClickDislike(activityTemplate: ActivityTemplateListDto) {
-    const ratingStatus = 0;
+    const ratingStatus = 1;
 
     const createRatingSubscription = this.ratingService
       .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
@@ -73,7 +81,7 @@ export class ActivityTemplatesComponent implements OnInit {
       });
   }
 
-  private onQueryKeywordsChanged() {
+  private onConditionsChange() {
     this.isLoading = false;
     this.isNoMoreResults = false;
     this.getActivityTemplatesInput.skipCount = 0;
@@ -89,9 +97,8 @@ export class ActivityTemplatesComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.activityTemplateService
+    const getActivityTemplatesInputSubscription = this.activityTemplateService
       .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
-      .takeWhile(() => this.isAlive)
       .subscribe((output) => {
         if (output.activityTemplates.length === 0) {
           this.isNoMoreResults = true;
@@ -101,10 +108,12 @@ export class ActivityTemplatesComponent implements OnInit {
           this.activityTemplates.push(output.activityTemplates[i]);
         }
 
+        this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
         this.isLoading = false;
+
+        getActivityTemplatesInputSubscription.unsubscribe();
       });
 
-    this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
   }
 
 }
