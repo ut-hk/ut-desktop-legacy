@@ -42,8 +42,10 @@
                    (typeaheadLoading)="changeTypeaheadLoading($event)"
                    (typeaheadNoResults)="changeTypeaheadNoResults($event)"
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                   typeaheadOptionsLimit="7"
+                   typeaheadOptionsLimit="10"
                    typeaheadOptionField="text"
+                   typeaheadWaitMs="1000"
+                   typeaheadMinLength="2"
                    class="form-control">
           </div>
         </div>
@@ -84,8 +86,7 @@
 
       <div class="activity-templates" [dragula]="'bag-one'" [dragulaModel]="activityTemplates" infinite-scroll
            (scrolled)="onScroll()">
-        <div class="activity-template"
-             *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+        <div class="activity-template" *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
           <div class="cover">
             <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
                  [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
