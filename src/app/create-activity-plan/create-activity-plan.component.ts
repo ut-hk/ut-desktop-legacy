@@ -7,6 +7,7 @@ import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/Act
 import { FormControl } from '@angular/forms';
 import { CreateActivityPlanTimeSlotInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanTimeSlotInput';
 import { DragulaService } from 'ng2-dragula';
+import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class CreateActivityPlanComponent implements OnInit {
 
   public activityTemplates: ActivityTemplateDto[] = [];
   public selectedActivityTemplates: CreateActivityPlanTimeSlotInput[] = [];
+  public createTextDescriptionInputs: CreateTextDescriptionInput;
 
   constructor(private dragulaService: DragulaService,
               private activityPlanService: App_activityPlanApi,
@@ -96,6 +98,5 @@ export class CreateActivityPlanComponent implements OnInit {
       this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
     }
   }
-
 
 }
