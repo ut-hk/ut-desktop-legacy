@@ -8,11 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
-<<<<<<< HEAD
 import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ng2-bootstrap';
-=======
-import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule } from 'ngx-bootstrap';
->>>>>>> 9150a5487a5939bdf261c944b09d1d18adbf62f9
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
