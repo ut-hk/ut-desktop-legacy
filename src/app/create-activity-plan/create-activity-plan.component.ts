@@ -1,19 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CreateActivityPlanInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanInput';
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { GetActivityTemplatesInput } from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
-import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { FormControl } from '@angular/forms';
-import { CreateActivityPlanTimeSlotInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanTimeSlotInput';
-import { DragulaService } from 'ng2-dragula';
-import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import {Component, ElementRef, OnInit, Renderer} from '@angular/core';
+import {CreateActivityPlanInput} from '../../abp-http/ut-api-js-services/model/CreateActivityPlanInput';
+import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {GetActivityTemplatesInput} from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
+import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
+import {FormControl} from '@angular/forms';
+import {CreateActivityPlanTimeSlotInput} from '../../abp-http/ut-api-js-services/model/CreateActivityPlanTimeSlotInput';
+import {DragulaService} from 'ng2-dragula';
+import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import {App_tagApi} from '../../abp-http/ut-api-js-services/api/App_tagApi';
-import {GetTagInput} from '../../abp-http/ut-api-js-services/model/GetTagInput';
-import {GetTagsInput} from '../../abp-http/ut-api-js-services/model/GetTagsInput';
 import {TypeaheadMatch} from 'ng2-bootstrap/typeahead';
 import {Observable} from 'rxjs/Observable';
-
 
 
 @Component({
@@ -22,6 +19,7 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./create-activity-plan.component.scss']
 })
 export class CreateActivityPlanComponent implements OnInit {
+  onChange: () => any;
 
   public createActivityPlanInput: CreateActivityPlanInput = {
     name: '',
@@ -36,16 +34,12 @@ export class CreateActivityPlanComponent implements OnInit {
   };
   public queryKeywordsControl = new FormControl();
   public queryTextControl = new FormControl();
+  public tagInputBox = new FormControl();
 
   public activityTemplates: ActivityTemplateDto[] = [];
   public selectedActivityTemplates: CreateActivityPlanTimeSlotInput[] = [];
   public createTextDescriptionInput: CreateTextDescriptionInput = {};
-  // public getTagsInput: GetTagsInput = {
-  //   queryText: ''
-  // };
-  // public getTagInput: GetTagInput = {
-  //   text: ''
-  // };
+
   public asyncSelected: string;
   public typeaheadLoading: boolean;
   public typeaheadNoResults: boolean;
@@ -64,27 +58,11 @@ export class CreateActivityPlanComponent implements OnInit {
         this.onQueryKeywordsChanged();
       });
 
-    // this.queryTextControl.valueChanges
-    //   .debounceTime(700)
-    //   .distinctUntilChanged()
-    //   .subscribe(queryText => {
-    //     this.getTagsInput.queryText = queryText;
-    //     // console.log(queryText);
-    //
-    //     console.log(this.getTagsInput);
-    //   });
-    //
-    // this.dataSource = Observable
-    //   .create((observer: any) => {
-    //   observer.next(this.getTagsInput.queryText);
-    //   })
-    //   .mergeMap(() => this.getTags(this.getTagsInput));
-
     this.dataSource = Observable
       .create((observer: any) => {
         // Runs on every search
-        observer.next(this.asyncSelected);
-        console.log(this.asyncSelected);
+          observer.next(this.asyncSelected);
+          console.log(this.asyncSelected);
       })
       .mergeMap((token: string) => this.getTagsAsObservable(token));
 
@@ -96,24 +74,10 @@ export class CreateActivityPlanComponent implements OnInit {
   public getTagsAsObservable(token: string): Observable<any> {
     return this.getTags({queryText: token})
       .map((output) => {
-      console.log(output.tags);
-      let text = [];
-      for (let tag of output.tags) {
-        text.push(tag.text);
-      }
-      return text;
-    });
+        console.log(output.tags);
+        return output.tags;
+      });
   }
-
-  // public getStatesAsObservable(token: string): Observable<any> {
-  //   let query = new RegExp(token, 'ig');
-  //
-  //   return Observable.of(
-  //     this.statesComplex.filter((state: any) => {
-  //       return query.test(state.name);
-  //     })
-  //   );
-  // }
 
   ngOnInit() {
     this.getActivityTemplates();
@@ -164,27 +128,6 @@ export class CreateActivityPlanComponent implements OnInit {
     }
   }
 
-  // public onQueryTextChanged() {
-  //   this.tagService
-  //     .appTagGetTags(this.getTagsInput)
-  //     .subscribe((output) => {
-  //     console.log(output);
-  //     if (output == null) {
-  //       getTab();
-  //     }
-  //   });
-  // }
-
-  // public getTagsAsObservable(token: string): Observable<any> {
-  //   let query = new RegExp(token, 'ig');
-  //
-  //   return Observable.of(
-  //     this.tagsComplex.filter((tag: any) => {
-  //       return query.test(tag.text);
-  //     })
-  //   );
-  // }
-
   public changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
   }
@@ -197,7 +140,7 @@ export class CreateActivityPlanComponent implements OnInit {
     console.log('Selected value: ', e.value);
   }
 
-  public getTags(getTagsInput): Observable<any>  {
+  public getTags(getTagsInput): Observable<any> {
     return this.tagService
       .appTagGetTags(getTagsInput);
   }
