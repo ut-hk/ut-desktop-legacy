@@ -8,12 +8,11 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
+import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
-import { FileSelectDirective } from 'ng2-file-upload';
 import { DateTimePickerModule } from 'ng2-date-time-picker';
 import { MomentModule } from 'angular2-moment';
 
@@ -29,7 +28,6 @@ import { ActivityPlanComponent } from './activity-plan/activity-plan.component';
 import { FriendsComponent } from './friends/friends.component';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { ActivityTemplateComponent } from './activity-template/activity-template.component';
-import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { CreateActivityPlanComponent } from './create-activity-plan/create-activity-plan.component';
 import { CreateActivityComponent } from './create-activity/create-activity.component';
 import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
@@ -75,15 +73,13 @@ const appRoutes: Routes = [
     FriendsComponent,
     ChatRoomsComponent,
     ActivityTemplateComponent,
-    AdvancedSearchComponent,
     CreateActivityPlanComponent,
     CreateActivityComponent,
     CreateActivityTemplateComponent,
     UserComponent,
     UpdateUserComponent,
     SignUpProfileComponent,
-    TruncatePipe,
-    FileSelectDirective
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
