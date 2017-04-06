@@ -20,11 +20,12 @@ import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/Activit
 export class UserComponent implements OnInit {
 
   public isMyUser = false;
+
+  public user: UserDto;
+
   public activities: ActivityListDto[] = [];
   public activityTemplates: ActivityTemplateListDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
-  public user: UserDto;
-  public gender: string;
 
   private id: number;
 
@@ -59,6 +60,10 @@ export class UserComponent implements OnInit {
   private checkIsMyUser(userId: number): boolean {
     const myUser = this.localStorageService.get<UserDto>('myUser');
 
+    if (myUser == null) {
+      return false;
+    }
+
     return myUser.id === userId;
   }
 
@@ -92,17 +97,6 @@ export class UserComponent implements OnInit {
       .appUserGetUser({id: id})
       .subscribe(output => {
         this.user = output.user;
-        switch (this.user.gender) {
-          case 2:
-            this.gender = 'Male';
-            break;
-          case 3:
-            this.gender = 'Female';
-            break;
-          default:
-            this.gender = 'Not Provided';
-            break;
-        }
 
         getUserSubscription.unsubscribe();
       });
