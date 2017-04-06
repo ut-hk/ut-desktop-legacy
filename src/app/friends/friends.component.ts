@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { App_trackApi } from '../../abp-http/ut-api-js-services/api/App_trackApi';
+// import { App_trackApi } from '../../abp-http/ut-api-js-services/api/App_trackApi';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
 
@@ -10,19 +10,22 @@ import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
 })
 export class FriendsComponent implements OnInit {
 
+  // constructor(
+  //   private localStorageService: LocalStorageService,
+  //   private trackService: App_trackApi) {
+  // }
   constructor(
-    private localStorageService: LocalStorageService,
-    private trackService: App_trackApi) {
+    private localStorageService: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.trackService
-      .appTrackGetFriends({
-        targetUserId: this.localStorageService.get<UserDto>('myUser').id
-      })
-      .subscribe((output) => {
-
-      });
+    // this.trackService
+    //   .appTrackGetFriends({
+    //     targetUserId: this.localStorageService.get<UserDto>('myUser').id
+    //   })
+    //   .subscribe((output) => {
+    //
+    //   });
   }
 
 }
