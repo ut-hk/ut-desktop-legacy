@@ -35,6 +35,7 @@ import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 import { GenderPipe } from './gender.pipe';
+import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
 
 
 const appRoutes: Routes = [
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
   {path: 'create-activity', component: CreateActivityComponent},
 
+  {path: 'friend-invitations', component: FriendInvitationsComponent},
   {path: 'friends/:userId', component: FriendsComponent},
 
   {path: 'user/:id', component: UserComponent},
@@ -83,7 +85,8 @@ const appRoutes: Routes = [
     UpdateUserComponent,
     SignUpProfileComponent,
     TruncatePipe,
-    GenderPipe
+    GenderPipe,
+    FriendInvitationsComponent
   ],
   imports: [
     BrowserModule,
