@@ -15,31 +15,53 @@
   <br>
   <div class="row">
     <div class="col-sm-6">
-      <!-- Map -->
+
+      <sebm-google-map
+        [latitude]="map.lat"
+        [longitude]="map.lng"
+        [zoom]="map.zoom"
+        [disableDefaultUI]="false"
+        [zoomControl]="true"
+        (mapClick)="onClickMap($event)"
+        style="height: 200px;">
+
+        <sebm-google-map-marker
+          *ngFor="let marker of markers; let i = index"
+          [latitude]="marker.lat"
+          [longitude]="marker.lng"
+          [label]="marker.label"
+          [markerDraggable]="marker.draggable">
+        </sebm-google-map-marker>
+      </sebm-google-map>
+
     </div>
     <div class="col-sm-6">
       <div class="form-horizontal">
 
         <div class="form-group">
           <label for="startTime" class="col-xs-4 control-label">Start Time</label>
-          <div class="col-xs-6">
-            <input class="form-control" id="startTime" placeholder="Start Time" [ngModel]="getActivityTemplatesInput.startTime | date: 'short'"
-                   [(dateTimePicker)]="getActivityTemplatesInput.startTime" [mode]="'dropdown'"
-                   (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
-          </div>
-          <div class="col-xs-2">
-            <button class="btn btn-default" (click)="getActivityTemplatesInput.startTime = null">Reset</button>
+          <div class="col-xs-8">
+            <div class="input-group">
+              <input class="form-control" id="startTime" placeholder="Start Time" [ngModel]="getActivityTemplatesInput.startTime | date: 'short'"
+                     [(dateTimePicker)]="getActivityTemplatesInput.startTime" [mode]="'dropdown'"
+                     (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+              <span class="input-group-btn">
+                <button class="btn btn-default" (click)="onClickResetStartTime()">Reset</button>
+              </span>
+            </div>
           </div>
         </div>
         <div class="form-group">
           <label for="endTime" class="col-xs-4 control-label">End Time</label>
-          <div class="col-xs-6">
-            <input class="form-control" id="endTime" placeholder="End Time" [ngModel]="getActivityTemplatesInput.endTime | date: 'short'"
-                   [(dateTimePicker)]="getActivityTemplatesInput.endTime" [mode]="'dropdown'"
-                   (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
-          </div>
-          <div class="col-xs-2">
-            <button class="btn btn-default" (click)="getActivityTemplatesInput.endTime = null">Reset</button>
+          <div class="col-xs-8">
+            <div class="input-group">
+              <input class="form-control" id="endTime" placeholder="End Time" [ngModel]="getActivityTemplatesInput.endTime | date: 'short'"
+                     [(dateTimePicker)]="getActivityTemplatesInput.endTime" [mode]="'dropdown'"
+                     (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+              <span class="input-group-btn">
+                <button class="btn btn-default" (click)="onClickResetEndTime()">Reset</button>
+              </span>
+            </div>
           </div>
         </div>
 
