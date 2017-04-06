@@ -45,6 +45,22 @@ export class App_friendInvitationApi {
      * 
      * @param input 
      */
+    public appFriendInvitationAcceptFriendInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appFriendInvitationAcceptFriendInvitationWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
     public appFriendInvitationCreateFriendInvitation(input: models.CreateFriendInvitationInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
         return this.appFriendInvitationCreateFriendInvitationWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
@@ -71,6 +87,77 @@ export class App_friendInvitationApi {
             });
     }
 
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appFriendInvitationIgnoreFriendInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appFriendInvitationIgnoreFriendInvitationWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appFriendInvitationRejectFriendInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appFriendInvitationRejectFriendInvitationWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appFriendInvitationAcceptFriendInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/friendInvitation/AcceptFriendInvitation`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appFriendInvitationAcceptFriendInvitation.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
 
     /**
      * 
@@ -131,6 +218,84 @@ export class App_friendInvitationApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appFriendInvitationIgnoreFriendInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/friendInvitation/IgnoreFriendInvitation`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appFriendInvitationIgnoreFriendInvitation.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appFriendInvitationRejectFriendInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/friendInvitation/RejectFriendInvitation`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appFriendInvitationRejectFriendInvitation.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
 

@@ -56,6 +56,7 @@ export * from './GetCurrentLoginInformationsOutput';
 export * from './GetFriendInvitationsOutput';
 export * from './GetFriendsOutput';
 export * from './GetGuestInput';
+export * from './GetInterTrackingUsersOutput';
 export * from './GetLocationsInput';
 export * from './GetLocationsOutput';
 export * from './GetMyActivitiesOutput';
