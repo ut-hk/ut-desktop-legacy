@@ -121,7 +121,6 @@ export class CreateActivityTemplateComponent implements OnInit {
 
   public onClickMap($event: MouseEvent) {
     this.updateMarker($event.coords.lat, $event.coords.lng, '');
-
   }
 
   public onClickMarker(label: string, index: number) {
