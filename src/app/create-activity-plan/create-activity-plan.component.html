@@ -30,14 +30,35 @@
     </div>
   </div>
 
+  <!--<div class="row">-->
+  <!--<div class="col-sm-12">-->
+  <!--<div class="form-horizontal">-->
+  <!--<div class="form-group">-->
+  <!--<label for="name" class="col-sm-2 control-label">Tags</label>-->
+  <!--<div class="col-sm-10">-->
+  <!--<textarea class="form-control" placeholder="Tags"-->
+  <!--[formControl]="queryTextControl"></textarea>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+
   <div class="row">
     <div class="col-sm-12">
       <div class="form-horizontal">
         <div class="form-group">
           <label for="name" class="col-sm-2 control-label">Tags</label>
           <div class="col-sm-10">
-          <textarea class="form-control" placeholder="Tags"
-                    [(ngModel)]="createTextDescriptionInput.text"></textarea>
+            <input placeholder="Tags"
+                   [(ngModel)]="asyncSelected"
+                   [typeahead]="dataSource"
+                   (typeaheadLoading)="changeTypeaheadLoading($event)"
+                   (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   typeaheadOptionsLimit="7"
+                   typeaheadOptionField="name"
+                   class="form-control">
           </div>
         </div>
       </div>

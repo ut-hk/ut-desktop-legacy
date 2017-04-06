@@ -8,6 +8,12 @@ import { FormControl } from '@angular/forms';
 import { CreateActivityPlanTimeSlotInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanTimeSlotInput';
 import { DragulaService } from 'ng2-dragula';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import {App_tagApi} from '../../abp-http/ut-api-js-services/api/App_tagApi';
+import {GetTagInput} from '../../abp-http/ut-api-js-services/model/GetTagInput';
+import {GetTagsInput} from '../../abp-http/ut-api-js-services/model/GetTagsInput';
+import {TypeaheadMatch} from 'ng2-bootstrap/typeahead';
+import {Observable} from 'rxjs/Observable';
+
 
 
 @Component({
@@ -29,14 +35,27 @@ export class CreateActivityPlanComponent implements OnInit {
     skipCount: 0
   };
   public queryKeywordsControl = new FormControl();
+  public queryTextControl = new FormControl();
 
   public activityTemplates: ActivityTemplateDto[] = [];
   public selectedActivityTemplates: CreateActivityPlanTimeSlotInput[] = [];
-  public createTextDescriptionInputs: CreateTextDescriptionInput;
+  public createTextDescriptionInput: CreateTextDescriptionInput = {};
+  // public getTagsInput: GetTagsInput = {
+  //   queryText: ''
+  // };
+  // public getTagInput: GetTagInput = {
+  //   text: ''
+  // };
+  public asyncSelected: string;
+  public typeaheadLoading: boolean;
+  public typeaheadNoResults: boolean;
+  public dataSource: Observable<any>;
+  public tagsComplex: any[] = [];
 
   constructor(private dragulaService: DragulaService,
               private activityPlanService: App_activityPlanApi,
-              private activityTemplateService: App_activityTemplateApi) {
+              private activityTemplateService: App_activityTemplateApi,
+              private tagService: App_tagApi) {
     this.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
@@ -45,10 +64,56 @@ export class CreateActivityPlanComponent implements OnInit {
         this.onQueryKeywordsChanged();
       });
 
+    // this.queryTextControl.valueChanges
+    //   .debounceTime(700)
+    //   .distinctUntilChanged()
+    //   .subscribe(queryText => {
+    //     this.getTagsInput.queryText = queryText;
+    //     // console.log(queryText);
+    //
+    //     console.log(this.getTagsInput);
+    //   });
+    //
+    // this.dataSource = Observable
+    //   .create((observer: any) => {
+    //   observer.next(this.getTagsInput.queryText);
+    //   })
+    //   .mergeMap(() => this.getTags(this.getTagsInput));
+
+    this.dataSource = Observable
+      .create((observer: any) => {
+        // Runs on every search
+        observer.next(this.asyncSelected);
+        console.log(this.asyncSelected);
+      })
+      .mergeMap((token: string) => this.getTagsAsObservable(token));
+
     dragulaService.drop.subscribe((value) => {
       console.log(value);
     });
   }
+
+  public getTagsAsObservable(token: string): Observable<any> {
+    return this.getTags({queryText: token})
+      .map((output) => {
+      console.log(output.tags);
+      let text = [];
+      for (let tag of output.tags) {
+        text.push(tag.text);
+      }
+      return text;
+    });
+  }
+
+  // public getStatesAsObservable(token: string): Observable<any> {
+  //   let query = new RegExp(token, 'ig');
+  //
+  //   return Observable.of(
+  //     this.statesComplex.filter((state: any) => {
+  //       return query.test(state.name);
+  //     })
+  //   );
+  // }
 
   ngOnInit() {
     this.getActivityTemplates();
@@ -97,6 +162,44 @@ export class CreateActivityPlanComponent implements OnInit {
 
       this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
     }
+  }
+
+  // public onQueryTextChanged() {
+  //   this.tagService
+  //     .appTagGetTags(this.getTagsInput)
+  //     .subscribe((output) => {
+  //     console.log(output);
+  //     if (output == null) {
+  //       getTab();
+  //     }
+  //   });
+  // }
+
+  // public getTagsAsObservable(token: string): Observable<any> {
+  //   let query = new RegExp(token, 'ig');
+  //
+  //   return Observable.of(
+  //     this.tagsComplex.filter((tag: any) => {
+  //       return query.test(tag.text);
+  //     })
+  //   );
+  // }
+
+  public changeTypeaheadLoading(e: boolean): void {
+    this.typeaheadLoading = e;
+  }
+
+  public changeTypeaheadNoResults(e: boolean): void {
+    this.typeaheadNoResults = e;
+  }
+
+  public typeaheadOnSelect(e: TypeaheadMatch): void {
+    console.log('Selected value: ', e.value);
+  }
+
+  public getTags(getTagsInput): Observable<any>  {
+    return this.tagService
+      .appTagGetTags(getTagsInput);
   }
 
 }
