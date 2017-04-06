@@ -1,21 +1,14 @@
-import {Component, OnInit, NgZone, ViewChild, ElementRef, Directive} from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, Directive } from '@angular/core';
 
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import {MouseEvent, MapsAPILoader} from 'angular2-google-maps/core';
-import {FormControl} from '@angular/forms';
-import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
-import {URL} from '../../environments/environment';
-
-
-import {
-  FileSelectDirective,
-  FileDropDirective,
-  FileUploader
-} from 'ng2-file-upload';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
+import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
+import { FormControl } from '@angular/forms';
+import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import { FileUploader } from 'ng2-file-upload';
+import { environment } from '../../environments/environment';
 
 declare var google: any;
-
 
 // just an interface for type safety.
 interface Marker {
@@ -54,9 +47,9 @@ export class CreateActivityTemplateComponent implements OnInit {
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 
-  public uploader: FileUploader = new FileUploader({url: URL});
-  public hasBaseDropZoneOver: boolean = false;
-  public hasAnotherDropZoneOver: boolean = false;
+  public uploader: FileUploader = new FileUploader({url: environment.baseUrl});
+  public hasBaseDropZoneOver = false;
+  public hasAnotherDropZoneOver = false;
 
   constructor(private activityTemplateService: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
