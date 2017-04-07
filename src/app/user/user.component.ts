@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
-import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { ActivityDto } from '../../abp-http/ut-api-js-services/model/ActivityDto';
-import { ActivatedRoute } from '@angular/router';
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
-import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
-import { LocalStorageService } from 'ng2-webstorage';
+import {Component, OnInit} from '@angular/core';
+import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
+import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
+import {ActivityDto} from '../../abp-http/ut-api-js-services/model/ActivityDto';
+import {ActivatedRoute} from '@angular/router';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
+import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import {ActivityTemplateListDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import {ActivityListDto} from '../../abp-http/ut-api-js-services/model/ActivityListDto';
+import {LocalStorageService} from 'ng2-webstorage';
+
 
 @Component({
   selector: 'app-user',
@@ -35,6 +36,7 @@ export class UserComponent implements OnInit {
               private activityTemplateApi: App_activityTemplateApi,
               private activityPlanApi: App_activityPlanApi,
               private userApi: App_userApi) {
+
   }
 
   ngOnInit() {
@@ -48,7 +50,6 @@ export class UserComponent implements OnInit {
       })
       .subscribe(id => {
         this.isMyUser = this.checkIsMyUser(id);
-
         if (this.isMyUser) {
           this.getMyUserAndMyActivities();
         } else {
@@ -63,6 +64,7 @@ export class UserComponent implements OnInit {
     if (myUser == null) {
       return false;
     }
+
 
     return myUser.id === userId;
   }
@@ -140,6 +142,15 @@ export class UserComponent implements OnInit {
         getActivityPlansSubscription.unsubscribe();
       });
 
+  }
+
+  private createFriendRequest() {
+
+    this.friendInvitationService
+      .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
+      .subscribe((output) => {
+        console.log(output);
+      });
   }
 
 }
