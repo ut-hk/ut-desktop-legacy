@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
-import { LocalStorageModule } from 'angular-2-local-storage';
+import { Ng2Webstorage } from 'ng2-webstorage';
 import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
@@ -95,9 +95,8 @@ const appRoutes: Routes = [
     HttpModule,
     CommonModule,
     RouterModule.forRoot(appRoutes),
-    LocalStorageModule.withConfig({
-      prefix: 'ut',
-      storageType: 'localStorage'
+    Ng2Webstorage.forRoot({
+      prefix: 'ut'
     }),
     AbpHttpModule,
     InfiniteScrollModule,

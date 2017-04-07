@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
 import { UpdateMyUserInput } from '../../abp-http/ut-api-js-services/model/UpdateMyUserInput';
 import { Router } from '@angular/router';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-sign-up-profile',
@@ -44,8 +44,8 @@ export class SignUpProfileComponent implements OnInit {
           .appUserGetMyUser({});
       })
       .subscribe(output => {
-        this.localStorageService.set('myUser', output.myUser);
-        this.localStorageService.set('userGuestId', output.guestId);
+        this.localStorageService.store('myUser', output.myUser);
+        this.localStorageService.store('userGuestId', output.guestId);
 
         this.router.navigate(['./world']);
 

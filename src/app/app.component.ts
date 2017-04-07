@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { App_userApi } from '../abp-http/ut-api-js-services/api/App_userApi';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { UserDto } from '../abp-http/ut-api-js-services/model/UserDto';
 import { TokenService } from '../abp-http/http/token.service';
 import { Router, RoutesRecognized } from '@angular/router';
 import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
 import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGuid';
 import { environment } from '../environments/environment';
+import { LocalStorage, LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +18,10 @@ export class AppComponent implements OnInit {
   public isCollapsed = true;
   public depth = -1;
 
-  public myUser: UserDto = null;
+  public myUser: UserDto;
 
-  constructor(private localStorageService: LocalStorageService,
-              private router: Router,
+  constructor(private router: Router,
+              private localStorageService: LocalStorageService,
               private tokenService: TokenService,
               private userApi: App_userApi,
               private analysisApi: App_analysisApi) {
@@ -29,11 +29,11 @@ export class AppComponent implements OnInit {
   }
 
   private checkVersion() {
-    const version = this.localStorageService.get<string>('version');
+    const version = this.localStorageService.retrieve('version');
 
     if (version !== environment.version) {
-      this.localStorageService.clearAll();
-      this.localStorageService.set('version', environment.version);
+      this.localStorageService.clear();
+      this.localStorageService.store('version', environment.version);
     }
   }
 
@@ -55,9 +55,9 @@ export class AppComponent implements OnInit {
   public logOut() {
     this.tokenService.clearToken();
 
-    this.localStorageService.remove('myUser');
-    this.localStorageService.remove('userGuestId');
-    this.localStorageService.remove('anonymousGuestId');
+    this.localStorageService.clear('myUser');
+    this.localStorageService.clear('userGuestId');
+    this.localStorageService.clear('anonymousGuestId');
 
     this.router.navigate(['./log-in']);
   }
@@ -67,20 +67,20 @@ export class AppComponent implements OnInit {
       const subscription = this.userApi
         .appUserGetMyUser({})
         .subscribe((output) => {
-          this.localStorageService.set('myUser', output.myUser);
-          this.localStorageService.set('userGuestId', output.guestId);
+          this.localStorageService.store('myUser', output.myUser);
+          this.localStorageService.store('userGuestId', output.guestId);
 
           this.myUser = output.myUser;
 
           subscription.unsubscribe();
         });
     } else {
-      const anonymousGuestId = this.localStorageService.get<string>('anonymousGuestId');
+      const anonymousGuestId = this.localStorageService.retrieve('anonymousGuestId');
 
       if (anonymousGuestId == null) {
         const subscription = this.analysisApi.appAnalysisGetGuest({})
           .subscribe((output) => {
-            this.localStorageService.set('anonymousGuestId', output.id);
+            this.localStorageService.store('anonymousGuestId', output.id);
 
             subscription.unsubscribe();
           });
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof RoutesRecognized) {
         this.isCollapsed = true;
-        this.myUser = this.localStorageService.get('myUser');
+        this.myUser = this.localStorageService.retrieve('myUser');
 
         this.createHistory(event.urlAfterRedirects);
       }
@@ -102,8 +102,8 @@ export class AppComponent implements OnInit {
   private createHistory(urlAfterRedirects: string): void {
     this.depth = this.depth + 1;
 
-    const anonymousGuestId = this.localStorageService.get<string>('anonymousGuestId');
-    const userGuestId = this.localStorageService.get<string>('userGuestId');
+    const anonymousGuestId = this.localStorageService.retrieve('anonymousGuestId');
+    const userGuestId = this.localStorageService.retrieve('userGuestId');
     const guestId = userGuestId != null ? userGuestId : anonymousGuestId;
 
     if (guestId == null) {

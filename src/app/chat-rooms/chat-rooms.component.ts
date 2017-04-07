@@ -5,7 +5,7 @@ import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/Chat
 import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
 import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 interface ChatRoom extends ChatRoomDto {
   messages: Array<ChatRoomMessageDto>;
@@ -31,7 +31,7 @@ export class ChatRoomsComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService,
               private chatRoomApi: App_chatRoomApi,
               private chatRoomMessageApi: App_chatRoomMessageApi) {
-    this.myUser = this.localStorageService.get('myUser');
+    this.myUser = this.localStorageService.retrieve('myUser');
   }
 
   ngOnInit() {

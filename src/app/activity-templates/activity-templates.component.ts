@@ -26,9 +26,22 @@ interface Marker {
 })
 export class ActivityTemplatesComponent implements OnInit {
 
-  public isLoading = false;
-  public isNoMoreResults = false;
-  public queryKeywordsControl = new FormControl();
+  public pageControls = {
+    isAdvancedCollapsed: true,
+    isLoading: false,
+    isNoMoreResults: false,
+
+    queryKeywordsControl: new FormControl()
+  };
+
+  public mapControls = {
+    map: {
+      lat: 22.273131,
+      lng: 114.187966,
+      zoom: 12
+    },
+    markers: []
+  };
 
   public getActivityTemplatesInput: GetActivityTemplatesInput = {
     tagTexts: [],
@@ -43,17 +56,10 @@ export class ActivityTemplatesComponent implements OnInit {
   };
   public activityTemplates: ActivityTemplateListDto[] = [];
 
-  // initial center position for the map
-  public map = {
-    lat: 22.273131,
-    lng: 114.187966,
-    zoom: 12
-  };
-  public markers: Marker[] = [];
-
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private ratingApi: App_ratingApi) {
-    this.queryKeywordsControl.valueChanges
+    this.pageControls
+      .queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
       .subscribe(queryKeywords => {
@@ -67,9 +73,13 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onScroll() {
-    if (!this.isNoMoreResults) {
+    if (!this.pageControls.isNoMoreResults) {
       this.getActivityTemplates();
     }
+  }
+
+  public onClickAdvanced() {
+    this.pageControls.isAdvancedCollapsed = !this.pageControls.isAdvancedCollapsed;
   }
 
   public onClickMap($event: MouseEvent) {
@@ -97,20 +107,14 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onClickLike(activityTemplate: ActivityTemplateListDto) {
-    const ratingStatus = 0;
-
-    const createRatingSubscription = this.ratingApi
-      .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
-      .subscribe(output => {
-        activityTemplate.myRatingStatus = ratingStatus;
-
-        createRatingSubscription.unsubscribe();
-      });
+    this.rate(activityTemplate, 0);
   }
 
   public onClickDislike(activityTemplate: ActivityTemplateListDto) {
-    const ratingStatus = 1;
+    this.rate(activityTemplate, 1);
+  }
 
+  private rate(activityTemplate: ActivityTemplateListDto, ratingStatus: number) {
     const createRatingSubscription = this.ratingApi
       .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
       .subscribe(output => {
@@ -121,8 +125,8 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   private onSearchConditionsChange() {
-    this.isLoading = false;
-    this.isNoMoreResults = false;
+    this.pageControls.isLoading = false;
+    this.pageControls.isNoMoreResults = false;
     this.getActivityTemplatesInput.skipCount = 0;
     this.activityTemplates = [];
 
@@ -130,17 +134,17 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   private getActivityTemplates() {
-    if (this.isLoading) {
+    if (this.pageControls.isLoading) {
       return;
     }
 
-    this.isLoading = true;
+    this.pageControls.isLoading = true;
 
     const getActivityTemplatesInputSubscription = this.activityTemplateApi
       .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
       .subscribe((output) => {
         if (output.activityTemplates.length === 0) {
-          this.isNoMoreResults = true;
+          this.pageControls.isNoMoreResults = true;
         }
 
         for (let i = 0; i < output.activityTemplates.length; i++) {
@@ -148,14 +152,14 @@ export class ActivityTemplatesComponent implements OnInit {
         }
 
         this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
-        this.isLoading = false;
+        this.pageControls.isLoading = false;
 
         getActivityTemplatesInputSubscription.unsubscribe();
       });
   }
 
   private updateMarker(lat: number, lng: number, label: string) {
-    this.markers = [
+    this.mapControls.markers = [
       {
         lat: lat,
         lng: lng,
@@ -164,11 +168,10 @@ export class ActivityTemplatesComponent implements OnInit {
         draggable: false
       }
     ];
+    this.mapControls.map.zoom = 13;
 
     this.getActivityTemplatesInput.latitude = lat;
     this.getActivityTemplatesInput.longitude = lng;
-
-    this.map.zoom = 13;
 
     this.onSearchConditionsChange();
   }

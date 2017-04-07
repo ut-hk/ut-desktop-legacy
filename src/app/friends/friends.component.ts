@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
 import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
 import { ActivatedRoute } from '@angular/router';
@@ -15,7 +14,6 @@ export class FriendsComponent implements OnInit {
   public friends: UserListDto[];
 
   constructor(private route: ActivatedRoute,
-              private localStorageService: LocalStorageService,
               private relationshipApi: App_relationshipApi) {
   }
 

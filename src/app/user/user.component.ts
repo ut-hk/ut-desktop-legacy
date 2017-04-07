@@ -4,13 +4,13 @@ import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activ
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
 import { ActivityDto } from '../../abp-http/ut-api-js-services/model/ActivityDto';
 import { ActivatedRoute } from '@angular/router';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
 import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
 import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
 import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-user',
@@ -58,7 +58,7 @@ export class UserComponent implements OnInit {
   }
 
   private checkIsMyUser(userId: number): boolean {
-    const myUser = this.localStorageService.get<UserDto>('myUser');
+    const myUser = this.localStorageService.retrieve('myUser');
 
     if (myUser == null) {
       return false;
@@ -73,8 +73,8 @@ export class UserComponent implements OnInit {
       .subscribe(output => {
         this.user = output.myUser;
 
-        this.localStorageService.set('myUser', output.myUser);
-        this.localStorageService.set('userGuestId', output.guestId);
+        this.localStorageService.store('myUser', output.myUser);
+        this.localStorageService.store('userGuestId', output.guestId);
 
         getMyUserSubscription.unsubscribe();
       });

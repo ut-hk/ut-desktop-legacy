@@ -3,8 +3,8 @@ import { TokenService } from '../../abp-http/http/token.service';
 import { LogInInput } from '../../abp-http/ut-api-js-services/model/LogInInput';
 import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
 import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { Router, ActivatedRoute } from '@angular/router';
+import { LocalStorageService } from 'ng2-webstorage';
 
 
 @Component({
@@ -39,8 +39,8 @@ export class LogInComponent implements OnInit {
           .appUserGetMyUser({});
       })
       .subscribe((output) => {
-        this.localStorageService.set('myUser', output.myUser);
-        this.localStorageService.set('userGuestId', output.guestId);
+        this.localStorageService.store('myUser', output.myUser);
+        this.localStorageService.store('userGuestId', output.guestId);
 
         if (output.myUser.gender == null) {
           this.router.navigate(['./sign-up-profile']);
