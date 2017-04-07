@@ -62,7 +62,6 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
-        console.log(this.selectedChatRoom);
         this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
       });
   }
@@ -72,20 +71,19 @@ export class ChatRoomsComponent implements OnInit {
 
     this.chatRoomMessageApi
       .appChatRoomMessageCreateTextChatRoomMessage(this.createTextChatRoomMessageInput)
-      .subscribe(() => {
-
+      .flatMap((output) => {
         this.createTextChatRoomMessageInput.text = '';
 
-        this.chatRoomMessageApi
+        return this.chatRoomMessageApi
           .appChatRoomMessageGetChatRoomMessages({
             chatRoomId: this.selectedChatRoom.id,
             startId: this.lastChatMessageId
-          })
-          .subscribe((output) => {
-            for (let i = 0; i < output.chatRoomMessages.length; i++) {
-              this.selectedChatRoom.messages.push(output.chatRoomMessages[i]);
-            }
           });
+      })
+      .subscribe((output) => {
+        for (let i = 0; i < output.chatRoomMessages.length; i++) {
+          this.selectedChatRoom.messages.push(output.chatRoomMessages[i]);
+        }
       });
   }
 
