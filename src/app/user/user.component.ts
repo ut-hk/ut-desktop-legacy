@@ -24,6 +24,10 @@ export class UserComponent implements OnInit {
 
   public isMyUser = false;
 
+  public isFriend = false;
+
+  public isInvited = false;
+
   public user: UserDto;
 
   public activities: ActivityListDto[] = [];
@@ -77,7 +81,7 @@ export class UserComponent implements OnInit {
     }
 
 
-    return myUser.id === userId;
+    return myUser.id == userId;
   }
 
   private getMyUserAndMyActivities() {
