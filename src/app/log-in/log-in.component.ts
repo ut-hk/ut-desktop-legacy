@@ -3,8 +3,8 @@ import { TokenService } from '../../abp-http/http/token.service';
 import { LogInInput } from '../../abp-http/ut-api-js-services/model/LogInInput';
 import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
 import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { Router, ActivatedRoute } from '@angular/router';
+import { LocalStorageService } from 'ng2-webstorage';
 
 
 @Component({
@@ -21,8 +21,8 @@ export class LogInComponent implements OnInit {
 
   constructor(private tokenService: TokenService,
               private localStorageService: LocalStorageService,
-              private accountService: AccountApi,
-              private userService: App_userApi,
+              private accountApi: AccountApi,
+              private userApi: App_userApi,
               private router: Router) {
   }
 
@@ -30,17 +30,17 @@ export class LogInComponent implements OnInit {
   }
 
   public logIn() {
-    const subscription = this.accountService
+    const subscription = this.accountApi
       .accountLogInWithHttpInfo(this.logInInput)
       .flatMap((output) => {
         this.tokenService.setToken(output.text());
 
-        return this.userService
+        return this.userApi
           .appUserGetMyUser({});
       })
       .subscribe((output) => {
-        this.localStorageService.set('myUser', output.myUser);
-        this.localStorageService.set('userGuestId', output.guestId);
+        this.localStorageService.store('myUser', output.myUser);
+        this.localStorageService.store('userGuestId', output.guestId);
 
         if (output.myUser.gender == null) {
           this.router.navigate(['./sign-up-profile']);

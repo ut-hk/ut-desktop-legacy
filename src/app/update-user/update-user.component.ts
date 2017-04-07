@@ -19,11 +19,11 @@ export class UpdateUserComponent implements OnInit {
     newPassword: ''
   };
 
-  constructor(private userService: App_userApi) {
+  constructor(private userApi: App_userApi) {
   }
 
   ngOnInit() {
-    const getMyUserSubscription = this.userService
+    const getMyUserSubscription = this.userApi
       .appUserGetMyUser()
       .subscribe(output => {
         const myUser = output.myUser;
@@ -42,7 +42,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   public updateMyUser() {
-    const updateMyUserSubscription = this.userService
+    const updateMyUserSubscription = this.userApi
       .appUserUpdateMyUser(this.updateMyUserInput)
       .subscribe(output => {
         this.alerts.push({
@@ -55,7 +55,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   public updateMyUserPassword() {
-    const updateMyUserPasswordSubscription = this.userService
+    const updateMyUserPasswordSubscription = this.userApi
       .appUserUpdateMyUserPassword(this.updateMyUserPasswordInput)
       .subscribe(output => {
         this.alerts.push({

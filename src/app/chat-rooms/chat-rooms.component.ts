@@ -5,7 +5,7 @@ import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/Chat
 import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
 import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 interface ChatRoom extends ChatRoomDto {
   messages: Array<ChatRoomMessageDto>;
@@ -29,13 +29,13 @@ export class ChatRoomsComponent implements OnInit {
   private lastChatMessageId: number;
 
   constructor(private localStorageService: LocalStorageService,
-              private chatRoomService: App_chatRoomApi,
-              private chatRoomMessageService: App_chatRoomMessageApi) {
-    this.myUser = this.localStorageService.get('myUser');
+              private chatRoomApi: App_chatRoomApi,
+              private chatRoomMessageApi: App_chatRoomMessageApi) {
+    this.myUser = this.localStorageService.retrieve('myUser');
   }
 
   ngOnInit() {
-    this.chatRoomService
+    this.chatRoomApi
       .appChatRoomGetMyChatRooms({})
       .subscribe((output) => {
         this.chatRooms = <Array<ChatRoom>> output.chatRooms;
@@ -47,7 +47,7 @@ export class ChatRoomsComponent implements OnInit {
   }
 
   public onClickChatRoom(chatRoom: ChatRoom) {
-    this.chatRoomMessageService
+    this.chatRoomMessageApi
       .appChatRoomMessageGetChatRoomMessages({
         chatRoomId: chatRoom.id,
         startId: 0
@@ -70,13 +70,13 @@ export class ChatRoomsComponent implements OnInit {
   public onClickSendMessage() {
     this.createTextChatRoomMessageInput.chatRoomId = this.selectedChatRoom.id;
 
-    this.chatRoomMessageService
+    this.chatRoomMessageApi
       .appChatRoomMessageCreateTextChatRoomMessage(this.createTextChatRoomMessageInput)
       .subscribe(() => {
 
         this.createTextChatRoomMessageInput.text = '';
 
-        this.chatRoomMessageService
+        this.chatRoomMessageApi
           .appChatRoomMessageGetChatRoomMessages({
             chatRoomId: this.selectedChatRoom.id,
             startId: this.lastChatMessageId

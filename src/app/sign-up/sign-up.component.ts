@@ -22,7 +22,7 @@ export class SignUpComponent implements OnInit {
   };
 
   constructor(private router: Router,
-              private accountService: AccountApi,
+              private accountApi: AccountApi,
               private tokenService: TokenService) {
   }
 
@@ -30,7 +30,7 @@ export class SignUpComponent implements OnInit {
   }
 
   public signUp() {
-    this.accountService
+    this.accountApi
       .accountSignUpWithHttpInfo(this.signUpInput)
       .subscribe(output => {
         this.tokenService.setToken(output.text());

@@ -7,13 +7,12 @@ import { CommonModule } from '@angular/common';
 
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
-import { LocalStorageModule } from 'angular-2-local-storage';
-import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule } from 'ng2-bootstrap';
+import { Ng2Webstorage } from 'ng2-webstorage';
+import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
-import { FileSelectDirective } from 'ng2-file-upload';
 import { DateTimePickerModule } from 'ng2-date-time-picker';
 import { MomentModule } from 'angular2-moment';
 
@@ -29,13 +28,14 @@ import { ActivityPlanComponent } from './activity-plan/activity-plan.component';
 import { FriendsComponent } from './friends/friends.component';
 import { ChatRoomsComponent } from './chat-rooms/chat-rooms.component';
 import { ActivityTemplateComponent } from './activity-template/activity-template.component';
-import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { CreateActivityPlanComponent } from './create-activity-plan/create-activity-plan.component';
 import { CreateActivityComponent } from './create-activity/create-activity.component';
 import { CreateActivityTemplateComponent } from './create-activity-template/create-activity-template.component';
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
+import { GenderPipe } from './gender.pipe';
+import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
 
 
 const appRoutes: Routes = [
@@ -48,6 +48,9 @@ const appRoutes: Routes = [
   {path: 'create-activity-plan', component: CreateActivityPlanComponent},
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
   {path: 'create-activity', component: CreateActivityComponent},
+
+  {path: 'friend-invitations', component: FriendInvitationsComponent},
+  {path: 'friends/:userId', component: FriendsComponent},
 
   {path: 'user/:id', component: UserComponent},
   {path: 'update-user', component: UpdateUserComponent},
@@ -75,7 +78,6 @@ const appRoutes: Routes = [
     FriendsComponent,
     ChatRoomsComponent,
     ActivityTemplateComponent,
-    AdvancedSearchComponent,
     CreateActivityPlanComponent,
     CreateActivityComponent,
     CreateActivityTemplateComponent,
@@ -83,7 +85,8 @@ const appRoutes: Routes = [
     UpdateUserComponent,
     SignUpProfileComponent,
     TruncatePipe,
-    FileSelectDirective
+    GenderPipe,
+    FriendInvitationsComponent
   ],
   imports: [
     BrowserModule,
@@ -92,9 +95,8 @@ const appRoutes: Routes = [
     HttpModule,
     CommonModule,
     RouterModule.forRoot(appRoutes),
-    LocalStorageModule.withConfig({
-      prefix: 'ut',
-      storageType: 'localStorage'
+    Ng2Webstorage.forRoot({
+      prefix: 'ut'
     }),
     AbpHttpModule,
     InfiniteScrollModule,
@@ -112,7 +114,8 @@ const appRoutes: Routes = [
     PopoverModule.forRoot(),
     TimepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    TypeaheadModule.forRoot()
   ],
   providers: [
     GoogleMapsAPIWrapper

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, XHRBackend, Headers, Request, Response, RequestOptionsArgs, ResponseOptions, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 import { MessageService } from './message.service';
 import { LogService } from './log.service';
@@ -302,7 +302,7 @@ export class AbpHttp extends Http {
       authorizationHeaders = [];
     }
 
-    if (!this.itemExists(authorizationHeaders, (item: string) => item.indexOf('Bearer ') == 0)) {
+    if (!this.itemExists(authorizationHeaders, (item: string) => item.indexOf('Bearer ') === 0)) {
       const token = this._tokenService.getToken();
       if (token) {
         options.headers.append('Authorization', 'Bearer ' + token);

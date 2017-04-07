@@ -1,10 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
 import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
 import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
+import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
+
+declare var google: any;
+
+// just an interface for type safety.
+interface Marker {
+
+  lat: number;
+  lng: number;
+
+  label ?: string;
+  draggable: boolean;
+
+}
 
 @Component({
   selector: 'app-activity-templates',
@@ -13,29 +26,45 @@ import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingA
 })
 export class ActivityTemplatesComponent implements OnInit {
 
-  public isLoading = false;
-  public isNoMoreResults = false;
-  public queryKeywordsControl = new FormControl();
+  public pageControls = {
+    isAdvancedCollapsed: true,
+    isLoading: false,
+    isNoMoreResults: false,
+
+    queryKeywordsControl: new FormControl()
+  };
+
+  public mapControls = {
+    map: {
+      lat: 22.273131,
+      lng: 114.187966,
+      zoom: 12
+    },
+    markers: []
+  };
 
   public getActivityTemplatesInput: GetActivityTemplatesInput = {
+    tagTexts: [],
     queryKeywords: '',
+    startTime: null,
+    endTime: null,
+    latitude: null,
+    longitude: null,
+    userId: null,
     maxResultCount: 10,
     skipCount: 0
   };
-
   public activityTemplates: ActivityTemplateListDto[] = [];
 
-  private isAlive = true;
-
-  constructor(private activityTemplateService: App_activityTemplateApi,
-              private ratingService: App_ratingApi) {
-    this.queryKeywordsControl.valueChanges
+  constructor(private activityTemplateApi: App_activityTemplateApi,
+              private ratingApi: App_ratingApi) {
+    this.pageControls
+      .queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
-      .takeWhile(() => this.isAlive)
       .subscribe(queryKeywords => {
         this.getActivityTemplatesInput.queryKeywords = queryKeywords;
-        this.onQueryKeywordsChanged();
+        this.onSearchConditionsChange();
       });
   }
 
@@ -44,27 +73,49 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onScroll() {
-    if (!this.isNoMoreResults) {
+    if (!this.pageControls.isNoMoreResults) {
       this.getActivityTemplates();
     }
   }
 
+  public onClickAdvanced() {
+    this.pageControls.isAdvancedCollapsed = !this.pageControls.isAdvancedCollapsed;
+  }
+
+  public onClickMap($event: MouseEvent) {
+    this.updateMarker($event.coords.lat, $event.coords.lng, '');
+  }
+
+  public onDateTimePickerChange() {
+    this.onSearchConditionsChange();
+  }
+
+  public onClickResetStartTime() {
+    if (this.getActivityTemplatesInput.startTime != null) {
+      this.getActivityTemplatesInput.startTime = null;
+
+      this.onDateTimePickerChange();
+    }
+  }
+
+  public onClickResetEndTime() {
+    if (this.getActivityTemplatesInput.endTime != null) {
+      this.getActivityTemplatesInput.endTime = null;
+
+      this.onDateTimePickerChange();
+    }
+  }
+
   public onClickLike(activityTemplate: ActivityTemplateListDto) {
-    const ratingStatus = 0;
-
-    const createRatingSubscription = this.ratingService
-      .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
-      .subscribe(output => {
-        activityTemplate.myRatingStatus = ratingStatus;
-
-        createRatingSubscription.unsubscribe();
-      });
+    this.rate(activityTemplate, 0);
   }
 
   public onClickDislike(activityTemplate: ActivityTemplateListDto) {
-    const ratingStatus = 0;
+    this.rate(activityTemplate, 1);
+  }
 
-    const createRatingSubscription = this.ratingService
+  private rate(activityTemplate: ActivityTemplateListDto, ratingStatus: number) {
+    const createRatingSubscription = this.ratingApi
       .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
       .subscribe(output => {
         activityTemplate.myRatingStatus = ratingStatus;
@@ -73,9 +124,9 @@ export class ActivityTemplatesComponent implements OnInit {
       });
   }
 
-  private onQueryKeywordsChanged() {
-    this.isLoading = false;
-    this.isNoMoreResults = false;
+  private onSearchConditionsChange() {
+    this.pageControls.isLoading = false;
+    this.pageControls.isNoMoreResults = false;
     this.getActivityTemplatesInput.skipCount = 0;
     this.activityTemplates = [];
 
@@ -83,28 +134,46 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   private getActivityTemplates() {
-    if (this.isLoading) {
+    if (this.pageControls.isLoading) {
       return;
     }
 
-    this.isLoading = true;
+    this.pageControls.isLoading = true;
 
-    this.activityTemplateService
+    const getActivityTemplatesInputSubscription = this.activityTemplateApi
       .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
-      .takeWhile(() => this.isAlive)
       .subscribe((output) => {
         if (output.activityTemplates.length === 0) {
-          this.isNoMoreResults = true;
+          this.pageControls.isNoMoreResults = true;
         }
 
         for (let i = 0; i < output.activityTemplates.length; i++) {
           this.activityTemplates.push(output.activityTemplates[i]);
         }
 
-        this.isLoading = false;
-      });
+        this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
+        this.pageControls.isLoading = false;
 
-    this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
+        getActivityTemplatesInputSubscription.unsubscribe();
+      });
+  }
+
+  private updateMarker(lat: number, lng: number, label: string) {
+    this.mapControls.markers = [
+      {
+        lat: lat,
+        lng: lng,
+
+        label: label,
+        draggable: false
+      }
+    ];
+    this.mapControls.map.zoom = 13;
+
+    this.getActivityTemplatesInput.latitude = lat;
+    this.getActivityTemplatesInput.longitude = lng;
+
+    this.onSearchConditionsChange();
   }
 
 }

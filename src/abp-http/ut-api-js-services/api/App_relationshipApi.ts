@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class App_trackApi {
+export class App_relationshipApi {
     protected basePath = 'https://unitime-dev-api.azurewebsites.net';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -45,8 +45,8 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackGetFriends(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetFriendsOutput> {
-        return this.appTrackGetFriendsWithHttpInfo(input, extraHttpRequestParams)
+    public appRelationshipGetFriends(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetFriendsOutput> {
+        return this.appRelationshipGetFriendsWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -61,8 +61,8 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackGetTrackedByUsers(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetTrackedByUsersOutput> {
-        return this.appTrackGetTrackedByUsersWithHttpInfo(input, extraHttpRequestParams)
+    public appRelationshipGetInterTrackingUsers(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetInterTrackingUsersOutput> {
+        return this.appRelationshipGetInterTrackingUsersWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -77,8 +77,8 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackGetTrackingUsers(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetTrackingUsersOutput> {
-        return this.appTrackGetTrackingUsersWithHttpInfo(input, extraHttpRequestParams)
+    public appRelationshipGetTrackedByUsers(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetTrackedByUsersOutput> {
+        return this.appRelationshipGetTrackedByUsersWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -93,8 +93,24 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackTrack(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<{}> {
-        return this.appTrackTrackWithHttpInfo(input, extraHttpRequestParams)
+    public appRelationshipGetTrackingUsers(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<models.GetTrackingUsersOutput> {
+        return this.appRelationshipGetTrackingUsersWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appRelationshipTrack(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appRelationshipTrackWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -110,14 +126,14 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackGetFriendsWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/track/GetFriends`;
+    public appRelationshipGetFriendsWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/relationship/GetFriends`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appTrackGetFriends.');
+            throw new Error('Required parameter input was null or undefined when calling appRelationshipGetFriends.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -149,14 +165,14 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackGetTrackedByUsersWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/track/GetTrackedByUsers`;
+    public appRelationshipGetInterTrackingUsersWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/relationship/GetInterTrackingUsers`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appTrackGetTrackedByUsers.');
+            throw new Error('Required parameter input was null or undefined when calling appRelationshipGetInterTrackingUsers.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -188,14 +204,14 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackGetTrackingUsersWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/track/GetTrackingUsers`;
+    public appRelationshipGetTrackedByUsersWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/relationship/GetTrackedByUsers`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appTrackGetTrackingUsers.');
+            throw new Error('Required parameter input was null or undefined when calling appRelationshipGetTrackedByUsers.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -227,14 +243,53 @@ export class App_trackApi {
      * 
      * @param input 
      */
-    public appTrackTrackWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/track/Track`;
+    public appRelationshipGetTrackingUsersWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/relationship/GetTrackingUsers`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appTrackTrack.');
+            throw new Error('Required parameter input was null or undefined when calling appRelationshipGetTrackingUsers.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appRelationshipTrackWithHttpInfo(input: models.TargetUserInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/relationship/Track`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appRelationshipTrack.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [

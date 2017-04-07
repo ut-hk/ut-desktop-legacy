@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-import { LocalStorageService } from 'angular-2-local-storage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Injectable()
 export class TokenService {
@@ -9,16 +8,16 @@ export class TokenService {
   }
 
   getToken(): string {
-    return this.localStorageService.get<string>('token');
+    return this.localStorageService.retrieve('token');
   }
 
 
   setToken(authToken: string, expireDate?: Date): void {
-    this.localStorageService.set('token', authToken);
+    this.localStorageService.store('token', authToken);
   }
 
   clearToken(): void {
-    this.localStorageService.remove('token');
+    this.localStorageService.clear('token');
   }
 
 }
