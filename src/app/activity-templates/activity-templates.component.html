@@ -4,29 +4,99 @@
     <div class="col-xs-12 col-sm-10">
       <div class="form-group">
         <input type="text" class="form-control" id="keywords" placeholder="Keywords"
-               [formControl]="queryKeywordsControl">
+               [formControl]="pageControls.queryKeywordsControl">
       </div>
     </div>
     <div class="col-xs-12 col-sm-2">
-      <button class="btn btn-default btn-block">Advanced</button>
+      <button class="btn btn-default btn-block" (click)="onClickAdvanced()">Advanced</button>
+    </div>
+  </div>
+
+  <br>
+  <div class="row" [collapse]="pageControls.isAdvancedSearchCollapsed">
+    <div class="col-sm-6">
+
+      <sebm-google-map
+        [latitude]="mapControls.map.lat"
+        [longitude]="mapControls.map.lng"
+        [zoom]="mapControls.map.zoom"
+        [disableDefaultUI]="false"
+        [zoomControl]="true"
+        (mapClick)="onClickMap($event)"
+        style="height: 200px;">
+
+        <sebm-google-map-marker
+          *ngFor="let marker of mapControls.markers; let i = index"
+          [latitude]="marker.lat"
+          [longitude]="marker.lng"
+          [label]="marker.label"
+          [markerDraggable]="marker.draggable">
+        </sebm-google-map-marker>
+      </sebm-google-map>
+
+    </div>
+    <div class="col-sm-6">
+      <div class="form-horizontal">
+
+        <div class="form-group">
+          <label for="startTime" class="col-xs-4 control-label">Start Time</label>
+          <div class="col-xs-8">
+            <div class="input-group">
+              <input class="form-control" id="startTime" placeholder="Start Time" [ngModel]="getActivityTemplatesInput.startTime | date: 'short'"
+                     [(dateTimePicker)]="getActivityTemplatesInput.startTime" [mode]="'dropdown'"
+                     (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+              <span class="input-group-btn">
+                <button class="btn btn-default" (click)="onClickResetStartTime()">Reset</button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="endTime" class="col-xs-4 control-label">End Time</label>
+          <div class="col-xs-8">
+            <div class="input-group">
+              <input class="form-control" id="endTime" placeholder="End Time" [ngModel]="getActivityTemplatesInput.endTime | date: 'short'"
+                     [(dateTimePicker)]="getActivityTemplatesInput.endTime" [mode]="'dropdown'"
+                     (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+              <span class="input-group-btn">
+                <button class="btn btn-default" (click)="onClickResetEndTime()">Reset</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
   <br>
 
   <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
-    <div class="activity-template col-xs-12 col-sm-6"
-         *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
-      <a class="cover" routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">
-        <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
-             [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
-      </a>
-      <h2 class="h3 title"><a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
+
+    <div *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
+         class="activity-template col-xs-12 col-sm-6">
+      <div class="cover">
+        <a *ngIf="activityTemplate.coverImageDescription" class="cover-image"
+           [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}">
+          <a class="like" [ngClass]="{'active': activityTemplate.myRatingStatus == 0}" (click)="onClickLike(activityTemplate)"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <a class="dislike" [ngClass]="{'active': activityTemplate.myRatingStatus == 1}" (click)="onClickDislike(activityTemplate)"><i class="fa fa-ban" aria-hidden="true"></i></a>
+        </a>
+      </div>
+      <h2 class="h3 title">
+        <a routerLink="/activity-template/{{activityTemplate.id}}">{{activityTemplate.name}}</a>
       </h2>
-      <p class="text-left" *ngIf="activityTemplate.referenceTimeSlots.length > 0">
-        {{activityTemplate.referenceTimeSlots[0].startTime | date : 'medium'}}</p>
-      <p class="text-right">Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></p>
+      <p *ngIf="activityTemplate.coverTextDescription">{{activityTemplate.coverTextDescription.content | truncate}}</p>
+      <p class="text-left">{{activityTemplate.startTime | date : 'medium'}}</p>
+      <div class="row">
+        <div class="col-xs-6">
+          {{activityTemplate.likes}} Likes
+        </div>
+        <div class="col-xs-6 text-right">
+          Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a>
+        </div>
+      </div>
     </div>
+
   </div>
 
   <div class="text-center" *ngIf="isLoading">

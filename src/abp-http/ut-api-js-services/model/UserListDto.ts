@@ -21,7 +21,7 @@ export interface UserListDto {
 
     gender?: UserListDto.GenderEnum;
 
-    coverId?: string;
+    iconId?: string;
 
     id?: number;
 

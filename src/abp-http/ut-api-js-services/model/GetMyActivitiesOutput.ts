@@ -13,6 +13,6 @@
 import * as models from './models';
 
 export interface GetMyActivitiesOutput {
-    myActivities?: Array<models.ActivityDto>;
+    myActivities?: Array<models.ActivityListDto>;
 
 }

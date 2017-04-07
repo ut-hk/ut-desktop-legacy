@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { App_trackApi } from '../../abp-http/ut-api-js-services/api/App_trackApi';
-import { LocalStorageService } from 'angular-2-local-storage';
-import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-friends',
@@ -10,19 +10,31 @@ import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
 })
 export class FriendsComponent implements OnInit {
 
-  constructor(
-    private localStorageService: LocalStorageService,
-    private trackService: App_trackApi) {
+
+  public friends: UserListDto[];
+
+  constructor(private route: ActivatedRoute,
+              private relationshipApi: App_relationshipApi) {
   }
 
   ngOnInit() {
-    this.trackService
-      .appTrackGetFriends({
-        targetUserId: this.localStorageService.get<UserDto>('myUser').id
-      })
-      .subscribe((output) => {
+    this.route.params
+      .subscribe(params => {
+        const userId = params['userId'];
 
+        this.getFriends(userId);
       });
   }
 
+  private getFriends(userId: number) {
+    const getFriendsSubscription = this.relationshipApi
+      .appRelationshipGetFriends({
+        targetUserId: userId
+      })
+      .subscribe((output) => {
+        this.friends = output.friends;
+
+        getFriendsSubscription.unsubscribe();
+      });
+  }
 }

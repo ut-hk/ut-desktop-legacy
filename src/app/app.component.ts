@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { App_userApi } from '../abp-http/ut-api-js-services/api/App_userApi';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { UserDto } from '../abp-http/ut-api-js-services/model/UserDto';
 import { TokenService } from '../abp-http/http/token.service';
 import { Router, RoutesRecognized } from '@angular/router';
 import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
 import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGuid';
+import { environment } from '../environments/environment';
+import { LocalStorage, LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-root',
@@ -15,36 +16,30 @@ import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGui
 export class AppComponent implements OnInit {
 
   public isCollapsed = true;
-  public myUser: UserDto = null;
-  public guest: EntityDtoGuid = null;
-  public depth = 0;
+  public depth = -1;
 
-  constructor(private localStorageService: LocalStorageService,
-              private router: Router,
+  public myUser: UserDto;
+
+  constructor(private router: Router,
+              private localStorageService: LocalStorageService,
               private tokenService: TokenService,
-              private userService: App_userApi,
-              private analysisService: App_analysisApi) {
-    this.guest = this.localStorageService.get<EntityDtoGuid>('guest');
+              private userApi: App_userApi,
+              private analysisApi: App_analysisApi) {
+    this.checkVersion();
+  }
+
+  private checkVersion() {
+    const version = this.localStorageService.retrieve('version');
+
+    if (version !== environment.version) {
+      this.localStorageService.clear();
+      this.localStorageService.store('version', environment.version);
+    }
   }
 
   ngOnInit() {
-    if (this.tokenService.getToken()) {
-      this.userService
-        .appUserGetMyUser({})
-        .subscribe((output) => {
-          this.localStorageService.set('myUser', output.myUser);
-          this.myUser = output.myUser;
-        });
-    }
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof RoutesRecognized) {
-        this.isCollapsed = true;
-        this.myUser = this.localStorageService.get('myUser');
-
-        this.createHistory(event.urlAfterRedirects);
-      }
-    });
+    this.initializeMyUser();
+    this.initializeRouteHistoryWatcher();
   }
 
   public toggleNavigation() {
@@ -57,29 +52,74 @@ export class AppComponent implements OnInit {
   public expanded(event: any): void {
   }
 
+  public logOut() {
+    this.tokenService.clearToken();
+
+    this.localStorageService.clear('myUser');
+    this.localStorageService.clear('userGuestId');
+    this.localStorageService.clear('anonymousGuestId');
+
+    this.router.navigate(['./log-in']);
+  }
+
+  private initializeMyUser() {
+    if (this.tokenService.getToken()) {
+      const subscription = this.userApi
+        .appUserGetMyUser({})
+        .subscribe((output) => {
+          this.localStorageService.store('myUser', output.myUser);
+          this.localStorageService.store('userGuestId', output.guestId);
+
+          this.myUser = output.myUser;
+
+          subscription.unsubscribe();
+        });
+    } else {
+      const anonymousGuestId = this.localStorageService.retrieve('anonymousGuestId');
+
+      if (anonymousGuestId == null) {
+        const subscription = this.analysisApi.appAnalysisGetGuest({})
+          .subscribe((output) => {
+            this.localStorageService.store('anonymousGuestId', output.id);
+
+            subscription.unsubscribe();
+          });
+      }
+    }
+  }
+
+  private initializeRouteHistoryWatcher() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof RoutesRecognized) {
+        this.isCollapsed = true;
+        this.myUser = this.localStorageService.retrieve('myUser');
+
+        this.createHistory(event.urlAfterRedirects);
+      }
+    });
+  }
+
   private createHistory(urlAfterRedirects: string): void {
+    this.depth = this.depth + 1;
+
+    const anonymousGuestId = this.localStorageService.retrieve('anonymousGuestId');
+    const userGuestId = this.localStorageService.retrieve('userGuestId');
+    const guestId = userGuestId != null ? userGuestId : anonymousGuestId;
+
+    if (guestId == null) {
+      return;
+    }
+
     const parameters = {
       depth: this.depth
     };
 
-    if (this.guest != null) {
-      this.analysisService.appAnalysisCreateRouteHistory({
-        guestId: this.guest.id,
-        routeName: urlAfterRedirects,
-        parameters: JSON.stringify(parameters)
-      });
-    } else {
-      this.createGuest();
-    }
-
-    this.depth = this.depth + 1;
-  }
-
-  private createGuest(): void {
-    this.analysisService.appAnalysisCreateGuest({})
-      .subscribe((output) => {
-        this.localStorageService.add('guest', output);
-        this.guest = output;
-      });
+    const subscription = this.analysisApi.appAnalysisCreateRouteHistory({
+      guestId: guestId,
+      routeName: urlAfterRedirects,
+      parameters: JSON.stringify(parameters)
+    }).subscribe(() => {
+      subscription.unsubscribe();
+    });
   }
 }

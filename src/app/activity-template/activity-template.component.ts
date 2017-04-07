@@ -19,19 +19,20 @@ export class ActivityTemplateComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute,
-              private activityTemplateService: App_activityTemplateApi,
-              private commentService: App_commentApi) {
+              private activityTemplateApi: App_activityTemplateApi,
+              private commentApi: App_commentApi) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const id = params['id'];
+    this.route.params
+      .subscribe(params => {
+        const id = params['id'];
 
-      this.activityTemplateId = id;
-      this.createTextCommentInput.activityTemplateId = id;
+        this.activityTemplateId = id;
+        this.createTextCommentInput.activityTemplateId = id;
 
-      this.getActivityTemplate();
-    });
+        this.getActivityTemplate();
+      });
   }
 
   public onClickAddToMyActivities() {
@@ -39,7 +40,7 @@ export class ActivityTemplateComponent implements OnInit {
   }
 
   public onClickTextComment() {
-    this.commentService
+    this.commentApi
       .appCommentCreateTextComment(this.createTextCommentInput)
       .subscribe(output => {
         this.getActivityTemplate();
@@ -49,7 +50,7 @@ export class ActivityTemplateComponent implements OnInit {
   private getActivityTemplate() {
     this.createTextCommentInput.content = '';
 
-    this.activityTemplateService
+    this.activityTemplateApi
       .appActivityTemplateGetActivityTemplate({id: this.activityTemplateId})
       .subscribe((output) => {
         this.activityTemplate = output.activityTemplate;

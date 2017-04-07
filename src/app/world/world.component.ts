@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
 import { GetActivityPlansInput } from '../../abp-http/ut-api-js-services/model/GetActivityPlansInput';
+import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+
+
 
 @Component({
   selector: 'app-world',
@@ -21,7 +23,7 @@ export class WorldComponent implements OnInit {
 
   public activityPlans: ActivityPlanDto[] = [];
 
-  constructor(private activityPlanService: App_activityPlanApi) {
+  constructor(private activityPlanApi: App_activityPlanApi) {
   }
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class WorldComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.activityPlanService
+    this.activityPlanApi
       .appActivityPlanGetActivityPlans({})
       .subscribe((output) => {
         if (output.activityPlans.length === 0) {
@@ -47,8 +49,6 @@ export class WorldComponent implements OnInit {
         }
 
         this.isLoading = false;
-
-        console.log(this.activityPlans);
       });
 
     this.getActivityPlansInput.skipCount = this.getActivityPlansInput.skipCount + 10;

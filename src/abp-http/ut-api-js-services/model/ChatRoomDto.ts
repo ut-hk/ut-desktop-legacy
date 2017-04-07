@@ -17,6 +17,8 @@ export interface ChatRoomDto {
 
     participants?: Array<models.UserListDto>;
 
+    latestMessage?: models.ChatRoomMessageDto;
+
     id?: string;
 
 }

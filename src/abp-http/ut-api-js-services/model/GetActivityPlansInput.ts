@@ -17,6 +17,8 @@ export interface GetActivityPlansInput {
 
     queryKeywords?: string;
 
+    userId?: number;
+
     maxResultCount?: number;
 
     skipCount?: number;

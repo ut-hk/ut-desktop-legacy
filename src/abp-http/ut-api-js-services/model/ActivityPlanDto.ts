@@ -15,8 +15,6 @@ import * as models from './models';
 export interface ActivityPlanDto {
     name?: string;
 
-    descriptions?: Array<models.DescriptionDto>;
-
     tags?: Array<models.TagDto>;
 
     timeSlots?: Array<models.ActivityPlanTimeSlotDto>;

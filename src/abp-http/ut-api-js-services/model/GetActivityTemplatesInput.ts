@@ -21,9 +21,11 @@ export interface GetActivityTemplatesInput {
 
     endTime?: Date;
 
+    latitude?: number;
+
     longitude?: number;
 
-    latitude?: number;
+    userId?: number;
 
     maxResultCount?: number;
 

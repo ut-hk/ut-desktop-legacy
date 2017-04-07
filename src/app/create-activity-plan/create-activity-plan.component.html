@@ -3,10 +3,50 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-horizontal">
+
         <div class="form-group">
           <label for="name" class="col-sm-2 control-label">Name</label>
           <div class="col-sm-10">
-            <input type="name" class="form-control" id="name" placeholder="Name" [(ngModel)]="createActivityPlanInput.name">
+            <input type="name" class="form-control" id="name" placeholder="Name"
+                   [(ngModel)]="createActivityPlanInput.name">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-10">
+          <textarea class="form-control" placeholder="Description"
+                    [(ngModel)]="createTextDescriptionInput.text"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Tags</label>
+          <div class="col-sm-10">
+            <input placeholder="Tags"
+                   [(ngModel)]="asyncSelected"
+                   [typeahead]="dataSource"
+                   (typeaheadLoading)="changeTypeaheadLoading($event)"
+                   (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   typeaheadOptionsLimit="10"
+                   typeaheadOptionField="text"
+                   typeaheadWaitMs="1000"
+                   typeaheadMinLength="2"
+                   class="form-control">
           </div>
         </div>
       </div>
@@ -21,16 +61,17 @@
   </div>
   <br>
 
-  <div class="row">
+  <div class="row" *ngIf="selectedActivityTemplates && activityTemplates">
 
     <div class="hidden-xs col-sm-2"></div>
 
-    <div class="col-xs-6 col-sm-5" >
+    <div class="col-xs-6 col-sm-5">
       <div class="selected-activity-templates" [dragula]="'bag-one'" [dragulaModel]="selectedActivityTemplates">
         <div class="activity-template"
              *ngFor="let activityTemplate of selectedActivityTemplates; trackBy: activityTemplate?.id">
           <div class="cover">
-            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription" [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
+            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
+                 [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
           </div>
           <div class="h3 title">{{activityTemplate.name}}</div>
         </div>
@@ -39,14 +80,16 @@
 
     <sticky class="col-xs-6 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="0">
       <div class="form-group">
-        <input type="text" class="form-control" id="keywords" placeholder="Keywords" [formControl]="queryKeywordsControl">
+        <input type="text" class="form-control" id="keywords" placeholder="Keywords"
+               [formControl]="queryKeywordsControl">
       </div>
 
-      <div class="activity-templates" [dragula]="'bag-one'" [dragulaModel]="activityTemplates" infinite-scroll (scrolled)="onScroll()">
-        <div class="activity-template"
-             *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+      <div class="activity-templates" [dragula]="'bag-one'" [dragulaModel]="activityTemplates" infinite-scroll
+           (scrolled)="onScroll()">
+        <div class="activity-template" *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
           <div class="cover">
-            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription" [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
+            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
+                 [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
           </div>
           <div class="h3 title">{{activityTemplate.name}}</div>
         </div>
