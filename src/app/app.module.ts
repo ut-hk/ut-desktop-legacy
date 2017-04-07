@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { Ng2Webstorage } from 'ng2-webstorage';
-import { AlertModule, BsDropdownModule, CollapseModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
+import { AlertModule, BsDropdownModule, CollapseModule, ModalModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
@@ -36,6 +36,7 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 import { GenderPipe } from './gender.pipe';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
+import { NgUploaderModule } from 'ngx-uploader';
 
 
 const appRoutes: Routes = [
@@ -95,10 +96,12 @@ const appRoutes: Routes = [
     HttpModule,
     CommonModule,
     RouterModule.forRoot(appRoutes),
+    AbpHttpModule,
+
     Ng2Webstorage.forRoot({
       prefix: 'ut'
     }),
-    AbpHttpModule,
+    NgUploaderModule,
     InfiniteScrollModule,
     DragulaModule,
     StickyModule,
@@ -115,7 +118,8 @@ const appRoutes: Routes = [
     TimepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     GoogleMapsAPIWrapper

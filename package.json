@@ -32,10 +32,10 @@
     "dragula": "^3.7.2",
     "ng2-date-time-picker": "^4.0.0",
     "ng2-dragula": "^1.3.0",
-    "ng2-file-upload": "^1.2.0",
     "ng2-sticky-kit": "^2.0.3",
     "ng2-webstorage": "^1.6.2",
     "ngx-bootstrap": "^1.6.5",
+    "ngx-uploader": "^2.2.5",
     "rxjs": "^5.2.0",
     "typescript": "^2.2.2",
     "zone.js": "^0.8.4"
