@@ -4,8 +4,9 @@
     <div class="col-sm-10">
       <h1 class="">{{user.name}} {{user.surname}}</h1>
 
-      <button *ngIf="isMyUser == false" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend</button>
-      <button type="button" class="btn btn-info">Send me a message</button>
+      <button *ngIf="isMyUser==false" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
+      </button>
+      <button type="button" class="btn btn-info">Send me a message{{isMyUser}}</button>
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
       <br>
     </div>
@@ -76,7 +77,8 @@
                   <h5 class="truncate">
                     <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
                   </h5>
-                  <p class="truncate" *ngIf="activityTemplate.coverImageDescription">{{activityTemplate.coverTextDescription.content}}</p>
+                  <p class="truncate" *ngIf="activityTemplate.coverImageDescription">
+                    {{activityTemplate.coverTextDescription.content}}</p>
                 </div>
               </div>
             </div>
