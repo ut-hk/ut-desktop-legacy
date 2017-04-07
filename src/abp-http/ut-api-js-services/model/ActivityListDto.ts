@@ -19,17 +19,19 @@ export interface ActivityListDto {
 
     name?: string;
 
+    location?: models.LocationDto;
+
+    tags?: Array<models.TagDto>;
+
+    owner?: models.UserListDto;
+
     coverImageDescription?: models.DescriptionDto;
 
     coverTextDescription?: models.DescriptionDto;
 
     myRatingStatus?: ActivityListDto.MyRatingStatusEnum;
 
-    location?: models.LocationDto;
-
-    tags?: Array<models.TagDto>;
-
-    owner?: models.UserListDto;
+    likes?: number;
 
     id?: string;
 

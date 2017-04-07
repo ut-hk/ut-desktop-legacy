@@ -4,20 +4,7 @@ import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
 import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
-import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
-
-declare var google: any;
-
-// just an interface for type safety.
-interface Marker {
-
-  lat: number;
-  lng: number;
-
-  label ?: string;
-  draggable: boolean;
-
-}
+import { MouseEvent } from 'angular2-google-maps/core';
 
 @Component({
   selector: 'app-activity-templates',
@@ -27,7 +14,7 @@ interface Marker {
 export class ActivityTemplatesComponent implements OnInit {
 
   public pageControls = {
-    isAdvancedCollapsed: true,
+    isAdvancedSearchCollapsed: false,
     isLoading: false,
     isNoMoreResults: false,
 
@@ -36,8 +23,8 @@ export class ActivityTemplatesComponent implements OnInit {
 
   public mapControls = {
     map: {
-      lat: 22.273131,
-      lng: 114.187966,
+      lat: 22.4223236,
+      lng: 114.20414459999999,
       zoom: 12
     },
     markers: []
@@ -79,7 +66,7 @@ export class ActivityTemplatesComponent implements OnInit {
   }
 
   public onClickAdvanced() {
-    this.pageControls.isAdvancedCollapsed = !this.pageControls.isAdvancedCollapsed;
+    this.pageControls.isAdvancedSearchCollapsed = !this.pageControls.isAdvancedSearchCollapsed;
   }
 
   public onClickMap($event: MouseEvent) {
@@ -119,6 +106,16 @@ export class ActivityTemplatesComponent implements OnInit {
       .appRatingCreateRating({ratingStatus: ratingStatus, activityTemplateId: activityTemplate.id})
       .subscribe(output => {
         activityTemplate.myRatingStatus = ratingStatus;
+
+        switch (ratingStatus) {
+          case 0:
+            activityTemplate.likes = activityTemplate.likes + 1;
+            break;
+          case 1:
+            activityTemplate.likes = activityTemplate.likes - 1;
+
+            break;
+        }
 
         createRatingSubscription.unsubscribe();
       });
@@ -168,7 +165,10 @@ export class ActivityTemplatesComponent implements OnInit {
         draggable: false
       }
     ];
+
     this.mapControls.map.zoom = 13;
+    this.mapControls.map.lat = lat;
+    this.mapControls.map.lng = lng;
 
     this.getActivityTemplatesInput.latitude = lat;
     this.getActivityTemplatesInput.longitude = lng;

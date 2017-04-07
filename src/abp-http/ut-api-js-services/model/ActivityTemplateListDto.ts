@@ -17,17 +17,19 @@ export interface ActivityTemplateListDto {
 
     name?: string;
 
+    location?: models.LocationDto;
+
+    tags?: Array<models.TagDto>;
+
+    owner?: models.UserListDto;
+
     coverImageDescription?: models.DescriptionDto;
 
     coverTextDescription?: models.DescriptionDto;
 
     myRatingStatus?: ActivityTemplateListDto.MyRatingStatusEnum;
 
-    location?: models.LocationDto;
-
-    tags?: Array<models.TagDto>;
-
-    owner?: models.UserListDto;
+    likes?: number;
 
     id?: string;
 

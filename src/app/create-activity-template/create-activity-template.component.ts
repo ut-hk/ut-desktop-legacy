@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef, Directive } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
@@ -10,17 +10,6 @@ import { environment } from '../../environments/environment';
 
 declare var google: any;
 
-// just an interface for type safety.
-interface Marker {
-
-  lat: number;
-  lng: number;
-
-  label ?: string;
-  draggable: boolean;
-
-}
-
 @Component({
   selector: 'app-create-activity-template',
   templateUrl: './create-activity-template.component.html',
@@ -28,17 +17,24 @@ interface Marker {
 })
 export class CreateActivityTemplateComponent implements OnInit {
 
-  @ViewChild('locationNameElement')
-  public locationNameElement: ElementRef;
+  @ViewChild('locationNameElementRef')
+  public locationNameElementRef: ElementRef;
   public locationNameControl: FormControl = new FormControl();
 
-  // initial center position for the map
-  public map = {
-    lat: 22.4223236,
-    lng: 114.20414459999999,
-    zoom: 12
+  public mapControls = {
+    map: {
+      lat: 22.4223236,
+      lng: 114.20414459999999,
+      zoom: 12
+    },
+    markers: []
   };
-  public markers: Marker[] = [];
+
+  public uploadControls: { uploader: FileUploader, hasBaseDropZoneOver: boolean, hasAnotherDropZoneOver: boolean } = {
+    uploader: new FileUploader({url: environment.baseUrl}),
+    hasBaseDropZoneOver: false,
+    hasAnotherDropZoneOver: false
+  };
 
   public createActivityTemplateInput: CreateActivityTemplateInput = {
     name: '',
@@ -46,10 +42,6 @@ export class CreateActivityTemplateComponent implements OnInit {
     locationId: ''
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
-
-  public uploader: FileUploader = new FileUploader({url: environment.baseUrl});
-  public hasBaseDropZoneOver = false;
-  public hasAnotherDropZoneOver = false;
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
@@ -62,7 +54,7 @@ export class CreateActivityTemplateComponent implements OnInit {
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(this.locationNameElement.nativeElement, {
+      const autocomplete = new google.maps.places.Autocomplete(this.locationNameElementRef.nativeElement, {
         types: ['address']
       });
 
@@ -123,10 +115,6 @@ export class CreateActivityTemplateComponent implements OnInit {
     this.updateMarker($event.coords.lat, $event.coords.lng, '');
   }
 
-  public onClickMarker(label: string, index: number) {
-    console.log('Clicked the marker.');
-  }
-
   private setCurrentPosition() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -134,13 +122,13 @@ export class CreateActivityTemplateComponent implements OnInit {
         this.updateMarker(position.coords.latitude, position.coords.longitude, '');
       }, () => {
         // Default value
-        this.updateMarker(this.map.lat, this.map.lng, '');
+        this.updateMarker(this.mapControls.map.lat, this.mapControls.map.lng, '');
       });
     }
   }
 
   private updateMarker(lat: number, lng: number, label: string) {
-    this.markers = [
+    this.mapControls.markers = [
       {
         lat: lat,
         lng: lng,
@@ -150,22 +138,21 @@ export class CreateActivityTemplateComponent implements OnInit {
       }
     ];
 
-    this.map.lat = lat;
-    this.map.lng = lng;
-    this.map.zoom = 13;
+    this.mapControls.map.lat = lat;
+    this.mapControls.map.lng = lng;
+    this.mapControls.map.zoom = 13;
   }
 
   public upload() {
-    console.log(this.uploader.uploadAll());
-    this.uploader.clearQueue();
+    this.uploadControls.uploader.clearQueue();
   }
 
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
+  public onFileOver(e: any): void {
+    this.uploadControls.hasBaseDropZoneOver = e;
   }
 
   public fileOverAnother(e: any): void {
-    this.hasAnotherDropZoneOver = e;
+    this.uploadControls.hasAnotherDropZoneOver = e;
   }
 
 

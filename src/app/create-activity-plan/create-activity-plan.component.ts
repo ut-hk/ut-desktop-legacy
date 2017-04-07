@@ -10,7 +10,7 @@ import {DragulaService} from 'ng2-dragula';
 import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import {App_tagApi} from '../../abp-http/ut-api-js-services/api/App_tagApi';
 import {TypeaheadMatch} from 'ngx-bootstrap/typeahead';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
