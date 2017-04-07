@@ -5,8 +5,8 @@ import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/m
 import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
-import { FileUploader } from 'ng2-file-upload';
-import { environment } from '../../environments/environment';
+import { NgUploaderOptions } from 'ngx-uploader';
+import { DragulaService } from 'ng2-dragula';
 
 declare var google: any;
 
@@ -21,6 +21,11 @@ export class CreateActivityTemplateComponent implements OnInit {
   public locationNameElementRef: ElementRef;
   public locationNameControl: FormControl = new FormControl();
 
+  public pageControls = {
+    maxTimeSlotId: 0,
+    maxDescriptionId: 0
+  };
+
   public mapControls = {
     map: {
       lat: 22.4223236,
@@ -30,10 +35,8 @@ export class CreateActivityTemplateComponent implements OnInit {
     markers: []
   };
 
-  public uploadControls: { uploader: FileUploader, hasBaseDropZoneOver: boolean, hasAnotherDropZoneOver: boolean } = {
-    uploader: new FileUploader({url: environment.baseUrl}),
-    hasBaseDropZoneOver: false,
-    hasAnotherDropZoneOver: false
+  public fileDropControls: { options?: NgUploaderOptions, isFileOver: boolean, response?: object } = {
+    isFileOver: false
   };
 
   public createActivityTemplateInput: CreateActivityTemplateInput = {
@@ -45,7 +48,22 @@ export class CreateActivityTemplateComponent implements OnInit {
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
+              private ngZone: NgZone,
+              private dragulaService: DragulaService) {
+    this.fileDropControls.options = new NgUploaderOptions({
+      url: 'http://api.ngx-uploader.com/upload',
+      autoUpload: false
+    });
+
+    const bag: any = this.dragulaService.find('descriptions-bag');
+    if (bag !== undefined) {
+      this.dragulaService.destroy('descriptions-bag');
+    }
+    dragulaService.setOptions('descriptions-bag', {
+      moves: function (el, container, handle) {
+        return handle.className === 'glyphicon glyphicon-apple';
+      }
+    });
   }
 
   ngOnInit() {
@@ -90,25 +108,43 @@ export class CreateActivityTemplateComponent implements OnInit {
   }
 
   public onClickDeleteATimeSlot(index) {
+    console.log(index);
+
     if (index > -1) {
       this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
     }
   }
 
   public onClickDeleteADescription(index) {
+    console.log(index);
     if (index > -1) {
       this.createTextDescriptionInputs.splice(index, 1);
     }
   }
 
   public createActivityTemplate() {
-    this.upload();
     this.activityTemplateApi
       .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
       .flatMap((output) => this.activityTemplateApi.appActivityTemplateGetActivityTemplate({id: output.id}))
       .subscribe((output) => {
         console.log(output);
       });
+  }
+
+  public onFileUpload(data: any) {
+    console.log(1);
+    setTimeout(() => {
+      this.ngZone.run(() => {
+        this.fileDropControls.response = data;
+        if (data && data.response) {
+          this.fileDropControls.response = JSON.parse(data.response);
+        }
+      });
+    });
+  }
+
+  public onFileOver(e: boolean) {
+    this.fileDropControls.isFileOver = e;
   }
 
   public onClickMap($event: MouseEvent) {
@@ -142,18 +178,5 @@ export class CreateActivityTemplateComponent implements OnInit {
     this.mapControls.map.lng = lng;
     this.mapControls.map.zoom = 13;
   }
-
-  public upload() {
-    this.uploadControls.uploader.clearQueue();
-  }
-
-  public onFileOver(e: any): void {
-    this.uploadControls.hasBaseDropZoneOver = e;
-  }
-
-  public fileOverAnother(e: any): void {
-    this.uploadControls.hasAnotherDropZoneOver = e;
-  }
-
 
 }

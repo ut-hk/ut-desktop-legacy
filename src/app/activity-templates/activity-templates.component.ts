@@ -45,8 +45,7 @@ export class ActivityTemplatesComponent implements OnInit {
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private ratingApi: App_ratingApi) {
-    this.pageControls
-      .queryKeywordsControl.valueChanges
+    this.pageControls.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
       .subscribe(queryKeywords => {
