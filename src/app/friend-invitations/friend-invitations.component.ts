@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
 import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-friend-invitations',
@@ -9,18 +10,16 @@ import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/Fri
 })
 export class FriendInvitationsComponent implements OnInit {
 
-  private friendInvitations: FriendInvitationDto[];
+  private friendInvitations: Observable<FriendInvitationDto[]>;
 
   constructor(private friendInvitationApi: App_friendInvitationApi) {
   }
 
   ngOnInit() {
-    const getMyPendingFriendInvitationsSubscription = this.friendInvitationApi
+    this.friendInvitations = this.friendInvitationApi
       .appFriendInvitationGetMyPendingFriendInvitations()
-      .subscribe(output => {
-        this.friendInvitations = output.friendInvitations;
-
-        getMyPendingFriendInvitationsSubscription.unsubscribe();
+      .map(output => {
+        return output.friendInvitations;
       });
   }
 
