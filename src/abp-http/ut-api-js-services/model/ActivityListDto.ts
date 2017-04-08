@@ -17,6 +17,8 @@ export interface ActivityListDto {
 
     endTime?: Date;
 
+    activityTemplateId?: string;
+
     name?: string;
 
     location?: models.LocationDto;

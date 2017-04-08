@@ -12,9 +12,11 @@
 
 import * as models from './models';
 
-export interface CreateActivityPlanInput {
-    name?: string;
+export interface CreateActivityFromActivityTemplateInput {
+    startTime?: Date;
 
-    tagTexts?: Array<string>;
+    endTime?: Date;
+
+    activityTemplateId?: string;
 
 }

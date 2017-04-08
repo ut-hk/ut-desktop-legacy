@@ -17,7 +17,7 @@ export interface UpdateActivityPlanInput {
 
     descriptionIds?: Array<number>;
 
-    tagIds?: Array<number>;
+    tagTexts?: Array<string>;
 
     id?: string;
 

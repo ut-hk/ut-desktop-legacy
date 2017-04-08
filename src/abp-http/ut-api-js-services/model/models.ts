@@ -13,6 +13,7 @@ export * from './ChatRoomMessageDto';
 export * from './ClearAllCacheModel';
 export * from './ClearCacheModel';
 export * from './CommentDto';
+export * from './CreateActivityFromActivityTemplateInput';
 export * from './CreateActivityInput';
 export * from './CreateActivityInvitationInput';
 export * from './CreateActivityPlanInput';
