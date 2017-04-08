@@ -37,7 +37,7 @@ export class CreateActivityPlanComponent implements OnInit {
   public tagInputBox = new FormControl();
 
   public activityTemplates: ActivityTemplateDto[] = [];
-  public selectedActivityTemplates: CreateActivityPlanTimeSlotInput[] = [];
+  public selectedActivityTemplates: {activityTemplate: ActivityTemplateDto[], timeSlot: {startTime: string, endTime: string}}[] = [];
   public createTextDescriptionInput: CreateTextDescriptionInput = {};
 
   public asyncSelected: string;
@@ -68,6 +68,10 @@ export class CreateActivityPlanComponent implements OnInit {
 
     dragulaService.drop.subscribe((value) => {
       console.log(value);
+    });
+
+    dragulaService.setOptions('bag-one', {
+      revertOnSpill: true
     });
   }
 

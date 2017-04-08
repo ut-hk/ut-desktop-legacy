@@ -12,8 +12,14 @@
   overflow-y: auto;
 }
 
+.selected-activity-time {
+  position: absolute;
+  left: -50px;
+}
+
 .activity-template {
   margin-bottom: 20px;
+  position: relative;
 
   .cover {
     display: block;

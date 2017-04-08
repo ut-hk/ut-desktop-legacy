@@ -44,7 +44,7 @@
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    typeaheadOptionsLimit="10"
                    typeaheadOptionField="text"
-                   typeaheadWaitMs="1000"
+                   typeaheadWaitMs="100"
                    typeaheadMinLength="2"
                    class="form-control">
           </div>
@@ -69,6 +69,11 @@
       <div class="selected-activity-templates" [dragula]="'bag-one'" [dragulaModel]="selectedActivityTemplates">
         <div class="activity-template"
              *ngFor="let activityTemplate of selectedActivityTemplates; trackBy: activityTemplate?.id">
+          <!--<input class="form-control" [ngModel]="activityTemplate.startTime | date: 'short'"-->
+                 <!--[(dateTimePicker)]="activityTemplate.startTime" [mode]="'dropdown'" readonly>-->
+
+          <!--</input>-->
+
           <div class="cover">
             <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
                  [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
