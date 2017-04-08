@@ -3,6 +3,7 @@
     <div class="col-xs-12">
       <div class="form-horizontal">
 
+        <!-- Activity Name -->
         <div class="form-group">
           <label for="name" class="col-md-3 control-label">Activity Name</label>
           <div class="col-md-9">
@@ -10,48 +11,65 @@
                    [(ngModel)]="createActivityInput.name">
           </div>
         </div>
+
+        <!-- Tags -->
         <div class="form-group">
-          <label for="locationName" class="col-md-3 control-label">Location Name</label>
+          <label for="tags" class="col-md-3 control-label">Tags</label>
           <div class="col-md-9">
-            <input type="text" class="form-control" id="locationName" placeholder="Search for location"
-                   autocorrect="off" autocapitalize="off" spellcheck="off"
-                   #locationNameElement [formControl]="locationNameControl">
+            <input id="tags" class="form-control" [(ngModel)]="pageControls.tagTextsModel" placeholder="Type some tags like these #CUHK #UT #Astronomy #NA">
           </div>
         </div>
+
+        <!-- Time Slot -->
         <div class="form-group">
-          <label class="col-md-3 control-label">Reference Time Slots</label>
+          <label class="col-md-3 control-label">Time Slot</label>
           <div class="col-md-9">
-            <div class="col-xs-5">
-              <input class="form-control" [ngModel]="createActivityInput.startTime | date: 'short'"
-                     [(dateTimePicker)]="createActivityInput.startTime" [mode]="'dropdown'" readonly>
-            </div>
-            <div class="col-xs-5">
-              <input class="form-control" [ngModel]="createActivityInput.endTime | date: 'short'"
-                     [(dateTimePicker)]="createActivityInput.endTime" [mode]="'dropdown'" readonly>
+            <div class="row">
+
+              <div class="col-xs-6">
+                <input class="form-control" placeholder="Start Time" [ngModel]="createActivityInput.startTime | date: 'short'"
+                       [(dateTimePicker)]="createActivityInput.startTime" [mode]="'dropdown'" readonly>
+              </div>
+              <div class="col-xs-6">
+                <input class="form-control" placeholder="End Time" [ngModel]="createActivityInput.endTime | date: 'short'"
+                       [(dateTimePicker)]="createActivityInput.endTime" [mode]="'dropdown'" readonly>
+              </div>
+
             </div>
           </div>
         </div>
+
+        <!-- Descriptions -->
         <div class="form-group">
           <label class="col-md-3 control-label">Descriptions</label>
           <div class="col-md-9">
-            <div *ngFor="let createTextDescriptionInput of createTextDescriptionInputs; let i = index;"
-                 style="margin-bottom: 5px;">
-              <div class="row">
-                <div class="col-xs-11">
-                  <textarea class="form-control" placeholder="Please enter your description"
-                            [(ngModel)]="createTextDescriptionInput.text"></textarea>
-                </div>
+
+            <!-- Description -->
+            <div [dragula]='"descriptions-bag"' [dragulaModel]='createTextDescriptionInputs'>
+              <div *ngFor="let createTextDescriptionInput of createTextDescriptionInputs; let i = index;"
+                   class="row description">
                 <div class="col-xs-1">
-                  <div class="text-right">
-                    <button class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"
-                                                         (click)="onClickDeleteADescription(i)"></span></button>
+                  <div class="handle drag">
+                    <i class="glyphicon glyphicon-apple" aria-hidden="true"></i>
                   </div>
+                  <br>
+                  <div class="handle delete" (click)="onClickDeleteADescription(i)">
+                    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div class="col-xs-11">
+                    <textarea class="form-control" placeholder="Please enter your description"
+                              [(ngModel)]="createTextDescriptionInput.text"></textarea>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-xs-11">
 
+            <!-- Add a description -->
+            <button class="btn btn-default btn-block" (click)="onClickAddADescription()">Add a Description</button>
+
+            <!-- File Drop -->
+            <div class="row">
+              <div class="col-xs-12">
                 <div *ngIf="fileDropControls.options"
                      ngFileDrop class="file-drop-box"
                      [options]="fileDropControls.options"
@@ -60,19 +78,26 @@
                      (onFileOver)="onFileOver($event)">
                   Drag a file here.
                 </div>
-
               </div>
             </div>
-
-            <button class="btn btn-default btn-block" (click)="onClickAddADescription()">Add a Description</button>
-            <button class="btn btn-default btn-block" (click)="onClickAddADescription()">Add a Photo</button>
           </div>
         </div>
 
+        <!-- Location Name -->
+        <div class="form-group">
+          <label for="locationName" class="col-md-3 control-label">Location Name</label>
+          <div class="col-md-9">
+            <input type="text" class="form-control" id="locationName" placeholder="Search for location"
+                   autocorrect="off" autocapitalize="off" spellcheck="off"
+                   #locationNameElementRef [formControl]="locationNameControl">
+          </div>
+        </div>
+
+        <!-- Google Maps -->
         <div class="row">
           <div class="hiddex-xs col-md-3"></div>
           <div class="col-xs-12 col-md-9">
-            
+
             <sebm-google-map
               [latitude]="mapControls.map.lat"
               [longitude]="mapControls.map.lng"
@@ -95,10 +120,11 @@
           </div>
         </div>
 
+        <!-- Submit -->
         <div class="row">
           <div class="hidden-xs col-md-3"></div>
           <div class="col-xs-12 col-md-9">
-            <button type="button" class="btn btn-primary" (click)="createActivity()">Submit</button>
+            <button type="button" class="btn btn-primary" (click)="onClickCreate()">Create</button>
           </div>
         </div>
 
@@ -106,4 +132,3 @@
     </div>
   </div>
 </div>
-

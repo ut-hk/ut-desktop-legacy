@@ -1,8 +1,47 @@
 .sebm-google-map-container {
   height: 300px;
 }
-.my-drop-zone { border: dotted 3px lightgray; }
-.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-.another-file-over-class { border: dotted 3px green; }
 
-html, body { height: 100%; }
+.file-drop-box {
+  background-color: #c8dadf;
+  padding: 30px 0;
+  text-align: center;
+  color: white;
+  margin: 10px 3px;
+  outline: 2px dashed #92b0b3;
+  outline-offset: 0;
+  -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  transition: outline-offset .15s ease-in-out, background-color .15s linear;
+
+  &.file-over {
+    outline-offset: -10px;
+  }
+}
+
+.description {
+  padding-bottom: 5px;
+}
+
+$handle-size: 24px;
+.handle {
+  display: inline-block;
+  color: white;
+  width: $handle-size;
+  height: $handle-size;
+  line-height: $handle-size;
+  text-align: center;
+  margin-bottom: 3px;
+
+  &.drag {
+    background-color: #3a87ad;
+  }
+
+  &.delete {
+    background-color: darkred;
+  }
+
+  .glyphicon {
+    top: 0;
+    line-height: $handle-size;
+  }
+}

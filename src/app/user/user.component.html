@@ -77,8 +77,31 @@
                   <h5 class="truncate">
                     <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
                   </h5>
-                  <p class="truncate" *ngIf="activityTemplate.coverImageDescription">
-                    {{activityTemplate.coverTextDescription.content}}</p>
+                  <p class="truncate" *ngIf="activityTemplate.coverTextDescription">{{activityTemplate.coverTextDescription.content}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- third row -->
+      <div class="panel panel-default target">
+        <div class="panel-heading" contenteditable="false">Activities</div>
+
+        <div class="panel-body">
+          <div class="row" *ngIf="activityTemplates">
+            <div class="col-md-4" *ngFor="let activity of activities; trackBy: activity?.id">
+              <div class="thumbnail activity">
+                <a class="cover" routerLink="/activity/{{activity.id}}" routerLinkActive="active">
+                  <div class="cover-image" *ngIf="activity.coverImageDescription"
+                       [ngStyle]="{'background-image': 'url(' + activity.coverImageDescription.content + ')'}"></div>
+                </a>
+                <div class="caption">
+                  <h5 class="truncate">
+                    <a routerLink="/activity/{{activity.id}}" routerLinkActive="active">{{activity.name}}</a>
+                  </h5>
+                  <p class="truncate" *ngIf="activity.coverTextDescription">{{activity.coverTextDescription.content}}</p>
                 </div>
               </div>
             </div>

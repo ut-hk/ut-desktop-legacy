@@ -41,8 +41,8 @@ import { FriendInvitationsComponent } from './friend-invitations/friend-invitati
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
-
   {path: 'activity-plan/:id', component: ActivityPlanComponent},
+
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
 
