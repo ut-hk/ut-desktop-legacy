@@ -37,7 +37,8 @@ export class CreateActivityTemplateComponent implements OnInit {
   public createActivityTemplateInput: CreateActivityTemplateInput = {
     name: '',
     referenceTimeSlots: [],
-    locationId: ''
+    locationId: '',
+    tagTexts: []
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 

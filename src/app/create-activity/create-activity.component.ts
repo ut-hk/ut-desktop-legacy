@@ -43,7 +43,8 @@ export class CreateActivityComponent implements OnInit {
     name: '',
     startTime: null,
     endTime: null,
-    locationId: ''
+    locationId: '',
+    tagTexts: []
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 
@@ -97,7 +98,8 @@ export class CreateActivityComponent implements OnInit {
   }
 
   public onClickCreate() {
-    this.createActivityInput.tagTexts = this.pageControls.tagTextsModel.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
+    const tagTexts = this.pageControls.tagTextsModel.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
+    this.createActivityInput.tagTexts = tagTexts ? tagTexts : [];
 
     if (this.mapControls.markers.length > 0) {
       this.locationApi
@@ -116,8 +118,9 @@ export class CreateActivityComponent implements OnInit {
         })
         .subscribe(activityId => {
           const createTextDescriptionObservables = this.createTextDescriptionInputs
-            .map(input => {
-              input.abstractActivityId = activityId;
+            .map((input, index) => {
+              input.activityId = activityId;
+              input.priority = index;
 
               return this.descriptionApi.appDescriptionCreateTextDescription(input).map(output => output.id);
             });

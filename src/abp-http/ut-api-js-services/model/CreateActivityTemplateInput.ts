@@ -21,6 +21,6 @@ export interface CreateActivityTemplateInput {
 
     locationId?: string;
 
-    tagTexts?: Array<string>;
+    tagTexts: Array<string>;
 
 }
