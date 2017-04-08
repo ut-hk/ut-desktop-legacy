@@ -4,9 +4,8 @@ import { UserDto } from '../abp-http/ut-api-js-services/model/UserDto';
 import { TokenService } from '../abp-http/http/token.service';
 import { Router, RoutesRecognized } from '@angular/router';
 import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
-import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGuid';
 import { environment } from '../environments/environment';
-import { LocalStorage, LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-root',

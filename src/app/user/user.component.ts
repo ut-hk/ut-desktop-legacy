@@ -23,9 +23,7 @@ import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/A
 export class UserComponent implements OnInit {
 
   public isMyUser = false;
-
   public isFriend = false;
-
   public isInvited = false;
 
   public user: UserDto;
@@ -43,7 +41,6 @@ export class UserComponent implements OnInit {
               private activityPlanApi: App_activityPlanApi,
               private friendInvitationApi: App_friendInvitationApi,
               private userApi: App_userApi) {
-
   }
 
   ngOnInit() {
@@ -107,6 +104,9 @@ export class UserComponent implements OnInit {
 
         getMyActivitiesSubscription.unsubscribe();
       });
+
+    this.getActivityTemplates(this.id);
+    this.getActivityPlans(this.id);
   }
 
   private getUserAndActivities(id) {
@@ -119,7 +119,7 @@ export class UserComponent implements OnInit {
       });
 
     const getActivitiesSubscription = this.activityApi
-      .appActivityGetActivities({userId: id})
+      .appActivityGetActivities({userId: this.id})
       .subscribe(output => {
         const activities = output.activities;
 
@@ -130,9 +130,13 @@ export class UserComponent implements OnInit {
         getActivitiesSubscription.unsubscribe();
       });
 
+    this.getActivityTemplates(id);
+    this.getActivityPlans(id);
+  }
 
+  private getActivityTemplates(userId) {
     const getActivityTemplatesSubscription = this.activityTemplateApi
-      .appActivityTemplateGetActivityTemplates({userId: id, maxResultCount: 9})
+      .appActivityTemplateGetActivityTemplates({userId: userId, maxResultCount: 9})
       .subscribe(output => {
         const activityTemplates = output.activityTemplates;
 
@@ -143,10 +147,11 @@ export class UserComponent implements OnInit {
 
         getActivityTemplatesSubscription.unsubscribe();
       });
+  }
 
-
+  private getActivityPlans(userId) {
     const getActivityPlansSubscription = this.activityPlanApi
-      .appActivityPlanGetActivityPlans({userId: id, maxResultCount: 9})
+      .appActivityPlanGetActivityPlans({userId: userId, maxResultCount: 9})
       .subscribe(output => {
         const activityPlans = output.activityPlans;
 
@@ -156,7 +161,6 @@ export class UserComponent implements OnInit {
 
         getActivityPlansSubscription.unsubscribe();
       });
-
   }
 
 }

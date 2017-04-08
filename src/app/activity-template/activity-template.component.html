@@ -5,7 +5,7 @@
 
       <div class="text-right">
         <a class="btn btn-default">Edit</a>
-        <a class="btn btn-default" (click)="onClickAddToMyActivities()">Add to My Activities</a>
+        <a class="btn btn-default" (click)="addToMyActivitiesModal.show()">Add to My Activities</a>
       </div>
 
     </div>
@@ -56,7 +56,7 @@
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Please enter your comment." [(ngModel)]="createTextCommentInput.content">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button" (click)="onClickTextComment()">Comment</button>
+              <button class="btn btn-default" type="button" (click)="onClickCreateTextComment()">Comment</button>
             </span>
           </div>
         </div>
@@ -64,5 +64,57 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+
+<!-- Create Activity From Activity Plan-->
+<div class="modal fade" bsModal #addToMyActivitiesModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add to My Activities</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="addToMyActivitiesModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="from-horizontal">
+
+          <!-- Time Slot -->
+          <div class="form-group">
+            <label class="col-md-3 control-label">Time Slot</label>
+            <div class="col-md-9">
+              <div class="row">
+
+                <div class="col-xs-6">
+                  <input class="form-control" placeholder="Start Time" [ngModel]="createActivityFromActivityPlanInput.startTime | date: 'short'"
+                         [(dateTimePicker)]="createActivityFromActivityPlanInput.startTime" [mode]="'dropdown'" readonly>
+                </div>
+                <div class="col-xs-6">
+                  <input class="form-control" placeholder="End Time" [ngModel]="createActivityFromActivityPlanInput.endTime | date: 'short'"
+                         [(dateTimePicker)]="createActivityFromActivityPlanInput.endTime" [mode]="'dropdown'" readonly>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+
+          <!-- Submit -->
+          <div class="form-group">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+              <button type="button" class="btn btn-block btn-primary" (click)="onClickAddActivity()">Add</button>
+            </div>
+          </div>
+          <br>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>

@@ -114,7 +114,7 @@ export class CreateActivityTemplateComponent implements OnInit {
     }
   }
 
-  public createActivityTemplate() {
+  public onClickAddActivity() {
     this.activityTemplateApi
       .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
       .flatMap((output) => this.activityTemplateApi.appActivityTemplateGetActivityTemplate({id: output.id}))
