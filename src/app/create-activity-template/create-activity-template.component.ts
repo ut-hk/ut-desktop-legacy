@@ -21,11 +21,6 @@ export class CreateActivityTemplateComponent implements OnInit {
   public locationNameElementRef: ElementRef;
   public locationNameControl: FormControl = new FormControl();
 
-  public pageControls = {
-    maxTimeSlotId: 0,
-    maxDescriptionId: 0
-  };
-
   public mapControls = {
     map: {
       lat: 22.4223236,
@@ -108,15 +103,12 @@ export class CreateActivityTemplateComponent implements OnInit {
   }
 
   public onClickDeleteATimeSlot(index) {
-    console.log(index);
-
     if (index > -1) {
       this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
     }
   }
 
   public onClickDeleteADescription(index) {
-    console.log(index);
     if (index > -1) {
       this.createTextDescriptionInputs.splice(index, 1);
     }
