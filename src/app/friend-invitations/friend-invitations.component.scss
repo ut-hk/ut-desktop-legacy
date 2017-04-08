@@ -1,21 +1,23 @@
-body {
-  margin-top: 30px;
-  background: #3BC0C7;
-}
+.friend-invitation {
+  box-shadow: 0 0 3px 0;
+  margin-bottom: 10px;
+  padding: 5px 10px;
 
-.top {
-  text-align: center;
-}
+  .owner-icon {
+    height: 70px;
+    line-height: 70px;
+    vertical-align: middle;
+    text-align: center;
+  }
 
-.shadow {
-  box-shadow: 0px 0px 5px 0px;
-  padding-top: 10px;
-}
+  .options {
+    height: 70px;
+    line-height: 70px;
+    vertical-align: middle;
+    text-align: right;
 
-h2, a{
-  color: #000;
-}
-
-img.icon{
-  margin-bottom: 7px;
+    .icon {
+      height: 40px;
+    }
+  }
 }
