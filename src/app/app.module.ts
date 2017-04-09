@@ -51,6 +51,8 @@ const appRoutes: Routes = [
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
   {path: 'create-activity', component: CreateActivityComponent},
 
+  {path: 'activity-invitations', component: ActivityInvitationsComponent},
+
   {path: 'friend-invitations', component: FriendInvitationsComponent},
   {path: 'friends/:userId', component: FriendsComponent},
 

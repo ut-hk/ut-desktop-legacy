@@ -29,7 +29,6 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickAccept(friendInvitation: FriendInvitationDto) {
-
     const subscription = this.friendInvitationApi
       .appFriendInvitationAcceptFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
@@ -38,7 +37,6 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickReject(friendInvitation: FriendInvitationDto) {
-
     const subscription = this.friendInvitationApi
       .appFriendInvitationRejectFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
@@ -47,7 +45,6 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickIgnore(friendInvitation: FriendInvitationDto) {
-
     const subscription = this.friendInvitationApi
       .appFriendInvitationIgnoreFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
