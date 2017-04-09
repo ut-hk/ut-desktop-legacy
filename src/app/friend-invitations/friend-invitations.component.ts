@@ -15,6 +15,10 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getMyPendingFriendInvitations();
+  }
+
+  private getMyPendingFriendInvitations() {
     const getMyPendingFriendInvitationsSubscription = this.friendInvitationApi
       .appFriendInvitationGetMyPendingFriendInvitations()
       .subscribe(output => {

@@ -37,6 +37,7 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 import { GenderPipe } from './gender.pipe';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
+import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
 
 
 const appRoutes: Routes = [
@@ -87,7 +88,8 @@ const appRoutes: Routes = [
     SignUpProfileComponent,
     TruncatePipe,
     GenderPipe,
-    FriendInvitationsComponent
+    FriendInvitationsComponent,
+    ActivityInvitationsComponent
   ],
   imports: [
     BrowserModule,
