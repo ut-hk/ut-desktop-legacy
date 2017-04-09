@@ -12,7 +12,7 @@ $border-color: #CCCCCC;
     border-right: 1px solid $border-color;
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
+    padding-left: 10px;
 
     .chat-rooms-selector-header {
       height: 50px;
@@ -21,6 +21,10 @@ $border-color: #CCCCCC;
     }
 
     .chat-rooms {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
       .chat-room {
         padding: 10px 0;
       }
@@ -28,6 +32,13 @@ $border-color: #CCCCCC;
       .no-more-buddies{
         padding: 10px 0;
 
+      }
+    }
+
+
+    .chat-footer{
+      button{
+        margin-right: 5px;
       }
     }
   }
@@ -41,7 +52,9 @@ $border-color: #CCCCCC;
       height: 50px;
       line-height: 50px;
       padding-left: 20px;
+
     }
+
 
     .chat-content {
       flex: 1;
