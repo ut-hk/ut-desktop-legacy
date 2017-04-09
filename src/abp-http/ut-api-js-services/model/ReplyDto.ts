@@ -15,6 +15,10 @@ import * as models from './models';
 export interface ReplyDto {
     content?: string;
 
+    owner?: models.UserListDto;
+
+    creationTime?: Date;
+
     id?: number;
 
 }
