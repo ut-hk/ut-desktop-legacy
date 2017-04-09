@@ -13,8 +13,9 @@ import {ActivityListDto} from '../../abp-http/ut-api-js-services/model/ActivityL
 import {LocalStorageService} from 'ng2-webstorage';
 import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
 import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
-import {TagDto} from "../../abp-http/ut-api-js-services/model/TagDto";
-
+import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
+import {FriendInvitationDto} from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-user',
@@ -32,7 +33,8 @@ export class UserComponent implements OnInit {
   public activities: ActivityListDto[] = [];
   public activityTemplates: ActivityTemplateListDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
-  public friends: TagDto[] = [];
+  public friends: UserListDto[] = [];
+  private friendInvitations: FriendInvitationDto[];
 
   private id: number;
 
@@ -63,10 +65,20 @@ export class UserComponent implements OnInit {
           this.getUserAndActivities(id);
         }
       });
-    this.getFriends(this.id);
+    this.getFriends();
+    this.getMyPendingFriendInvitations();
+
+
   }
 
   public onClickAddFriend() {
+    this.friendInvitationApi
+      .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
+      .subscribe((output) => {
+      });
+  }
+
+  public onClickUnFriend() {
     this.friendInvitationApi
       .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
       .subscribe((output) => {
@@ -165,18 +177,48 @@ export class UserComponent implements OnInit {
       });
   }
 
-  private getFriends(userId) {
-    let id:number = userId;
+  private getFriends() {
+    const myUser = this.localStorageService.retrieve('myUser');
+    if (myUser == null) {
+      return [];
+    }
 
     const getFriendsSubscription = this.relationshipApi
-      .appRelationshipGetFriends({targetUserId: id})
+      .appRelationshipGetFriends({targetUserId: myUser.id})
       .subscribe(output => {
         const friends = output.friends;
         this.friends = friends;
-
+        for (let i = 0; i < this.friends.length; i++) {
+          if (this.friends[i].id == this.id) {
+            this.isFriend = true;
+            break;
+          }
+        }
         getFriendsSubscription.unsubscribe();
       });
+
   }
+
+  private getMyPendingFriendInvitations() {
+    const getMyPendingFriendInvitationsSubscription = this.friendInvitationApi
+      .appFriendInvitationGetMyPendingFriendInvitations()
+      .subscribe(output => {
+        this.friendInvitations = output.friendInvitations;
+        if (this.isFriend === false) {
+          if (this.friendInvitations != []) {
+            for (let i = 0; i < this.friendInvitations.length; i++) {
+              if (this.friendInvitations[i].owner.id == this.id) {
+                this.isInvited = true;
+                break;
+              }
+            }
+          }
+        }
+
+        getMyPendingFriendInvitationsSubscription.unsubscribe();
+      });
+  }
+
 
 }
 

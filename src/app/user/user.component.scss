@@ -5,6 +5,14 @@
   min-height: 300px;
 }
 
+a {
+  color: #777;
+}
+
+a:hover {
+  color: #000;
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
