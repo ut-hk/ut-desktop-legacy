@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
-import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { ActivityDto } from '../../abp-http/ut-api-js-services/model/ActivityDto';
-import { ActivatedRoute } from '@angular/router';
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
-import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
-import { LocalStorageService } from 'ng2-webstorage';
-import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
-import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import {Component, OnInit} from '@angular/core';
+import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
+import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
+import {ActivityDto} from '../../abp-http/ut-api-js-services/model/ActivityDto';
+import {ActivatedRoute} from '@angular/router';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
+import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import {ActivityTemplateListDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import {ActivityListDto} from '../../abp-http/ut-api-js-services/model/ActivityListDto';
+import {LocalStorageService} from 'ng2-webstorage';
+import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import {TagDto} from "../../abp-http/ut-api-js-services/model/TagDto";
 
 
 @Component({
@@ -31,6 +32,7 @@ export class UserComponent implements OnInit {
   public activities: ActivityListDto[] = [];
   public activityTemplates: ActivityTemplateListDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
+  public friends: TagDto[] = [];
 
   private id: number;
 
@@ -40,6 +42,7 @@ export class UserComponent implements OnInit {
               private activityTemplateApi: App_activityTemplateApi,
               private activityPlanApi: App_activityPlanApi,
               private friendInvitationApi: App_friendInvitationApi,
+              private relationshipApi: App_relationshipApi,
               private userApi: App_userApi) {
   }
 
@@ -60,13 +63,13 @@ export class UserComponent implements OnInit {
           this.getUserAndActivities(id);
         }
       });
+    this.getFriends(this.id);
   }
 
   public onClickAddFriend() {
     this.friendInvitationApi
       .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
       .subscribe((output) => {
-        console.log(output);
       });
   }
 
@@ -140,7 +143,6 @@ export class UserComponent implements OnInit {
       .subscribe(output => {
         const activityTemplates = output.activityTemplates;
 
-        console.log(activityTemplates.length);
         for (let i = 0; i < activityTemplates.length; i++) {
           this.activityTemplates.push(activityTemplates[i]);
         }
@@ -160,6 +162,19 @@ export class UserComponent implements OnInit {
         }
 
         getActivityPlansSubscription.unsubscribe();
+      });
+  }
+
+  private getFriends(userId) {
+    let id:number = userId;
+
+    const getFriendsSubscription = this.relationshipApi
+      .appRelationshipGetFriends({targetUserId: id})
+      .subscribe(output => {
+        const friends = output.friends;
+        this.friends = friends;
+
+        getFriendsSubscription.unsubscribe();
       });
   }
 
