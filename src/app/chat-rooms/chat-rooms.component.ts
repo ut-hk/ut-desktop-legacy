@@ -77,7 +77,7 @@ export class ChatRoomsComponent implements OnInit {
       .subscribe((output) => {
         this.friends = output.friends;
         for (let i = 0; i < this.friends.length; i++) {
-          this.participantIdInput.push({friend: this.friends[i].toString(), selected: false});
+          this.participantIdInput.push({id: (this.friends[i].id).toString(), selected: false});
         }
 
         getFriendsSubscription.unsubscribe();
