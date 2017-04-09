@@ -4,9 +4,9 @@
     <div class="col-sm-10">
       <h1 class="">{{user.name}} {{user.surname}}</h1>
 
-      <button *ngIf="isMyUser==false" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
+      <button *ngIf="!isMyUser" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
       </button>
-      <button type="button" class="btn btn-info">Send me a message{{isMyUser}}</button>
+      <button type="button" class="btn btn-info">Send me a message</button>
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
       <br>
     </div>
@@ -42,7 +42,7 @@
         </li>
         <li class="list-group-item text-right truncate">
           <span class="pull-left"><strong class="">Friend</strong></span>
-          {{friends.length}}
+          {{numberOfFriends}}
         </li>
       </ul>
     </div>

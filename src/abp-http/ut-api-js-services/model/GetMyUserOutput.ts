@@ -21,4 +21,6 @@ export interface GetMyUserOutput {
 
     numberOfFriendInvitations?: number;
 
+    numberOfFriends?: number;
+
 }
