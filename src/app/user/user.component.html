@@ -6,7 +6,7 @@
 
       <button *ngIf="!isMyUser && !isFriend && !isInvited" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
       </button>
-      <button *ngIf="isFriend" type="button" class="btn btn-danger">Unfriend
+      <button *ngIf="isFriend" type="button" class="btn btn-danger" (click)="onClickUnFriend()">Unfriend
       </button>
       <button *ngIf="isInvited" type="button" class="btn btn-info" disabled="disabled">Pending Request
 

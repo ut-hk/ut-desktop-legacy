@@ -78,10 +78,10 @@ export class UserComponent implements OnInit {
   }
 
   public onClickUnFriend() {
-    this.friendInvitationApi
-      .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
-      .subscribe((output) => {
-      });
+    // this.friendInvitationApi
+    //   .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
+    //   .subscribe((output) => {
+    //   });
   }
 
   private checkIsMyUser(userId: number): boolean {
