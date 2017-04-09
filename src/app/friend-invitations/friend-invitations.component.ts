@@ -9,7 +9,7 @@ import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/Fri
 })
 export class FriendInvitationsComponent implements OnInit {
 
-  private friendInvitations: FriendInvitationDto[];
+  public friendInvitations: FriendInvitationDto[];
 
   constructor(private friendInvitationApi: App_friendInvitationApi) {
   }

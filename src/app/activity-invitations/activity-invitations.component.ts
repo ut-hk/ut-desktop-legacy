@@ -9,7 +9,7 @@ import { ActivityInvitationDto } from '../../abp-http/ut-api-js-services/model/A
 })
 export class ActivityInvitationsComponent implements OnInit {
 
-  private activityInvitations;
+  public activityInvitations;
 
   constructor(private activityInvitationApi: App_activityInvitationApi) { }
 

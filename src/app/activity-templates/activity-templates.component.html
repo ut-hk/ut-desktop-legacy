@@ -43,9 +43,8 @@
           <label for="startTime" class="col-xs-4 control-label">Start Time</label>
           <div class="col-xs-8">
             <div class="input-group">
-              <input class="form-control" id="startTime" placeholder="Start Time" [ngModel]="getActivityTemplatesInput.startTime | date: 'short'"
-                     [(dateTimePicker)]="getActivityTemplatesInput.startTime" [mode]="'dropdown'"
-                     (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+              <input class="form-control" id="startTime" placeholder="Start Time" [ngModel]="getActivityTemplatesInput.startTime | date: 'short'" readonly
+                     [(dateTimePicker)]="getActivityTemplatesInput.startTime" [mode]="'dropdown'" (dateTimePickerChange)="onDateTimePickerChange()">
               <span class="input-group-btn">
                 <button class="btn btn-default" (click)="onClickResetStartTime()">Reset</button>
               </span>
@@ -56,9 +55,8 @@
           <label for="endTime" class="col-xs-4 control-label">End Time</label>
           <div class="col-xs-8">
             <div class="input-group">
-              <input class="form-control" id="endTime" placeholder="End Time" [ngModel]="getActivityTemplatesInput.endTime | date: 'short'"
-                     [(dateTimePicker)]="getActivityTemplatesInput.endTime" [mode]="'dropdown'"
-                     (dateTimePickerChange)="onDateTimePickerChange($event)" readonly>
+              <input class="form-control" id="endTime" placeholder="End Time" [ngModel]="getActivityTemplatesInput.endTime | date: 'short'" readonly
+                     [(dateTimePicker)]="getActivityTemplatesInput.endTime" [mode]="'dropdown'" (dateTimePickerChange)="onDateTimePickerChange()">
               <span class="input-group-btn">
                 <button class="btn btn-default" (click)="onClickResetEndTime()">Reset</button>
               </span>
