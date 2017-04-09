@@ -12,8 +12,7 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" (collapsed)="onCollapsed($event)" (expanded)="onExpanded($event)"
-         [collapse]="isCollapsed">
+    <div class="collapse navbar-collapse" [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
         <li><a routerLink="/world" routerLinkActive="active">World</a></li>
         <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>

@@ -1,12 +1,16 @@
 <div class="messenger">
-  <div class="buddy-list">
-    <div class="buddy-list-header">
+  <div class="chat-room-selector">
+    <div class="chat-rooms-selector-header">
       <h1 class="h2">Chat Rooms</h1>
     </div>
 
-    <div class="buddy-list-buddy" *ngIf="chatRooms">
-      <div class="buddy" *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id">
+    <div *ngIf="chatRooms" class="chat-rooms">
+      <div *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id" class="chat-room">
         <p class="h4" (click)="onClickChatRoom(chatRoom)">{{chatRoom.name}}</p>
+      </div>
+
+      <div *ngIf="chatRooms.length == 0" class="no-more-buddies">
+        No More Chat Rooms
       </div>
     </div>
   </div>
@@ -46,10 +50,40 @@
         </div>
 
         <div style="padding: 3px;">
-          <button class="btn btn-default" style="width: 100%;">Invite Friends</button>
+          <button class="btn btn-default" style="width: 100%;" (click)="inviteFriendsModal.show()">Invite Friends</button>
         </div>
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="modal fade" bsModal #inviteFriendsModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Invite Your Friends to Join</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="inviteFriendsModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="friends">
+          <div *ngFor="let friend of friends" class="row">
+
+            <div class="col-xs-2">
+              <img [src]="friend.iconId ? friend.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+            </div>
+            <div class="col-xs-10">
+              <div>@{{friend.userName}} {{friend.name}}</div>
+            </div>
+
+          </div>
+
+          <div *ngIf="friends.length == 0">You have no friends.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

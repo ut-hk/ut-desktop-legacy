@@ -32,6 +32,8 @@ export class FriendInvitationsComponent implements OnInit {
     const subscription = this.friendInvitationApi
       .appFriendInvitationAcceptFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }
@@ -40,6 +42,8 @@ export class FriendInvitationsComponent implements OnInit {
     const subscription = this.friendInvitationApi
       .appFriendInvitationRejectFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }
@@ -48,6 +52,8 @@ export class FriendInvitationsComponent implements OnInit {
     const subscription = this.friendInvitationApi
       .appFriendInvitationIgnoreFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }

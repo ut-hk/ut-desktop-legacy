@@ -1,7 +1,7 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 import { CreateActivityInput } from '../../abp-http/ut-api-js-services/model/CreateActivityInput';
-import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader, MouseEvent } from 'angular2-google-maps/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
@@ -23,7 +23,7 @@ export class CreateActivityComponent implements OnInit {
   public locationNameControl: FormControl = new FormControl();
 
   public pageControls = {
-    tagTextsModel: ''
+    tagTextsString: ''
   };
 
   public mapControls = {
@@ -60,7 +60,6 @@ export class CreateActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    // set current position
     this.setCurrentPosition();
 
     // load Places Autocomplete
@@ -98,49 +97,47 @@ export class CreateActivityComponent implements OnInit {
   }
 
   public onClickCreate() {
-    const tagTexts = this.pageControls.tagTextsModel.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
-    this.createActivityInput.tagTexts = tagTexts ? tagTexts : [];
-
-    if (this.mapControls.markers.length > 0) {
-      this.locationApi
-        .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
-        .map(output => {
-          return output.id;
-        })
-        .flatMap(locationId => {
-          this.createActivityInput.locationId = locationId;
-
-          return this.activityApi
-            .appActivityCreateActivity(this.createActivityInput)
-            .map(createActivityOutput => {
-              return createActivityOutput.id;
+    Observable.empty().defaultIfEmpty()
+      .flatMap(() => {
+        if (this.mapControls.markers.length > 0) {
+          return this.locationApi
+            .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
+            .map(output => {
+              return output.id;
             });
-        })
-        .subscribe(activityId => {
-          const createTextDescriptionObservables = this.createTextDescriptionInputs
-            .map((input, index) => {
-              input.activityId = activityId;
-              input.priority = index;
+        }
 
-              return this.descriptionApi.appDescriptionCreateTextDescription(input).map(output => output.id);
-            });
+        return Observable.empty();
+      })
+      .defaultIfEmpty<string>(null)
+      .flatMap(locationId => {
+        const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
 
-          Observable.forkJoin(createTextDescriptionObservables)
-            .subscribe(descriptionIds => {
-              console.log(descriptionIds);
-            });
+        this.createActivityInput.tagTexts = tagTexts ? tagTexts : [];
+        this.createActivityInput.locationId = locationId;
 
-        });
-    } else {
-      this.createActivity();
-    }
-  }
+        return this.activityApi
+          .appActivityCreateActivity(this.createActivityInput)
+          .map(createActivityOutput => {
+            return createActivityOutput.id;
+          });
+      })
+      .flatMap(activityId => {
+        return this.createTextDescriptionInputs
+          .map((input, index) => {
+            input.activityId = activityId;
+            input.priority = index;
 
-  private createActivity() {
-    this.activityApi
-      .appActivityCreateActivity(this.createActivityInput)
-      .subscribe((output) => {
-        console.log(output);
+            return this.descriptionApi
+              .appDescriptionCreateTextDescription(input)
+              .map(output => output.id);
+          });
+      })
+      .flatMap(observables => {
+        return Observable.forkJoin(observables);
+      })
+      .subscribe(descriptionIds => {
+        console.log(descriptionIds);
       });
   }
 

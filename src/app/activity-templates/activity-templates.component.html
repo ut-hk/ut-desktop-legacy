@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10">
       <div class="form-group">
-        <input type="text" class="form-control" id="keywords" placeholder="Keywords"
+        <input type="text" class="form-control" id="keywords" placeholder="Keywords #HK"
                [formControl]="pageControls.queryKeywordsControl">
       </div>
     </div>
@@ -33,6 +33,7 @@
           [markerDraggable]="marker.draggable">
         </sebm-google-map-marker>
       </sebm-google-map>
+      <br>
 
     </div>
     <div class="col-sm-6">
@@ -71,10 +72,9 @@
 
   <br>
 
-  <div class="row" *ngIf="activityTemplates" infinite-scroll (scrolled)="onScroll()">
+  <div *ngIf="activityTemplates" class="row" infinite-scroll (scrolled)="onScroll()">
+    <div *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id" class="activity-template col-xs-12 col-sm-6">
 
-    <div *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
-         class="activity-template col-xs-12 col-sm-6">
       <div class="cover">
         <a *ngIf="activityTemplate.coverImageDescription" class="cover-image"
            [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}">
@@ -95,8 +95,8 @@
           Created by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 
   <div class="text-center" *ngIf="pageControls.isLoading">
