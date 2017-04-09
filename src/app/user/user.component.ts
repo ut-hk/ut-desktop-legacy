@@ -15,7 +15,6 @@ import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_rel
 import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
 import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
 import {FriendInvitationDto} from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-user',
@@ -36,6 +35,8 @@ export class UserComponent implements OnInit {
   public friends: UserListDto[] = [];
   private friendInvitations: FriendInvitationDto[];
 
+  public numberOfFriends: number;
+
   private id: number;
 
   constructor(private route: ActivatedRoute,
@@ -43,8 +44,8 @@ export class UserComponent implements OnInit {
               private activityApi: App_activityApi,
               private activityTemplateApi: App_activityTemplateApi,
               private activityPlanApi: App_activityPlanApi,
-              private friendInvitationApi: App_friendInvitationApi,
               private relationshipApi: App_relationshipApi,
+              private friendInvitationApi: App_friendInvitationApi,
               private userApi: App_userApi) {
   }
 
@@ -67,8 +68,6 @@ export class UserComponent implements OnInit {
       });
     this.getFriends();
     this.getMyPendingFriendInvitations();
-
-
   }
 
   public onClickAddFriend() {
@@ -92,7 +91,6 @@ export class UserComponent implements OnInit {
       return false;
     }
 
-
     return myUser.id == userId;
   }
 
@@ -101,6 +99,7 @@ export class UserComponent implements OnInit {
       .appUserGetMyUser()
       .subscribe(output => {
         this.user = output.myUser;
+        this.numberOfFriends = output.numberOfFriends;
 
         this.localStorageService.store('myUser', output.myUser);
         this.localStorageService.store('userGuestId', output.guestId);
@@ -129,6 +128,7 @@ export class UserComponent implements OnInit {
       .appUserGetUser({id: id})
       .subscribe(output => {
         this.user = output.user;
+        this.numberOfFriends = output.numberOfFriends;
 
         getUserSubscription.unsubscribe();
       });
@@ -196,7 +196,6 @@ export class UserComponent implements OnInit {
         }
         getFriendsSubscription.unsubscribe();
       });
-
   }
 
   private getMyPendingFriendInvitations() {
@@ -218,7 +217,6 @@ export class UserComponent implements OnInit {
         getMyPendingFriendInvitationsSubscription.unsubscribe();
       });
   }
-
 
 }
 
