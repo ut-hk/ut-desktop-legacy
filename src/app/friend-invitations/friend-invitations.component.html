@@ -12,6 +12,7 @@
         <div *ngIf="friendInvitations.length > 0; else isNoMoreResults">
           <div *ngFor="let friendInvitation of friendInvitations" class="friend-invitation">
             <div class="row">
+
               <div class="col-xs-2 owner-icon">
                 <img [src]="friendInvitation.iconId ? friendInvitation.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
               </div>
@@ -22,9 +23,10 @@
               </div>
 
               <div class="col-xs-3 options">
-                <img class="icon" src="./assets/plus.svg" alt="Accept">
-                <img class="icon" src="./assets/error.svg" alt="Reject">
+                <img class="icon" src="./assets/plus.svg" alt="Accept" (click)="onClickAccept(friendInvitation)">
+                <img class="icon" src="./assets/error.svg" alt="Reject" (click)="onClickReject(friendInvitation)">
               </div>
+
             </div>
           </div>
         </div>
