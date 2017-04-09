@@ -12,17 +12,33 @@
         <div *ngFor="let friendInvitation of friendInvitations | async" class="friend-invitation">
           <div class="row">
             <div class="col-xs-2 owner-icon">
-              <img [src]="friendInvitation.iconId ? friendInvitation.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+              <img [src]="friendInvitation.iconId ? friendInvitation.iconId : './assets/noFoundProfilePicture.png'"
+                   class="img-circle" width="60px">
             </div>
 
             <div class="col-xs-7">
-              <p class="h4"><a routerLink="/user/{{friendInvitation.owner.id}}">@{{friendInvitation.owner.userName}}</a> {{friendInvitation.owner.name}}</p>
+              <p class="h4"><a routerLink="/user/{{friendInvitation.owner.id}}">@{{friendInvitation.owner.userName}}</a>
+                {{friendInvitation.owner.name}}</p>
               <p>No mutual friends</p>
             </div>
 
             <div class="col-xs-3 options">
-              <img class="icon" src="./assets/plus.svg" alt="Accept">
-              <img class="icon" src="./assets/error.svg" alt="Reject">
+              <button class="btn btn-link" (click)="onClickAccept(friendInvitation)">
+                <img class="icon" src="./assets/plus.svg" alt="Accept">
+              </button>
+              <button class="btn btn-link" (click)="onClickReject(friendInvitation)">
+                <img class="icon" src="./assets/error.svg" alt="Reject">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="friendInvitations[0]==undefined">
+        <div class="friend-invitation">
+          <div class="row">
+            <div class="text-center">
+              <h4>No Friend Invitations</h4>
             </div>
           </div>
         </div>
