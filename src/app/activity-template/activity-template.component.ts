@@ -6,6 +6,9 @@ import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/
 import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
 import { CreateActivityFromActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityFromActivityTemplateInput';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
+import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
+import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
 
 @Component({
   selector: 'app-activity-template',
@@ -20,13 +23,16 @@ export class ActivityTemplateComponent implements OnInit {
   public createTextCommentInput: CreateTextCommentInput = {
     content: ''
   };
-
+  public createReplyInput: CreateReplyInput = {
+    content: ''
+  };
   public createActivityFromActivityPlanInput: CreateActivityFromActivityTemplateInput;
 
   constructor(private route: ActivatedRoute,
               private activityTemplateApi: App_activityTemplateApi,
               private activityApi: App_activityApi,
-              private commentApi: App_commentApi) {
+              private commentApi: App_commentApi,
+              private replyApi: App_replyApi) {
     const currentDate = new Date();
 
     this.createActivityFromActivityPlanInput = {
@@ -58,6 +64,21 @@ export class ActivityTemplateComponent implements OnInit {
         createTextCommentSubscription.unsubscribe();
       });
   }
+
+  public onClickCreateReply(comment: CommentDto) {
+    this.createReplyInput.commentId = comment.id;
+
+    const createTextCommentSubscription = this.replyApi
+      .appReplyCreateReply(this.createReplyInput)
+      .subscribe(output => {
+        this.getActivityTemplate();
+
+        this.createReplyInput.commentId = null;
+
+        createTextCommentSubscription.unsubscribe();
+      });
+  }
+
 
   public onClickAddActivity() {
     const createActivityFromActivityTemplateSubscription = this.activityApi
