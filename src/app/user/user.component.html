@@ -41,8 +41,10 @@
           {{user.lastLoginTime | amTimeAgo}}
         </li>
         <li class="list-group-item text-right truncate">
-          <span class="pull-left"><strong class="">Friend</strong></span>
-          {{numberOfFriends}}
+          <a href="friends/{{user.id}}">
+            <span class="pull-left"><strong class="">Friend</strong></span>
+            {{numberOfFriends}}
+          </a>
         </li>
       </ul>
     </div>
