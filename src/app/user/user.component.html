@@ -4,7 +4,12 @@
     <div class="col-sm-10">
       <h1 class="">{{user.name}} {{user.surname}}</h1>
 
-      <button *ngIf="!isMyUser" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
+      <button *ngIf="!isMyUser && !isFriend && !isInvited" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
+      </button>
+      <button *ngIf="isFriend" type="button" class="btn btn-danger">Unfriend
+      </button>
+      <button *ngIf="isInvited" type="button" class="btn btn-info" disabled="disabled">Pending Request
+
       </button>
       <button type="button" class="btn btn-info">Send me a message</button>
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
