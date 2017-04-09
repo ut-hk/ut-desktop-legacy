@@ -1,12 +1,14 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
-
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader, MouseEvent } from 'angular2-google-maps/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
 import { DragulaService } from 'ng2-dragula';
+import { Observable } from 'rxjs/Rx';
+import { App_locationApi } from '../../abp-http/ut-api-js-services/api/App_locationApi';
+import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
 
 declare var google: any;
 
@@ -20,6 +22,10 @@ export class CreateActivityTemplateComponent implements OnInit {
   @ViewChild('locationNameElementRef')
   public locationNameElementRef: ElementRef;
   public locationNameControl: FormControl = new FormControl();
+
+  public pageControls = {
+    tagTextsString: ''
+  };
 
   public mapControls = {
     map: {
@@ -43,6 +49,8 @@ export class CreateActivityTemplateComponent implements OnInit {
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
+              private locationApi: App_locationApi,
+              private descriptionApi: App_descriptionApi,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
               private dragulaService: DragulaService) {
@@ -115,12 +123,48 @@ export class CreateActivityTemplateComponent implements OnInit {
     }
   }
 
-  public onClickAddActivity() {
-    this.activityTemplateApi
-      .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
-      .flatMap((output) => this.activityTemplateApi.appActivityTemplateGetActivityTemplate({id: output.id}))
-      .subscribe((output) => {
-        console.log(output);
+  public onClickCreate() {
+    Observable.empty().defaultIfEmpty()
+      .flatMap(() => {
+        if (this.mapControls.markers.length > 0) {
+          return this.locationApi
+            .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
+            .map(output => {
+              return output.id;
+            });
+        }
+
+        return Observable.empty();
+      })
+      .defaultIfEmpty<string>(null)
+      .flatMap(locationId => {
+        const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
+
+        this.createActivityTemplateInput.tagTexts = tagTexts ? tagTexts : [];
+        this.createActivityTemplateInput.locationId = locationId;
+
+        return this.activityTemplateApi
+          .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
+          .map(createActivityOutput => {
+            return createActivityOutput.id;
+          });
+      })
+      .flatMap(activityId => {
+        return this.createTextDescriptionInputs
+          .map((input, index) => {
+            input.activityId = activityId;
+            input.priority = index;
+
+            return this.descriptionApi
+              .appDescriptionCreateTextDescription(input)
+              .map(output => output.id);
+          });
+      })
+      .flatMap(observables => {
+        return Observable.forkJoin(observables);
+      })
+      .subscribe(descriptionIds => {
+        console.log(descriptionIds);
       });
   }
 

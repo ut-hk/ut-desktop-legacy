@@ -6,6 +6,8 @@ import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/Ap
 import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
 import { LocalStorageService } from 'ng2-webstorage';
+import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
 
 interface ChatRoom extends ChatRoomDto {
   messages: Array<ChatRoomMessageDto>;
@@ -19,30 +21,54 @@ interface ChatRoom extends ChatRoomDto {
 })
 export class ChatRoomsComponent implements OnInit {
 
-  public chatRooms: Array<ChatRoom>;
+  public myUser: UserDto = null;
+  public chatRooms: ChatRoom[];
   public selectedChatRoom: ChatRoom;
+  public friends: UserListDto[] = null;
+
   public createTextChatRoomMessageInput: CreateTextChatRoomMessageInput = {
     text: ''
   };
-  public myUser: UserDto = null;
 
   private lastChatMessageId: number;
 
+
+
   constructor(private localStorageService: LocalStorageService,
+              private relationshipApi: App_relationshipApi,
               private chatRoomApi: App_chatRoomApi,
               private chatRoomMessageApi: App_chatRoomMessageApi) {
     this.myUser = this.localStorageService.retrieve('myUser');
   }
 
   ngOnInit() {
-    this.chatRoomApi
+    this.getMyChatRooms();
+    this.getMyFriends();
+  }
+
+  private getMyChatRooms() {
+    const getMyChatRoomsSubscription = this.chatRoomApi
       .appChatRoomGetMyChatRooms({})
       .subscribe((output) => {
-        this.chatRooms = <Array<ChatRoom>> output.chatRooms;
+        this.chatRooms = <ChatRoom[]> output.chatRooms;
 
         if (this.chatRooms.length > 0) {
           this.onClickChatRoom(this.chatRooms[0]);
         }
+
+        getMyChatRoomsSubscription.unsubscribe();
+      });
+  }
+
+  private getMyFriends() {
+    const getFriendsSubscription = this.relationshipApi
+      .appRelationshipGetFriends({
+        targetUserId: this.myUser.id
+      })
+      .subscribe((output) => {
+        this.friends = output.friends;
+
+        getFriendsSubscription.unsubscribe();
       });
   }
 

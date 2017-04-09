@@ -27,26 +27,32 @@ export class ActivityInvitationsComponent implements OnInit {
       });
   }
 
-  public onClickAccept(friendInvitation: ActivityInvitationDto) {
+  public onClickAccept(activityInvitation: ActivityInvitationDto) {
     const subscription = this.activityInvitationApi
-      .appActivityInvitationAcceptActivityInvitation({id: friendInvitation.id})
+      .appActivityInvitationAcceptActivityInvitation({id: activityInvitation.id})
       .subscribe(output => {
+        this.getMyPendingActivityInvitations();
+
         subscription.unsubscribe();
       });
   }
 
-  public onClickReject(friendInvitation: ActivityInvitationDto) {
+  public onClickReject(activityInvitation: ActivityInvitationDto) {
     const subscription = this.activityInvitationApi
-      .appActivityInvitationRejectActivityInvitation({id: friendInvitation.id})
+      .appActivityInvitationRejectActivityInvitation({id: activityInvitation.id})
       .subscribe(output => {
+        this.getMyPendingActivityInvitations();
+
         subscription.unsubscribe();
       });
   }
 
-  public onClickIgnore(friendInvitation: ActivityInvitationDto) {
+  public onClickIgnore(activityInvitation: ActivityInvitationDto) {
     const subscription = this.activityInvitationApi
-      .appActivityInvitationIgnoreActivityInvitation({id: friendInvitation.id})
+      .appActivityInvitationIgnoreActivityInvitation({id: activityInvitation.id})
       .subscribe(output => {
+        this.getMyPendingActivityInvitations();
+
         subscription.unsubscribe();
       });
   }

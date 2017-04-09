@@ -6,7 +6,7 @@ $border-color: #CCCCCC;
   height: calc(100vh - 60px - 2px);
   margin: -20px 0 0;
 
-  .buddy-list {
+  .chat-room-selector {
     flex: 1;
     min-width: 200px;
     border-right: 1px solid $border-color;
@@ -14,15 +14,20 @@ $border-color: #CCCCCC;
     flex-direction: column;
     padding-left: 20px;
 
-    .buddy-list-header {
+    .chat-rooms-selector-header {
       height: 50px;
       line-height: 50px;
       color: lighten(black, 77%);
     }
 
-    .buddy-list-buddy {
-      .buddy {
+    .chat-rooms {
+      .chat-room {
         padding: 10px 0;
+      }
+
+      .no-more-buddies{
+        padding: 10px 0;
+
       }
     }
   }

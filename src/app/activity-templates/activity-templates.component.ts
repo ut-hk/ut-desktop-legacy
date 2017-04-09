@@ -49,7 +49,12 @@ export class ActivityTemplatesComponent implements OnInit {
       .debounceTime(700)
       .distinctUntilChanged()
       .subscribe(queryKeywords => {
-        this.getActivityTemplatesInput.queryKeywords = queryKeywords;
+        const regEx = /(#[a-z0-9][a-z0-9\-_]*)/ig;
+        const tagTexts = queryKeywords.match(regEx);
+
+        this.getActivityTemplatesInput.tagTexts = tagTexts ? tagTexts : [];
+        this.getActivityTemplatesInput.queryKeywords = queryKeywords.replace(regEx, '');
+
         this.onSearchConditionsChange();
       });
   }
