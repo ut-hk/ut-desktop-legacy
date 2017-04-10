@@ -48,7 +48,7 @@
         <div class="participants" *ngIf="selectedChatRoom">
           <p class="h4">Participants</p>
           <div *ngFor="let participant of selectedChatRoom.participants; trackBy: participant?.id;">
-            @{{participant.userName}}
+            <a routerLink="/user/{{participant.id}}" target="_blank">@{{participant.userName}}</a>
           </div>
         </div>
 

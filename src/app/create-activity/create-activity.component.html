@@ -60,7 +60,7 @@
                   <textarea *ngSwitchCase="0" class="form-control" placeholder="Please enter your description"
                             [(ngModel)]="createDescriptionInput.input.text"></textarea>
                   <img *ngSwitchCase="2" style="max-width: 100%; max-height: 300px;"
-                       [src]="'https://unitime-dev-api.azurewebsites.net/api/File/GetFile/' + createDescriptionInput.input.imageId">
+                       [src]="createDescriptionInput.input.imageId | internalImage">
                 </div>
               </div>
             </div>
