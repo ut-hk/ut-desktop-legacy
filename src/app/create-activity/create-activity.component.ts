@@ -8,8 +8,18 @@ import { NgUploaderOptions } from 'ngx-uploader';
 import { Observable } from 'rxjs/Rx';
 import { App_locationApi } from '../../abp-http/ut-api-js-services/api/App_locationApi';
 import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
+import { TokenService } from '../../abp-http/http/token.service';
+import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
+import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
+import { DescriptionDto } from '../../abp-http/ut-api-js-services/model/DescriptionDto';
 
 declare var google: any;
+
+interface CreateDescriptionInput {
+  input: (CreateTextDescriptionInput | CreateInternalImageDescriptionInput);
+
+  type: DescriptionDto.TypeEnum;
+}
 
 @Component({
   selector: 'app-create-activity',
@@ -46,16 +56,19 @@ export class CreateActivityComponent implements OnInit {
     locationId: '',
     tagTexts: []
   };
-  public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
+  public createDescriptionInputs: CreateDescriptionInput[] = [];
 
   constructor(private activityApi: App_activityApi,
               private descriptionApi: App_descriptionApi,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
-              private locationApi: App_locationApi) {
+              private locationApi: App_locationApi,
+              private tokenService: TokenService) {
     this.fileDropControls.options = new NgUploaderOptions({
-      url: 'http://api.ngx-uploader.com/upload',
-      autoUpload: false
+      url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
+      autoUpload: true,
+      authTokenPrefix: 'Bearer',
+      authToken: tokenService.getToken()
     });
   }
 
@@ -84,15 +97,18 @@ export class CreateActivityComponent implements OnInit {
     });
   }
 
-  public onClickAddADescription() {
-    this.createTextDescriptionInputs.push({
-      text: ''
+  public onClickAddTextDescription() {
+    this.createDescriptionInputs.push({
+      input: {
+        text: ''
+      },
+      type: 0
     });
   }
 
-  public onClickDeleteADescription(index) {
+  public onClickDeleteDescription(index) {
     if (index > -1) {
-      this.createTextDescriptionInputs.splice(index, 1);
+      this.createDescriptionInputs.splice(index, 1);
     }
   }
 
@@ -123,14 +139,22 @@ export class CreateActivityComponent implements OnInit {
           });
       })
       .flatMap(activityId => {
-        return this.createTextDescriptionInputs
-          .map((input, index) => {
+        return this.createDescriptionInputs
+          .map((createDescriptionInput, index) => {
+            const input = createDescriptionInput.input;
+
             input.activityId = activityId;
             input.priority = index;
 
-            return this.descriptionApi
-              .appDescriptionCreateTextDescription(input)
-              .map(output => output.id);
+            if ((<CreateTextDescriptionInput> input).text) {
+              return this.descriptionApi
+                .appDescriptionCreateTextDescription(input)
+                .map(output => output.id);
+            } else if ((<CreateInternalImageDescriptionInput> input).imageId) {
+              return this.descriptionApi
+                .appDescriptionCreateInternalImageDescription(input)
+                .map(output => output.id);
+            }
           });
       })
       .flatMap(observables => {
@@ -144,9 +168,35 @@ export class CreateActivityComponent implements OnInit {
   public onFileUpload(data: any) {
     setTimeout(() => {
       this.ngZone.run(() => {
-        this.fileDropControls.response = data;
         if (data && data.response) {
-          this.fileDropControls.response = JSON.parse(data.response);
+          const response = JSON.parse(data.response);
+
+          const fileDtos: FileDto[] = response.result;
+
+          let isPushed = false;
+          for (let i = 0; i < fileDtos.length; i++) {
+            const fileId = fileDtos[i].id;
+
+            for (let j = 0; j < this.createDescriptionInputs.length; j++) {
+              if (this.createDescriptionInputs[j].type === 2) {
+                if ((<CreateInternalImageDescriptionInput> this.createDescriptionInputs[j].input).imageId === fileId) {
+                  isPushed = true;
+                  break;
+                }
+              }
+            }
+
+            if (isPushed) {
+              break;
+            }
+
+            this.createDescriptionInputs.push({
+              input: {
+                imageId: fileDtos[i].id
+              },
+              type: 2
+            });
+          }
         }
       });
     });

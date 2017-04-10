@@ -45,27 +45,28 @@
           <div class="col-md-9">
 
             <!-- Description -->
-            <div [dragula]='"descriptions-bag"' [dragulaModel]='createTextDescriptionInputs'>
-              <div *ngFor="let createTextDescriptionInput of createTextDescriptionInputs; let i = index;"
-                   class="row description">
+            <div [dragula]='"descriptions-bag"' [dragulaModel]="createDescriptionInputs">
+              <div *ngFor="let createDescriptionInput of createDescriptionInputs; let i = index;" class="row description">
                 <div class="col-xs-1">
                   <div class="handle drag">
                     <i class="glyphicon glyphicon-apple" aria-hidden="true"></i>
                   </div>
                   <br>
-                  <div class="handle delete" (click)="onClickDeleteADescription(i)">
+                  <div class="handle delete" (click)="onClickDeleteDescription(i)">
                     <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                   </div>
                 </div>
-                <div class="col-xs-11">
-                    <textarea class="form-control" placeholder="Please enter your description"
-                              [(ngModel)]="createTextDescriptionInput.text"></textarea>
+                <div class="col-xs-11" [ngSwitch]="createDescriptionInput.type" style="text-align: center;">
+                  <textarea *ngSwitchCase="0" class="form-control" placeholder="Please enter your description"
+                            [(ngModel)]="createDescriptionInput.input.text"></textarea>
+                  <img *ngSwitchCase="2" style="max-width: 100%; max-height: 300px;"
+                       [src]="'https://unitime-dev-api.azurewebsites.net/api/File/GetFile/' + createDescriptionInput.input.imageId">
                 </div>
               </div>
             </div>
 
             <!-- Add a description -->
-            <button class="btn btn-default btn-block" (click)="onClickAddADescription()">Add a Description</button>
+            <button class="btn btn-default btn-block" (click)="onClickAddTextDescription()">Add a Description</button>
 
             <!-- File Drop -->
             <div class="row">
