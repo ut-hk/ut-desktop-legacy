@@ -40,7 +40,7 @@
                    [(ngModel)]="asyncSelected"
                    [typeahead]="dataSource"
                    (typeaheadLoading)="changeTypeaheadLoading($event)"
-                   (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                   (typeaheadNoResults)="onTypeaheadNoResults($event)"
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    typeaheadOptionsLimit="10"
                    typeaheadOptionField="text"

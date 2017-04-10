@@ -21,7 +21,7 @@ export interface UpdateActivityInput {
 
     descriptionIds?: Array<number>;
 
-    tagIds?: Array<number>;
+    tagTexts?: Array<string>;
 
     locationId?: string;
 

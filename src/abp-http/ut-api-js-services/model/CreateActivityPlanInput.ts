@@ -15,4 +15,6 @@ import * as models from './models';
 export interface CreateActivityPlanInput {
     name?: string;
 
+    tagTexts?: Array<string>;
+
 }

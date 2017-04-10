@@ -15,6 +15,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
 import { DateTimePickerModule } from 'ng2-date-time-picker';
 import { MomentModule } from 'angular2-moment';
+import { NgUploaderModule } from 'ngx-uploader';
 
 import { TruncatePipe } from './truncate.pipe';
 
@@ -36,19 +37,21 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 import { GenderPipe } from './gender.pipe';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
-import { NgUploaderModule } from 'ngx-uploader';
+import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
 
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
-
   {path: 'activity-plan/:id', component: ActivityPlanComponent},
+
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
 
   {path: 'create-activity-plan', component: CreateActivityPlanComponent},
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
   {path: 'create-activity', component: CreateActivityComponent},
+
+  {path: 'activity-invitations', component: ActivityInvitationsComponent},
 
   {path: 'friend-invitations', component: FriendInvitationsComponent},
   {path: 'friends/:userId', component: FriendsComponent},
@@ -87,7 +90,8 @@ const appRoutes: Routes = [
     SignUpProfileComponent,
     TruncatePipe,
     GenderPipe,
-    FriendInvitationsComponent
+    FriendInvitationsComponent,
+    ActivityInvitationsComponent
   ],
   imports: [
     BrowserModule,

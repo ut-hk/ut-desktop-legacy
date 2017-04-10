@@ -17,4 +17,10 @@ export interface GetMyUserOutput {
 
     guestId?: string;
 
+    numberOfActivityInvitations?: number;
+
+    numberOfFriendInvitations?: number;
+
+    numberOfFriends?: number;
+
 }

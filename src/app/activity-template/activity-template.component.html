@@ -1,68 +1,200 @@
-<div class="container">
+<div class="container" *ngIf="activityTemplate">
 
   <div class="row">
     <div class="col-xs-12">
-
       <div class="text-right">
-        <a class="btn btn-default">Edit</a>
-        <a class="btn btn-default" (click)="onClickAddToMyActivities()">Add to My Activities</a>
-      </div>
 
+        <a class="btn btn-default">Edit</a>
+        <a class="btn btn-default" (click)="addToMyActivitiesModal.show()">Add to My Activities</a>
+
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- Name -->
+      <h1 class="h3">{{activityTemplate.name}}</h1>
     </div>
   </div>
 
   <div class="row">
+    <div class="col-xs-12 col-sm-7">
 
-    <div class="col-xs-12">
-      <div *ngIf="activityTemplate">
-        <!-- Name and Owner -->
-        <h1 class="h3">{{activityTemplate.name}}</h1>
-        <div class="text-right">Provided by <a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></div>
+        <!-- Tags -->
+        <p>
+          <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">{{tag.text}}</span>
+        </p>
 
-        <!-- Reference Time Slots-->
-        <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
-          <div>Time: {{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
+        <!-- Author -->
+        <div class="row">
+          <div class="col-xs-5 col-sm-3">Author</div>
+          <div class="col-xs-7 col-sm-9"><a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></div>
+        </div>
+
+        <!-- Reference Time Slots -->
+        <div class="row">
+          <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
+          <div class="col-xs-7 col-sm-9">
+            <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
+              <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
+            </div>
+          </div>
         </div>
 
         <!-- Location -->
-        <p>Location: {{activityTemplate.location.name}}</p>
+        <div class="row" *ngIf="activityTemplate.location">
+          <div class="col-xs-5 col-sm-3">Location</div>
+          <div class="col-xs-7 col-sm-9">{{activityTemplate.location.name ? activityTemplate.location.name : 'No Name Provided'}}</div>
+          <div class="col-xs-12">
+            <br>
+            <!-- Map -->
+            <sebm-google-map *ngIf="activityTemplate.location" #locationMap [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude" [zoom]="13">
+              <sebm-google-map-marker [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude"></sebm-google-map-marker>
+            </sebm-google-map>
+          </div>
+        </div>
+        <br>
 
         <!-- Descriptions -->
         <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
              [ngSwitch]="description.type">
           <p *ngSwitchCase="0">{{description.content}}</p>
           <div class="text-center" *ngSwitchCase="1">
-            <img style="margin-bottom: 10px;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+            <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
           </div>
         </div>
 
-        <!-- Tags-->
-        <p class="text-right">
-          <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">#{{tag.text}}</span>
-        </p>
+    </div>
+    <sticky class="col-xs-12 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="20">
 
-        <!-- Comments -->
-        <h3>Comments</h3>
-        <div>
-          <div class="comment" *ngFor="let comment of activityTemplate.comments; trackBy: comment?.id">
-            <p class="content"><a routerLink="/user/{{comment.owner.id}}">@{{comment.owner.userName}}</a> {{comment.content}}</p>
+      <!-- Comments -->
+      <div>
+        <div class="comments">
+          <div *ngFor="let comment of activityTemplate.comments">
+            <div class="comment">
+              <div class="row">
 
-            <div class="replies" *ngFor="let reply of comment.replies; trackBy: reply?.id">
-              <p class="content">{{reply.content}}</p>
+                <!-- User Icon -->
+                <div class="col-xs-2">
+                  <img class="user-icon" src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                </div>
+
+                <div class="col-xs-10">
+
+                  <!-- Display Comments -->
+                  <div>
+                    <div style="border: 1px solid #EEEEEE; margin-bottom: 10px;">
+                      <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
+                        <span class="comment-name"><a href="http://creaticode.com/blog">@{{comment.owner.userName}}</a></span>
+                        <span>{{comment.creationTime | amTimeAgo}}</span>
+                      </div>
+                      <div style="padding: 5px;">{{comment.content}}</div>
+                    </div>
+                  </div>
+
+                  <!-- Replies -->
+                  <div class="replies">
+
+                    <!-- Display Replies-->
+                    <div *ngFor="let reply of comment.replies">
+                      <div class="row">
+                        <div class="col-xs-2">
+                          <img class="user-icon" src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                        </div>
+                        <div class="col-xs-10">
+                          <div style="border: 1px solid #EEEEEE;">
+                            <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
+                              <span><a href="http://creaticode.com/blog">@{{reply.owner.userName}}</a></span>
+                              <span>{{reply.creationTime | amTimeAgo}}</span>
+                            </div>
+                            <div style="padding: 5px;">{{reply.content}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Create Reply -->
+                    <div style="margin-top: 5px;">
+                      <div class="row">
+                        <div class="col-xs-2"></div>
+                        <div class="col-xs-10">
+                          <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Write a reply..." [(ngModel)]="createReplyInput.content" (keyup.enter)="onClickCreateReply(comment)">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Create Comment -->
+          <div>
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Write a comment..." [(ngModel)]="createTextCommentInput.content" (keyup.enter)="onClickCreateTextComment()">
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Please enter your comment." [(ngModel)]="createTextCommentInput.content">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button" (click)="onClickTextComment()">Comment</button>
-            </span>
-          </div>
-        </div>
+      </div>
 
+    </sticky>
+  </div>
+  <br>
+  <br>
+  <br>
+
+  <!-- Create Activity From Activity Plan -->
+  <div class="modal fade" bsModal #addToMyActivitiesModal="bs-modal" [config]="{backdrop: 'static'}"
+       tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Add to My Activities</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="addToMyActivitiesModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="from-horizontal">
+
+            <!-- Time Slot -->
+            <div class="form-group">
+              <label class="col-md-3 control-label">Time Slot</label>
+              <div class="col-md-9">
+                <div class="row">
+
+                  <div class="col-xs-6">
+                    <input class="form-control" placeholder="Start Time" [ngModel]="createActivityFromActivityPlanInput.startTime | date: 'short'"
+                           [(dateTimePicker)]="createActivityFromActivityPlanInput.startTime" [mode]="'dropdown'" readonly>
+                  </div>
+                  <div class="col-xs-6">
+                    <input class="form-control" placeholder="End Time" [ngModel]="createActivityFromActivityPlanInput.endTime | date: 'short'"
+                           [(dateTimePicker)]="createActivityFromActivityPlanInput.endTime" [mode]="'dropdown'" readonly>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+
+            <!-- Submit -->
+            <div class="form-group">
+              <div class="col-md-3"></div>
+              <div class="col-md-9">
+                <button type="button" class="btn btn-block btn-primary" (click)="onClickAddActivity()">Add</button>
+              </div>
+            </div>
+            <br>
+          </div>
+
+        </div>
       </div>
     </div>
-
   </div>
 </div>

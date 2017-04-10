@@ -1,10 +1,13 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 import { CreateActivityInput } from '../../abp-http/ut-api-js-services/model/CreateActivityInput';
-import { MouseEvent, MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader, MouseEvent } from 'angular2-google-maps/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
+import { Observable } from 'rxjs/Rx';
+import { App_locationApi } from '../../abp-http/ut-api-js-services/api/App_locationApi';
+import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
 
 declare var google: any;
 
@@ -15,9 +18,13 @@ declare var google: any;
 })
 export class CreateActivityComponent implements OnInit {
 
-  @ViewChild('locationNameElement')
-  public locationNameElement: ElementRef;
+  @ViewChild('locationNameElementRef')
+  public locationNameElementRef: ElementRef;
   public locationNameControl: FormControl = new FormControl();
+
+  public pageControls = {
+    tagTextsString: ''
+  };
 
   public mapControls = {
     map: {
@@ -36,14 +43,16 @@ export class CreateActivityComponent implements OnInit {
     name: '',
     startTime: null,
     endTime: null,
-    locationId: ''
+    locationId: '',
+    tagTexts: []
   };
   public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
 
-
-  constructor(private activityService: App_activityApi,
+  constructor(private activityApi: App_activityApi,
+              private descriptionApi: App_descriptionApi,
               private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) {
+              private ngZone: NgZone,
+              private locationApi: App_locationApi) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'http://api.ngx-uploader.com/upload',
       autoUpload: false
@@ -51,12 +60,11 @@ export class CreateActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    // set current position
     this.setCurrentPosition();
 
     // load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(this.locationNameElement.nativeElement, {
+      const autocomplete = new google.maps.places.Autocomplete(this.locationNameElementRef.nativeElement, {
         types: ['address']
       });
 
@@ -88,17 +96,52 @@ export class CreateActivityComponent implements OnInit {
     }
   }
 
-  public createActivity() {
-    this.activityService
-      .appActivityCreateActivity(this.createActivityInput)
-      .flatMap((output) => this.activityService.appActivityGetActivity({id: output.id}))
-      .subscribe((output) => {
-        console.log(output);
+  public onClickCreate() {
+    Observable.empty().defaultIfEmpty()
+      .flatMap(() => {
+        if (this.mapControls.markers.length > 0) {
+          return this.locationApi
+            .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
+            .map(output => {
+              return output.id;
+            });
+        }
+
+        return Observable.empty();
+      })
+      .defaultIfEmpty<string>(null)
+      .flatMap(locationId => {
+        const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
+
+        this.createActivityInput.tagTexts = tagTexts ? tagTexts : [];
+        this.createActivityInput.locationId = locationId;
+
+        return this.activityApi
+          .appActivityCreateActivity(this.createActivityInput)
+          .map(createActivityOutput => {
+            return createActivityOutput.id;
+          });
+      })
+      .flatMap(activityId => {
+        return this.createTextDescriptionInputs
+          .map((input, index) => {
+            input.activityId = activityId;
+            input.priority = index;
+
+            return this.descriptionApi
+              .appDescriptionCreateTextDescription(input)
+              .map(output => output.id);
+          });
+      })
+      .flatMap(observables => {
+        return Observable.forkJoin(observables);
+      })
+      .subscribe(descriptionIds => {
+        console.log(descriptionIds);
       });
   }
 
   public onFileUpload(data: any) {
-    console.log(1);
     setTimeout(() => {
       this.ngZone.run(() => {
         this.fileDropControls.response = data;
@@ -115,7 +158,6 @@ export class CreateActivityComponent implements OnInit {
 
   public onClickMap($event: MouseEvent) {
     this.updateMarker($event.coords.lat, $event.coords.lng, '');
-
   }
 
   private setCurrentPosition() {

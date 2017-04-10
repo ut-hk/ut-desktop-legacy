@@ -19,7 +19,7 @@ export interface UpdateActivityTemplateInput {
 
     descriptionIds?: Array<number>;
 
-    tagIds?: Array<number>;
+    tagTexts?: Array<string>;
 
     locationId?: string;
 

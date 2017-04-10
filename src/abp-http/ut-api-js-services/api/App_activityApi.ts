@@ -61,6 +61,22 @@ export class App_activityApi {
      * 
      * @param input 
      */
+    public appActivityCreateActivityFromActivityTemplate(input: models.CreateActivityFromActivityTemplateInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
+        return this.appActivityCreateActivityFromActivityTemplateWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
     public appActivityGetActivities(input: models.GetActivitiesInput, extraHttpRequestParams?: any): Observable<models.GetActivitiesOutput> {
         return this.appActivityGetActivitiesWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
@@ -133,6 +149,45 @@ export class App_activityApi {
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
             throw new Error('Required parameter input was null or undefined when calling appActivityCreateActivity.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityCreateActivityFromActivityTemplateWithHttpInfo(input: models.CreateActivityFromActivityTemplateInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activity/CreateActivityFromActivityTemplate`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appActivityCreateActivityFromActivityTemplate.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [

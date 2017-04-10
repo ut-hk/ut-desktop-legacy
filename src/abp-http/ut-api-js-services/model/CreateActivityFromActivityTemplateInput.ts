@@ -12,13 +12,11 @@
 
 import * as models from './models';
 
-export interface ReplyDto {
-    content?: string;
+export interface CreateActivityFromActivityTemplateInput {
+    startTime?: Date;
 
-    owner?: models.UserListDto;
+    endTime?: Date;
 
-    creationTime?: Date;
-
-    id?: number;
+    activityTemplateId?: string;
 
 }

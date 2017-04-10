@@ -4,9 +4,14 @@
     <div class="col-sm-10">
       <h1 class="">{{user.name}} {{user.surname}}</h1>
 
-      <button *ngIf="isMyUser==false" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
+      <button *ngIf="!isMyUser && !isFriend && !isInvited" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend
       </button>
-      <button type="button" class="btn btn-info">Send me a message{{isMyUser}}</button>
+      <button *ngIf="isFriend" type="button" class="btn btn-danger" (click)="onClickUnFriend()">Unfriend
+      </button>
+      <button *ngIf="isInvited" type="button" class="btn btn-info" disabled="disabled">Pending Request
+
+      </button>
+      <button type="button" class="btn btn-info">Send me a message</button>
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
       <br>
     </div>
@@ -40,14 +45,11 @@
           <span class="pull-left"><strong class="">Last seen</strong></span>
           {{user.lastLoginTime | amTimeAgo}}
         </li>
-      </ul>
-
-      <ul class="list-group">
-        <li class="list-group-item text-muted">Activity</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
-        <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 78
+        <li class="list-group-item text-right truncate">
+          <a href="friends/{{user.id}}">
+            <span class="pull-left"><strong class="">Friend</strong></span>
+            {{numberOfFriends}}
+          </a>
         </li>
       </ul>
     </div>
@@ -77,8 +79,33 @@
                   <h5 class="truncate">
                     <a routerLink="/activity-template/{{activityTemplate.id}}" routerLinkActive="active">{{activityTemplate.name}}</a>
                   </h5>
-                  <p class="truncate" *ngIf="activityTemplate.coverImageDescription">
+                  <p class="truncate" *ngIf="activityTemplate.coverTextDescription">
                     {{activityTemplate.coverTextDescription.content}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- third row -->
+      <div class="panel panel-default target">
+        <div class="panel-heading" contenteditable="false">Activities</div>
+
+        <div class="panel-body">
+          <div class="row" *ngIf="activityTemplates">
+            <div class="col-md-4" *ngFor="let activity of activities; trackBy: activity?.id">
+              <div class="thumbnail activity">
+                <a class="cover" routerLink="/activity/{{activity.id}}" routerLinkActive="active">
+                  <div class="cover-image" *ngIf="activity.coverImageDescription"
+                       [ngStyle]="{'background-image': 'url(' + activity.coverImageDescription.content + ')'}"></div>
+                </a>
+                <div class="caption">
+                  <h5 class="truncate">
+                    <a routerLink="/activity/{{activity.id}}" routerLinkActive="active">{{activity.name}}</a>
+                  </h5>
+                  <p class="truncate" *ngIf="activity.coverTextDescription">
+                    {{activity.coverTextDescription.content}}</p>
                 </div>
               </div>
             </div>

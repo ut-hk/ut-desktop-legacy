@@ -4,9 +4,8 @@ import { UserDto } from '../abp-http/ut-api-js-services/model/UserDto';
 import { TokenService } from '../abp-http/http/token.service';
 import { Router, RoutesRecognized } from '@angular/router';
 import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
-import { EntityDtoGuid } from '../abp-http/ut-api-js-services/model/EntityDtoGuid';
 import { environment } from '../environments/environment';
-import { LocalStorage, LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +18,8 @@ export class AppComponent implements OnInit {
   public depth = -1;
 
   public myUser: UserDto;
+  public numberOfActivityInvitations: number;
+  public numberOfFriendInvitations: number;
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
@@ -38,21 +39,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeMyUser();
+    this.getMyUser();
     this.initializeRouteHistoryWatcher();
   }
 
   public toggleNavigation() {
     this.isCollapsed = !this.isCollapsed;
+    console.log(this.isCollapsed);
+
   }
 
-  public collapsed(event: any): void {
-  }
-
-  public expanded(event: any): void {
-  }
-
-  public logOut() {
+  public onLogOut() {
     this.tokenService.clearToken();
 
     this.localStorageService.clear('myUser');
@@ -62,7 +59,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['./log-in']);
   }
 
-  private initializeMyUser() {
+  private getMyUser() {
     if (this.tokenService.getToken()) {
       const subscription = this.userApi
         .appUserGetMyUser({})
@@ -71,6 +68,8 @@ export class AppComponent implements OnInit {
           this.localStorageService.store('userGuestId', output.guestId);
 
           this.myUser = output.myUser;
+          this.numberOfActivityInvitations = output.numberOfActivityInvitations;
+          this.numberOfFriendInvitations = output.numberOfFriendInvitations;
 
           subscription.unsubscribe();
         });

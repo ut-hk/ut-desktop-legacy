@@ -13,8 +13,6 @@
 import * as models from './models';
 
 export interface UserDto {
-    fullName?: string;
-
     emailAddress?: string;
 
     isEmailConfirmed?: boolean;

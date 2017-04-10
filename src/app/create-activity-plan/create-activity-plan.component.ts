@@ -136,7 +136,7 @@ export class CreateActivityPlanComponent implements OnInit {
     this.typeaheadLoading = e;
   }
 
-  public changeTypeaheadNoResults(e: boolean): void {
+  public onTypeaheadNoResults(e: boolean): void {
     this.typeaheadNoResults = e;
   }
 

@@ -9,12 +9,16 @@ import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/Fri
 })
 export class FriendInvitationsComponent implements OnInit {
 
-  private friendInvitations: FriendInvitationDto[];
+  public friendInvitations: FriendInvitationDto[];
 
   constructor(private friendInvitationApi: App_friendInvitationApi) {
   }
 
   ngOnInit() {
+    this.getMyPendingFriendInvitations();
+  }
+
+  private getMyPendingFriendInvitations() {
     const getMyPendingFriendInvitationsSubscription = this.friendInvitationApi
       .appFriendInvitationGetMyPendingFriendInvitations()
       .subscribe(output => {
@@ -28,6 +32,8 @@ export class FriendInvitationsComponent implements OnInit {
     const subscription = this.friendInvitationApi
       .appFriendInvitationAcceptFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }
@@ -36,6 +42,8 @@ export class FriendInvitationsComponent implements OnInit {
     const subscription = this.friendInvitationApi
       .appFriendInvitationRejectFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }
@@ -44,6 +52,8 @@ export class FriendInvitationsComponent implements OnInit {
     const subscription = this.friendInvitationApi
       .appFriendInvitationIgnoreFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }

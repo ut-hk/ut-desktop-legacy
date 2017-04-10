@@ -21,6 +21,8 @@ export interface CommentDto {
 
     owner?: models.UserListDto;
 
+    creationTime?: Date;
+
     id?: string;
 
 }
