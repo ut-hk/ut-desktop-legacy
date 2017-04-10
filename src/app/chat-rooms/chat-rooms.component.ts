@@ -9,10 +9,15 @@ import {LocalStorageService} from 'ng2-webstorage';
 import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
 import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
 import {UpdateChatRoomInput} from '../../abp-http/ut-api-js-services/model/UpdateChatRoomInput';
+import {CreateChatRoomInput} from 'abp-http/ut-api-js-services';
 
 interface ChatRoom extends ChatRoomDto {
   messages: Array<ChatRoomMessageDto>;
   participantDictionary: object;
+}
+interface ParticipantIdInput {
+  user: UserListDto;
+  isSelected: boolean;
 }
 
 @Component({
@@ -34,10 +39,13 @@ export class ChatRoomsComponent implements OnInit {
     id: '',
     participantIds: []
   };
-  public participantIdInput = [];
-
+  public participantIdInputs: ParticipantIdInput[] = [];
   public createTextChatRoomMessageInput: CreateTextChatRoomMessageInput = {
     text: ''
+  };
+
+  public createChatRoomInput: CreateChatRoomInput = {
+    name: 'Chat Room Name'
   };
 
   private lastChatMessageId: number;
@@ -77,7 +85,9 @@ export class ChatRoomsComponent implements OnInit {
       .subscribe((output) => {
         this.friends = output.friends;
         for (let i = 0; i < this.friends.length; i++) {
-          this.participantIdInput.push({id: (this.friends[i].id).toString(), selected: false});
+          const friendInput: ParticipantIdInput = {user: this.friends[i], isSelected: false};
+
+          this.participantIdInputs.push(friendInput);
         }
 
         getFriendsSubscription.unsubscribe();
@@ -100,21 +110,34 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
-        this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
+        if (output.chatRoomMessages.length > 0) {
+          this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
+        }
       });
   }
 
-  public onClickCreateChatRoom(chatRoom: ChatRoom) {
-
+  public onClickCreateChatRoom() {
+    this.chatRoomApi
+      .appChatRoomCreateChatRoomWithHttpInfo(this.createChatRoomInput)
+      .subscribe((output) => {
+        console.log(output);
+      });
   }
 
   public onClickAddFriendToChatRoom(friendIds) {
     this.updateChatRoomInput.id = this.selectedChatRoom.id;
 
-    console.log(this.updateChatRoomInput);
-    console.log(this.participantIdInput);
+    for (let i = 0; i < this.participantIdInputs.length; i++) {
+      if (this.participantIdInputs[i].isSelected == true) {
+        this.updateChatRoomInput.participantIds.push(this.participantIdInputs[i].user.id);
+      }
+    }
 
-    // this.chatRoomApi.appChatRoomUpdateChatRoom(this.updateChatRoomInput);
+    this.chatRoomApi
+      .appChatRoomUpdateChatRoom(this.updateChatRoomInput)
+      .subscribe((output) => {
+        console.log(output);
+      });
   }
 
   public onClickSendMessage() {
