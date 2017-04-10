@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {App_chatRoomApi} from '../../abp-http/ut-api-js-services/api/App_chatRoomApi';
 import {ChatRoomDto} from '../../abp-http/ut-api-js-services/model/ChatRoomDto';
 import {ChatRoomMessageDto} from '../../abp-http/ut-api-js-services/model/ChatRoomMessageDto';
@@ -44,6 +44,9 @@ export class ChatRoomsComponent implements OnInit {
     text: ''
   };
 
+  @ViewChild('inviteFriendsModal') public inviteFriendsModal;
+  @ViewChild('createChatRoomModal') public createChatRoomModal;
+
   public createChatRoomInput: CreateChatRoomInput = {
     name: 'Chat Room Name'
   };
@@ -71,6 +74,7 @@ export class ChatRoomsComponent implements OnInit {
 
         if (this.chatRooms.length > 0) {
           this.onClickChatRoom(this.chatRooms[0]);
+          this.updateChatRoomInput.name = this.chatRooms[0].name;
         }
 
         getMyChatRoomsSubscription.unsubscribe();
@@ -110,6 +114,7 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
+        this.updateChatRoomInput.name = this.selectedChatRoom.name;
         if (output.chatRoomMessages.length > 0) {
           this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
         }
@@ -122,10 +127,12 @@ export class ChatRoomsComponent implements OnInit {
       .subscribe((output) => {
         console.log(output);
       });
+    this.createChatRoomModal.hide();
   }
 
   public onClickAddFriendToChatRoom(friendIds) {
     this.updateChatRoomInput.id = this.selectedChatRoom.id;
+
 
     for (let i = 0; i < this.participantIdInputs.length; i++) {
       if (this.participantIdInputs[i].isSelected == true) {
@@ -133,11 +140,15 @@ export class ChatRoomsComponent implements OnInit {
       }
     }
 
+
     this.chatRoomApi
       .appChatRoomUpdateChatRoom(this.updateChatRoomInput)
       .subscribe((output) => {
         console.log(output);
       });
+
+    this.inviteFriendsModal.hide();
+
   }
 
   public onClickSendMessage() {

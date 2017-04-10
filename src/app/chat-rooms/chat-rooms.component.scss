@@ -26,7 +26,15 @@ $border-color: #CCCCCC;
       flex: 1;
 
       .chat-room {
-        padding: 10px 0;
+        padding: 5px 10px;
+        margin-top: 11px;
+        margin-bottom: 0px;
+        border-left: 5px solid green;
+      }
+
+      .chat-room:hover{
+        background-color: green;
+        color:white !important;
       }
 
       .no-more-buddies{
