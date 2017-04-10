@@ -1,38 +1,30 @@
-<div class="messenger">
+<div class="messenger" *ngIf="chatRooms; else isLoading">
   <div class="chat-room-selector">
     <div class="chat-rooms-selector-header">
       <h1 class="h2">Chat Rooms</h1>
     </div>
 
-    <div *ngIf="chatRooms" class="chat-rooms">
-      <div *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id" class="chat-room">
-        <p class="h4" (click)="onClickChatRoom(chatRoom)">{{chatRoom.name}}</p>
+    <div class="chat-rooms">
+      <div *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id" class="chat-room" [ngClass]="{'active': chatRoom.id == selectedChatRoom?.id}"
+           (click)="onClickChatRoom(chatRoom)">
+        <p class="h4">{{chatRoom.name}}</p>
       </div>
 
-      <div *ngIf="chatRooms.length == 0" class="no-more-buddies">
-        No More Chat Rooms
-      </div>
+      <div *ngIf="chatRooms.length == 0" class="no-more-buddies">No More Chat Rooms</div>
 
     </div>
     <div class="chat-footer">
-      <button class="btn btn-default" style="width: 100%;" (click)="createChatRoomModal.show()">Create New Chat Room
-      </button>
+      <button class="btn btn-default btn-block" (click)="createChatRoomModal.show()">Create New Chat Room</button>
     </div>
   </div>
 
-  <div class="main-container" *ngIf="selectedChatRoom">
-
-    <div class="chat-header">
-      <h3>{{selectedChatRoom.name}}</h3>
-    </div>
-
+  <div *ngIf="selectedChatRoom" class="main-container">
     <div class="chat-content">
       <div class="chat-container">
-        <div class="chat-messages">
+        <div class="chat-messages-container" #chatMessagesContainer>
 
           <div *ngFor="let message of selectedChatRoom.messages; trackBy: message?.id;">
-            <p *ngIf="message.ownerId != myUser.id">
-              @{{selectedChatRoom.participantDictionary[message.ownerId]}}<br>{{message.message}}</p>
+            <p *ngIf="message.ownerId != myUser.id">@{{selectedChatRoom.participantDictionary[message.ownerId]}}<br>{{message.message}}</p>
             <p *ngIf="message.ownerId == myUser.id" class="text-right">{{message.message}}</p>
           </div>
         </div>
@@ -40,7 +32,7 @@
         <div class="chat-input">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Please type your message."
-                   [(ngModel)]="createTextChatRoomMessageInput.text">
+                   [(ngModel)]="createTextChatRoomMessageInput.text" (keyup.enter)="onClickSendMessage()">
             <span class="input-group-btn">
               <button class="btn btn-default" type="submit" (click)="onClickSendMessage()">Send</button>
             </span>
@@ -49,6 +41,10 @@
       </div>
 
       <div class="side-content">
+        <div class="selected-chat-room-name">
+          <h2 class="h3">{{selectedChatRoom.name}}</h2>
+        </div>
+
         <div class="participants" *ngIf="selectedChatRoom">
           <p class="h4">Participants</p>
           <div *ngFor="let participant of selectedChatRoom.participants; trackBy: participant?.id;">
@@ -120,38 +116,44 @@
         </button>
       </div>
       <div class="modal-body">
-          <div class="form-group">
-            <div class="row">
-              <div class="input-group" style="margin-left: 20px;">
-                Chat Room Name: <input type="text"  class="form-control" id="name" placeholder="Name"
-                                       [(ngModel)]="createChatRoomInput.name">
-              </div>
-            </div>
-            <div *ngIf="participantIdInputs">
-              <div *ngFor="let participantIdInput of participantIdInputs" class="row">
-                <div class="col-xs-2">
-                  <img
-                    [src]="participantIdInput.user.iconId ? participantIdInput.user.iconId : './assets/noFoundProfilePicture.png'"
-                    class="img-circle"
-                    width="60px">
-                </div>
-
-                <div class="col-xs-10">
-                  <label>
-                    <input type="checkbox" [(ngModel)]="participantIdInput.isSelected" name="isSelected">
-                    @{{participantIdInput.user.userName}} {{participantIdInput.user.name}}
-                  </label>
-                </div>
-
-              </div>
-
-              <div *ngIf="participantIdInputs.length == 0">Friends List is empty.</div>
+        <div class="form-group">
+          <div class="row">
+            <div class="input-group" style="margin-left: 20px;">
+              Chat Room Name: <input type="text" class="form-control" id="name" placeholder="Name"
+                                     [(ngModel)]="createChatRoomInput.name">
             </div>
           </div>
-          <button type="submit" class="btn btn-default btn-lg center-block" (click)="onClickCreateChatRoom(name)">
-            Submit
-          </button>
+          <div *ngIf="participantIdInputs">
+            <div *ngFor="let participantIdInput of participantIdInputs" class="row">
+              <div class="col-xs-2">
+                <img
+                  [src]="participantIdInput.user.iconId ? participantIdInput.user.iconId : './assets/noFoundProfilePicture.png'"
+                  class="img-circle"
+                  width="60px">
+              </div>
+
+              <div class="col-xs-10">
+                <label>
+                  <input type="checkbox" [(ngModel)]="participantIdInput.isSelected" name="isSelected">
+                  @{{participantIdInput.user.userName}} {{participantIdInput.user.name}}
+                </label>
+              </div>
+
+            </div>
+
+            <div *ngIf="participantIdInputs.length == 0">Friends List is empty.</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-default btn-lg center-block" (click)="onClickCreateChatRoom(name)">
+          Submit
+        </button>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #isLoading>
+  <div class="text-center">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
+</ng-template>
