@@ -69,8 +69,8 @@
       <div class="selected-activity-templates" [dragula]="'bag-one'" [dragulaModel]="selectedActivityTemplates">
         <div class="activity-template"
              *ngFor="let activityTemplate of selectedActivityTemplates; trackBy: activityTemplate?.id">
-          <!--<input class="form-control" [ngModel]="activityTemplate.startTime | date: 'short'"-->
-                 <!--[(dateTimePicker)]="activityTemplate.startTime" [mode]="'dropdown'" readonly>-->
+          <input class="form-control" [ngModel]="activityTemplate.startTime | date: 'short'"
+                 [(dateTimePicker)]="activityTemplate.startTime" [mode]="'dropdown'" readonly>
 
           <!--</input>-->
 
