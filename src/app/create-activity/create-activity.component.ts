@@ -117,7 +117,9 @@ export class CreateActivityComponent implements OnInit {
       .flatMap(() => {
         if (this.mapControls.markers.length > 0) {
           return this.locationApi
-            .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
+            .appLocationCreateLocation({
+              latitude: this.mapControls.markers[0].lat,
+              longitude: this.mapControls.markers[0].lng})
             .map(output => {
               return output.id;
             });
