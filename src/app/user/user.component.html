@@ -5,7 +5,7 @@
       <h1 class="">{{user.name}} {{user.surname}}</h1>
 
       <button *ngIf="!isMyUser && !isFriend && !hasInvited" type="button" class="btn btn-success" (click)="onClickAddFriend()">Add Friend</button>
-      <button *ngIf="isFriend" type="button" class="btn btn-danger" (click)="onClickUnFriend()">Unfriend</button>
+      <button *ngIf="!isMyUser && isFriend" type="button" class="btn btn-danger" (click)="onClickUnFriend()">Unfriend</button>
       <button *ngIf="!isFriend && hasInvited" type="button" class="btn btn-info" disabled="disabled">Pending Request</button>
 
       <button type="button" class="btn btn-info">Send me a message</button>
@@ -60,16 +60,36 @@
         <div class="panel-body">A long description about me.</div>
       </div>
 
+      <!-- Activities -->
+      <div class="panel panel-default target">
+        <div class="panel-heading" contenteditable="false">Activities</div>
+
+        <div class="panel-body">
+
+          <div *ngIf="!pageControls.isLoadedActivities">
+            <ng-container *ngTemplateOutlet="isLoading"></ng-container>
+          </div>
+
+          <div *ngIf="pageControls.isLoadedActivities && calendarOptions.events.length == 0">
+            <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
+          </div>
+
+          <angular2-fullcalendar *ngIf="pageControls.isLoadedActivities && calendarOptions.events.length > 0" [options]="calendarOptions"></angular2-fullcalendar>
+
+        </div>
+      </div>
+
       <!-- Activity Templates -->
       <div class="panel panel-default target">
         <div class="panel-heading" contenteditable="false">Activity Templates</div>
 
         <div class="panel-body">
-          <div *ngIf="!activityTemplates">
+
+          <div *ngIf="!pageControls.isLoadedActivityTemplates">
             <ng-container *ngTemplateOutlet="isLoading"></ng-container>
           </div>
 
-          <div *ngIf="activityTemplates && activityTemplates.length == 0">
+          <div *ngIf="pageControls.isLoadedActivityTemplates && calendarOptions.events.length == 0">
             <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
           </div>
 
@@ -91,40 +111,6 @@
               </div>
             </div>
 
-          </div>
-        </div>
-      </div>
-
-      <!-- Activities -->
-      <div class="panel panel-default target">
-        <div class="panel-heading" contenteditable="false">Activities</div>
-
-        <div class="panel-body">
-
-          <div *ngIf="!activities">
-            <ng-container *ngTemplateOutlet="isLoading"></ng-container>
-          </div>
-
-          <div *ngIf="activities && activities.length == 0">
-            <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
-          </div>
-
-          <div class="row" *ngIf="activities">
-            <div class="col-md-4" *ngFor="let activity of activities; trackBy: activity?.id">
-              <div class="thumbnail activity">
-                <a class="cover" routerLink="/activity/{{activity.id}}" routerLinkActive="active">
-                  <div class="cover-image" *ngIf="activity.coverImageDescription"
-                       [ngStyle]="{'background-image': 'url(' + activity.coverImageDescription.content + ')'}"></div>
-                </a>
-                <div class="caption">
-                  <h5 class="truncate">
-                    <a routerLink="/activity/{{activity.id}}" routerLinkActive="active">{{activity.name}}</a>
-                  </h5>
-                  <p class="truncate" *ngIf="activity.coverTextDescription">
-                    {{activity.coverTextDescription.content}}</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
