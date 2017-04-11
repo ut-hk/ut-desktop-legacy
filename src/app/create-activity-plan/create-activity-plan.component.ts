@@ -69,7 +69,7 @@ export class CreateActivityPlanComponent implements OnInit {
 
     dragulaService.drop.subscribe((value) => {
       console.log(value);
-      this.onDragSetTime();
+      this.onDropSetTime();
     });
 
     dragulaService.setOptions('bag-one', {
@@ -151,7 +151,7 @@ export class CreateActivityPlanComponent implements OnInit {
       .appTagGetTags(getTagsInput);
   }
 
-  public onDragSetTime() {
+  public onDropSetTime() {
     const currentTime = new Date();
 
     this.selectedTemplatesTime.push({
