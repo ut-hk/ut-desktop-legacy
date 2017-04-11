@@ -40,6 +40,7 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
 import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
+import { ActivityComponent } from './activity/activity.component';
 
 
 const appRoutes: Routes = [
@@ -48,6 +49,9 @@ const appRoutes: Routes = [
 
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
+
+
+  {path: 'activity/:id', component: ActivityComponent},
 
   {path: 'create-activity-plan', component: CreateActivityPlanComponent},
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
@@ -97,7 +101,8 @@ const appRoutes: Routes = [
 
     FriendInvitationsComponent,
     ActivityInvitationsComponent,
-    CalendarComponent
+    CalendarComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,

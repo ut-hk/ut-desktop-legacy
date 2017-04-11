@@ -12,6 +12,7 @@ import { TokenService } from '../../abp-http/http/token.service';
 import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
 import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
 import { DescriptionDto } from '../../abp-http/ut-api-js-services/model/DescriptionDto';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var google: any;
 
@@ -63,7 +64,8 @@ export class CreateActivityComponent implements OnInit {
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
               private locationApi: App_locationApi,
-              private tokenService: TokenService) {
+              private tokenService: TokenService,
+              private router: Router) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
       autoUpload: true,
@@ -166,7 +168,7 @@ export class CreateActivityComponent implements OnInit {
         return Observable.forkJoin(observables);
       })
       .subscribe(descriptionIds => {
-        this.router.navigate(['./activity-template/', createdActivityId]);
+        this.router.navigate(['./activity/', createdActivityId]);
       });
   }
 
