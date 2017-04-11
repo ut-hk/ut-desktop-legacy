@@ -3,6 +3,7 @@ export * from './ActivityInvitationDto';
 export * from './ActivityListDto';
 export * from './ActivityParticipantDto';
 export * from './ActivityPlanDto';
+export * from './ActivityPlanListDto';
 export * from './ActivityPlanTimeSlotDto';
 export * from './ActivityTemplateDto';
 export * from './ActivityTemplateListDto';

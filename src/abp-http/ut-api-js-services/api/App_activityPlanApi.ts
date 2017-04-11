@@ -93,6 +93,22 @@ export class App_activityPlanApi {
      * 
      * @param input 
      */
+    public appActivityPlanRemoveActivityPlan(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appActivityPlanRemoveActivityPlanWithHttpInfo(input, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
     public appActivityPlanUpdateActivityPlan(input: models.UpdateActivityPlanInput, extraHttpRequestParams?: any): Observable<{}> {
         return this.appActivityPlanUpdateActivityPlanWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
@@ -196,6 +212,45 @@ export class App_activityPlanApi {
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
             throw new Error('Required parameter input was null or undefined when calling appActivityPlanGetActivityPlans.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param input 
+     */
+    public appActivityPlanRemoveActivityPlanWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityPlan/RemoveActivityPlan`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'input' is not null or undefined
+        if (input === null || input === undefined) {
+            throw new Error('Required parameter input was null or undefined when calling appActivityPlanRemoveActivityPlan.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
