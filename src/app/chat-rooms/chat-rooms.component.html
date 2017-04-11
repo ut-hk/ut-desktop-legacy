@@ -24,7 +24,9 @@
         <div class="chat-messages-container" #chatMessagesContainer>
 
           <div *ngFor="let message of selectedChatRoom.messages; trackBy: message?.id;">
-            <p *ngIf="message.ownerId != myUser.id">@{{selectedChatRoom.participantDictionary[message.ownerId]}}<br>{{message.message}}</p>
+            <p *ngIf="message.ownerId != myUser.id">
+              @{{selectedChatRoom.participantDictionary[message.ownerId]?.userName}}<br>{{message.message}}</p>
+
             <p *ngIf="message.ownerId == myUser.id" class="text-right">{{message.message}}</p>
           </div>
         </div>
