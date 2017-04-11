@@ -166,6 +166,7 @@ export class UserComponent implements OnInit {
           }
         }
 
+        this.pageControls.isLoadedActivities = true;
 
         getActivitiesSubscription.unsubscribe();
       });
