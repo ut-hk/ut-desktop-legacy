@@ -113,6 +113,8 @@ export class CreateActivityComponent implements OnInit {
   }
 
   public onClickCreate() {
+    let createdActivityId = null;
+
     Observable.empty().defaultIfEmpty()
       .flatMap(() => {
         if (this.mapControls.markers.length > 0) {
@@ -137,6 +139,7 @@ export class CreateActivityComponent implements OnInit {
         return this.activityApi
           .appActivityCreateActivity(this.createActivityInput)
           .map(createActivityOutput => {
+            createdActivityId = createActivityOutput.id;
             return createActivityOutput.id;
           });
       })
@@ -163,7 +166,7 @@ export class CreateActivityComponent implements OnInit {
         return Observable.forkJoin(observables);
       })
       .subscribe(descriptionIds => {
-        console.log(descriptionIds);
+        this.router.navigate(['./activity-template/', createdActivityId]);
       });
   }
 
