@@ -166,6 +166,7 @@ export class ChatRoomsComponent implements OnInit {
           });
       })
       .subscribe((output) => {
+        this.lastChatMessageId = this.lastChatMessageId + output.chatRoomMessages.length;
         for (let i = 0; i < output.chatRoomMessages.length; i++) {
           this.selectedChatRoom.messages.push(output.chatRoomMessages[i]);
         }
