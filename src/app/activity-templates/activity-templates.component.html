@@ -16,7 +16,7 @@
   <div class="row" [collapse]="pageControls.isAdvancedSearchCollapsed">
     <div class="col-sm-6">
 
-      <sebm-google-map
+      <agm-map
         [latitude]="mapControls.map.lat"
         [longitude]="mapControls.map.lng"
         [zoom]="mapControls.map.zoom"
@@ -25,14 +25,14 @@
         (mapClick)="onClickMap($event)"
         style="height: 200px;">
 
-        <sebm-google-map-marker
+        <agm-marker
           *ngFor="let marker of mapControls.markers; let i = index"
           [latitude]="marker.lat"
           [longitude]="marker.lng"
           [label]="marker.label"
           [markerDraggable]="marker.draggable">
-        </sebm-google-map-marker>
-      </sebm-google-map>
+        </agm-marker>
+      </agm-map>
       <br>
 
     </div>

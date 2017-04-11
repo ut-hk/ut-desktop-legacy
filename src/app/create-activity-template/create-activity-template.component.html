@@ -29,7 +29,7 @@
             <div *ngFor="let timeSlot of createActivityTemplateInput.referenceTimeSlots; let i = index;"
                  class="row time-slot">
               <div class="col-xs-1">
-                <div class="handle delete" (click)="onClickDeleteATimeSlot(i)">
+                <div class="handle delete" (click)="onClickRemoveTimeSlot(i)">
                   <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                 </div>
               </div>
@@ -49,7 +49,7 @@
 
             <div class="row">
               <div class="col-xs-12">
-                <button class="btn btn-default btn-block" (click)="onClickAddATimeSlot()">Add a Time Slot</button>
+                <button class="btn btn-default btn-block" (click)="onClickAddTimeSlot()">Add a Time Slot</button>
               </div>
             </div>
 
@@ -70,7 +70,7 @@
                     <i class="glyphicon glyphicon-apple" aria-hidden="true"></i>
                   </div>
                   <br>
-                  <div class="handle delete" (click)="onClickDeleteDescription(i)">
+                  <div class="handle delete" (click)="onClickRemoveDescription(i)">
                     <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
           <div class="hiddex-xs col-md-3"></div>
           <div class="col-xs-12 col-md-9">
 
-            <sebm-google-map
+            <agm-map
               [latitude]="mapControls.map.lat"
               [longitude]="mapControls.map.lng"
               [zoom]="mapControls.map.zoom"
@@ -125,15 +125,15 @@
               [zoomControl]="true"
               (mapClick)="onClickMap($event)">
 
-              <sebm-google-map-marker
+              <agm-marker
                 *ngFor="let marker of mapControls.markers; let i = index"
                 [latitude]="marker.lat"
                 [longitude]="marker.lng"
                 [label]="marker.label"
                 [markerDraggable]="marker.draggable">
-              </sebm-google-map-marker>
+              </agm-marker>
 
-            </sebm-google-map>
+            </agm-map>
 
             <br>
           </div>

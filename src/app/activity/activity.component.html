@@ -52,11 +52,11 @@
         <div class="col-xs-12">
           <br>
           <!-- Map -->
-          <sebm-google-map *ngIf="activity.location" #locationMap [latitude]="activity.location.latitude"
+          <agm-map *ngIf="activity.location" #locationMap [latitude]="activity.location.latitude"
                            [longitude]="activity.location.longitude" [zoom]="13">
-            <sebm-google-map-marker [latitude]="activity.location.latitude"
-                                    [longitude]="activity.location.longitude"></sebm-google-map-marker>
-          </sebm-google-map>
+            <agm-marker [latitude]="activity.location.latitude"
+                                    [longitude]="activity.location.longitude"></agm-marker>
+          </agm-map>
         </div>
       </div>
       <br>

@@ -1,19 +1,19 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {CreateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import {MapsAPILoader, MouseEvent} from 'angular2-google-maps/core';
-import {FormControl} from '@angular/forms';
-import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
-import {NgUploaderOptions} from 'ngx-uploader';
-import {DragulaService} from 'ng2-dragula';
-import {Observable} from 'rxjs/Rx';
-import {App_locationApi} from '../../abp-http/ut-api-js-services/api/App_locationApi';
-import {App_descriptionApi} from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
-import {CreateInternalImageDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
-import {FileDto} from '../../abp-http/ut-api-js-services/model/FileDto';
-import {DescriptionDto} from 'abp-http/ut-api-js-services';
-import {TokenService} from '../../abp-http/http/token.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
+import { FormControl } from '@angular/forms';
+import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import { NgUploaderOptions } from 'ngx-uploader';
+import { DragulaService } from 'ng2-dragula';
+import { Observable } from 'rxjs/Rx';
+import { App_locationApi } from '../../abp-http/ut-api-js-services/api/App_locationApi';
+import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
+import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
+import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
+import { DescriptionDto } from 'abp-http/ut-api-js-services';
+import { TokenService } from '../../abp-http/http/token.service';
+import { Router } from '@angular/router';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
 
 
 declare var google: any;
@@ -59,9 +59,7 @@ export class CreateActivityTemplateComponent implements OnInit {
     tagTexts: []
   };
 
-
   public createDescriptionInputs: CreateDescriptionInput[] = [];
-
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private locationApi: App_locationApi,
@@ -115,8 +113,7 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
-
-  public onClickAddATimeSlot() {
+  public onClickAddTimeSlot() {
     const currentTime = new Date();
 
     this.createActivityTemplateInput.referenceTimeSlots.push({
@@ -125,13 +122,10 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
-  public onClickAddADescription() {
-    this.createDescriptionInputs.push({
-      input: {
-        text: ''
-      },
-      type: 0
-    });
+  public onClickRemoveTimeSlot(index) {
+    if (index > -1) {
+      this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
+    }
   }
 
   public onClickAddTextDescription() {
@@ -143,13 +137,7 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
-  public onClickDeleteATimeSlot(index) {
-    if (index > -1) {
-      this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
-    }
-  }
-
-  public onClickDeleteADescription(index) {
+  public onClickRemoveDescription(index) {
     if (index > -1) {
       this.createDescriptionInputs.splice(index, 1);
     }
@@ -212,8 +200,6 @@ export class CreateActivityTemplateComponent implements OnInit {
       .subscribe(descriptionIds => {
         this.router.navigate(['./activity-template/', createdActivityId]);
       });
-
-
   }
 
   public onFileUpload(data: any) {

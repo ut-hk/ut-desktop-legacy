@@ -50,9 +50,9 @@
         <div class="col-xs-12">
           <br>
           <!-- Map -->
-          <sebm-google-map *ngIf="activityTemplate.location" #locationMap [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude" [zoom]="13">
-            <sebm-google-map-marker [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude"></sebm-google-map-marker>
-          </sebm-google-map>
+          <agm-map *ngIf="activityTemplate.location" #locationMap [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude" [zoom]="13">
+            <agm-marker [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude"></agm-marker>
+          </agm-map>
         </div>
       </div>
       <br>

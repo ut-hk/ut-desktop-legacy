@@ -1,7 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 import { CreateActivityInput } from '../../abp-http/ut-api-js-services/model/CreateActivityInput';
-import { MapsAPILoader, MouseEvent } from 'angular2-google-maps/core';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
@@ -12,7 +12,8 @@ import { TokenService } from '../../abp-http/http/token.service';
 import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
 import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
 import { DescriptionDto } from '../../abp-http/ut-api-js-services/model/DescriptionDto';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { DragulaService } from 'ng2-dragula';
 
 declare var google: any;
 
@@ -64,6 +65,7 @@ export class CreateActivityComponent implements OnInit {
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
               private locationApi: App_locationApi,
+              private dragulaService: DragulaService,
               private tokenService: TokenService,
               private router: Router) {
     this.fileDropControls.options = new NgUploaderOptions({
@@ -71,6 +73,16 @@ export class CreateActivityComponent implements OnInit {
       autoUpload: true,
       authTokenPrefix: 'Bearer',
       authToken: tokenService.getToken()
+    });
+
+    const bag: any = this.dragulaService.find('descriptions-bag');
+    if (bag !== undefined) {
+      this.dragulaService.destroy('descriptions-bag');
+    }
+    dragulaService.setOptions('descriptions-bag', {
+      moves: function (el, container, handle) {
+        return handle.className === 'glyphicon glyphicon-apple';
+      }
     });
   }
 
@@ -108,7 +120,7 @@ export class CreateActivityComponent implements OnInit {
     });
   }
 
-  public onClickDeleteDescription(index) {
+  public onClickRemoveDescription(index) {
     if (index > -1) {
       this.createDescriptionInputs.splice(index, 1);
     }
