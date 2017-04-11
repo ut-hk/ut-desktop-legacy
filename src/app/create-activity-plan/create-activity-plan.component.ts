@@ -37,7 +37,8 @@ export class CreateActivityPlanComponent implements OnInit {
   public tagInputBox = new FormControl();
 
   public activityTemplates: ActivityTemplateDto[] = [];
-  public selectedActivityTemplates: {activityTemplate: ActivityTemplateDto[], timeSlot: {startTime: string, endTime: string}}[] = [];
+  public selectedActivityTemplates: {activityTemplate: ActivityTemplateDto[]}[] = [];
+  public selectedTemplatesTime: {startTime: Date, endTime: Date}[] = [];
   public createTextDescriptionInput: CreateTextDescriptionInput = {};
 
   public asyncSelected: string;
@@ -68,10 +69,11 @@ export class CreateActivityPlanComponent implements OnInit {
 
     dragulaService.drop.subscribe((value) => {
       console.log(value);
+      this.onDragSetTime();
     });
 
     dragulaService.setOptions('bag-one', {
-      revertOnSpill: true
+      revertOnSpill: true,
     });
   }
 
@@ -149,4 +151,22 @@ export class CreateActivityPlanComponent implements OnInit {
       .appTagGetTags(getTagsInput);
   }
 
+  public onDragSetTime() {
+    const currentTime = new Date();
+
+    this.selectedTemplatesTime.push({
+        startTime: currentTime,
+        endTime: currentTime,
+    });
+    return;
+  }
+
+  // public dragula(this.selectedActivityTemplates, this.activityTemplates, {
+  //   copy: function (el, source) {
+  //   return source === this.selectedActivityTemplates;
+  // },
+  //   accepts: function (el, target) {
+  //   return target !== this.selectedActivityTemplates;
+  // }
+  // });
 }
