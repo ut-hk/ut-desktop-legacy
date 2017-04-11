@@ -1,5 +1,5 @@
-<div class="messenger" *ngIf="chatRooms; else isLoading">
-  <div class="chat-room-selector hidden-xs">
+<div class="messenger" *ngIf="chatRooms; else isLoading" (swiperight)="onSwipe($event)" (swipeleft)="onSwipe($event)">
+  <div class="chat-room-selector" [ngClass]="{'hidden-xs': pageControls.isChatRoomsSelectorExpanded}">
     <div class="chat-rooms-selector-header">
       <h1 class="h2">Chat Rooms</h1>
     </div>

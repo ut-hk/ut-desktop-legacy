@@ -28,12 +28,18 @@ interface ParticipantIdInput {
 })
 export class ChatRoomsComponent implements OnInit {
 
+  public pageControls = {
+    isChatRoomsSelectorExpanded: true
+  };
 
   public myUser: UserDto = null;
   public chatRooms: ChatRoom[];
-  public selectedChatRoom: ChatRoom;
   public friends: UserListDto[] = null;
+
+  public selectedChatRoom: ChatRoom;
+
   public participantIdInputs: ParticipantIdInput[] = [];
+
   public updateChatRoomInput: UpdateChatRoomInput = {
     name: null,
     id: '',
@@ -96,6 +102,16 @@ export class ChatRoomsComponent implements OnInit {
 
         getFriendsSubscription.unsubscribe();
       });
+  }
+
+  public onSwipe(e) {
+    if (e.type === 'swipeleft') {
+      this.pageControls.isChatRoomsSelectorExpanded = true;
+    }
+
+    if (e.type === 'swiperight') {
+      this.pageControls.isChatRoomsSelectorExpanded = false;
+    }
   }
 
   public onClickChatRoom(chatRoom: ChatRoom) {
@@ -163,10 +179,11 @@ export class ChatRoomsComponent implements OnInit {
           });
       })
       .subscribe((output) => {
-        this.lastChatMessageId = this.lastChatMessageId + output.chatRoomMessages.length;
         for (let i = 0; i < output.chatRoomMessages.length; i++) {
           this.selectedChatRoom.messages.push(output.chatRoomMessages[i]);
         }
+
+        this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
 
         this.scrollChatRoomMessagesContainer();
       });
