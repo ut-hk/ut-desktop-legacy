@@ -1,20 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
-import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {ActivityDto} from '../../abp-http/ut-api-js-services/model/ActivityDto';
-import {ActivatedRoute} from '@angular/router';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import {ActivityTemplateListDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
-import {ActivityListDto} from '../../abp-http/ut-api-js-services/model/ActivityListDto';
-import {LocalStorageService} from 'ng2-webstorage';
-import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
-import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
-import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
-import {FriendInvitationDto} from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
+import { Component, OnInit } from '@angular/core';
+import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { ActivatedRoute } from '@angular/router';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
+import { LocalStorageService } from 'ng2-webstorage';
+import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
 
 @Component({
   selector: 'app-user',
@@ -33,9 +28,21 @@ export class UserComponent implements OnInit {
   public activityTemplates: ActivityTemplateListDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
 
+  public pageControls = {
+    isLoadedActivities: false,
+    isLoadedActivityTemplates: false,
+    isLoadedActivityPlans: false
+  };
+
   public numberOfFriends: number;
 
   private id: number;
+
+  public calendarOptions = {
+    height: 700,
+    editable: false,
+    events: []
+  };
 
   constructor(private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
@@ -45,6 +52,7 @@ export class UserComponent implements OnInit {
               private friendInvitationApi: App_friendInvitationApi,
               private userApi: App_userApi) {
   }
+
 
   ngOnInit() {
     this.route.params
@@ -106,11 +114,21 @@ export class UserComponent implements OnInit {
     const getMyActivitiesSubscription = this.activityApi
       .appActivityGetMyActivities()
       .subscribe(output => {
-        const activities = output.myActivities;
+        const myActivities = output.myActivities;
 
-        for (let i = 0; i < activities.length; i++) {
-          this.activities.push(activities[i]);
+        for (let i = 0; i < myActivities.length; i++) {
+          const myActivity = myActivities[i];
+
+          if (myActivity.startTime) {
+            this.calendarOptions.events.push({
+              title: myActivity.name,
+              start: myActivity.startTime,
+              end: myActivity.endTime
+            });
+          }
         }
+
+        this.pageControls.isLoadedActivities = true;
 
         getMyActivitiesSubscription.unsubscribe();
       });
@@ -137,8 +155,17 @@ export class UserComponent implements OnInit {
         const activities = output.activities;
 
         for (let i = 0; i < activities.length; i++) {
-          this.activities.push(activities[i]);
+          const activity = activities[i];
+
+          if (activity.startTime) {
+            this.calendarOptions.events.push({
+              title: activity.name,
+              start: activity.startTime,
+              end: activity.endTime
+            });
+          }
         }
+
 
         getActivitiesSubscription.unsubscribe();
       });
@@ -157,6 +184,8 @@ export class UserComponent implements OnInit {
           this.activityTemplates.push(activityTemplates[i]);
         }
 
+        this.pageControls.isLoadedActivityTemplates = true;
+
         getActivityTemplatesSubscription.unsubscribe();
       });
   }
@@ -170,6 +199,8 @@ export class UserComponent implements OnInit {
         for (let i = 0; i < activityPlans.length; i++) {
           this.activityPlans.push(activityPlans[i]);
         }
+
+        this.pageControls.isLoadedActivityPlans = true;
 
         getActivityPlansSubscription.unsubscribe();
       });

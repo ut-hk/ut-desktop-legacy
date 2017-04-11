@@ -20,7 +20,8 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "../node_modules/dragula/dist/dragula.min.css"
+        "../node_modules/dragula/dist/dragula.min.css",
+        "../node_modules/fullcalendar/dist/fullcalendar.min.css"
       ],
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js"
