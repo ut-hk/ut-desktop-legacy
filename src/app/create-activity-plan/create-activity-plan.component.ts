@@ -151,7 +151,7 @@ export class CreateActivityPlanComponent implements OnInit {
       .appTagGetTags(getTagsInput);
   }
 
-  public onDragSetTime() {
+  public onDropSetTime() {
     const currentTime = new Date();
 
     this.selectedTemplatesTime.push({
