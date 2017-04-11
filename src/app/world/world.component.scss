@@ -1,3 +1,25 @@
+.cover-image {
+  //min-height: 50em;
+  background-size: cover;
+  background-position: center;
+  padding-top: 25%;
+  padding-bottom: 20%;
+  text-align: center;
+
+  h1, h3, h4 {
+    color: white;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 5em;
+  }
+
+  hr {
+    width: 18em;
+  }
+}
+
 .tag {
   margin-right: 5px;
   color: lightgray;

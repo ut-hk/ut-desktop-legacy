@@ -78,7 +78,7 @@
 
                 <!-- User Icon -->
                 <div class="col-xs-2">
-                  <img class="user-icon" src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                  <img class="user-icon" [src]="comment.owner.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
                 </div>
 
                 <div class="col-xs-10">
@@ -101,7 +101,7 @@
                     <div *ngFor="let reply of comment.replies">
                       <div class="row">
                         <div class="col-xs-2">
-                          <img class="user-icon" src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                          <img class="user-icon" [src]="comment.owner.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
                         </div>
                         <div class="col-xs-10">
                           <div style="border: 1px solid #EEEEEE;">
