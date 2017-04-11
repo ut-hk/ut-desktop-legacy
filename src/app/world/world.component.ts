@@ -16,9 +16,9 @@ export class WorldComponent implements OnInit {
   public isLoading = false;
   public isNoMoreResults = false;
   public getActivityPlansInput: GetActivityPlansInput = {
-    queryKeywords: '',
-    maxResultCount: 10,
-    skipCount: 0
+    'queryKeywords': '',
+    'userId': 0,
+    'skipCount': 0
   };
 
   public activityPlans: ActivityPlanDto[] = [];
