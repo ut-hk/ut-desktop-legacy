@@ -69,7 +69,7 @@ export class CreateActivityPlanComponent implements OnInit {
 
     dragulaService.drop.subscribe((value) => {
       console.log(value);
-      this.onDragSetTime();
+      this.onDropSetTime();
     });
 
     dragulaService.setOptions('bag-one', {
