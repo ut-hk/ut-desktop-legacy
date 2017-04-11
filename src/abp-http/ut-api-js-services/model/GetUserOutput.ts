@@ -17,4 +17,8 @@ export interface GetUserOutput {
 
     numberOfFriends?: number;
 
+    isFriend?: boolean;
+
+    hasInvited?: boolean;
+
 }

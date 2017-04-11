@@ -1,5 +1,5 @@
 <div class="messenger" *ngIf="chatRooms; else isLoading">
-  <div class="chat-room-selector">
+  <div class="chat-room-selector hidden-xs">
     <div class="chat-rooms-selector-header">
       <h1 class="h2">Chat Rooms</h1>
     </div>
@@ -24,7 +24,9 @@
         <div class="chat-messages-container" #chatMessagesContainer>
 
           <div *ngFor="let message of selectedChatRoom.messages; trackBy: message?.id;">
-            <p *ngIf="message.ownerId != myUser.id">@{{selectedChatRoom.participantDictionary[message.ownerId]}}<br>{{message.message}}</p>
+            <p *ngIf="message.ownerId != myUser.id">
+              @{{selectedChatRoom.participantDictionary[message.ownerId]?.userName}}<br>{{message.message}}</p>
+
             <p *ngIf="message.ownerId == myUser.id" class="text-right">{{message.message}}</p>
           </div>
         </div>
@@ -40,7 +42,7 @@
         </div>
       </div>
 
-      <div class="side-content">
+      <div class="side-content hidden-xs">
         <div class="selected-chat-room-name">
           <h2 class="h3">{{selectedChatRoom.name}}</h2>
         </div>
@@ -48,7 +50,7 @@
         <div class="participants" *ngIf="selectedChatRoom">
           <p class="h4">Participants</p>
           <div *ngFor="let participant of selectedChatRoom.participants; trackBy: participant?.id;">
-            @{{participant.userName}}
+            <a routerLink="/user/{{participant.id}}" target="_blank">@{{participant.userName}}</a>
           </div>
         </div>
 
