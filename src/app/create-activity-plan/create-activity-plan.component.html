@@ -1,54 +1,72 @@
 <div class="container">
-
   <div class="row">
     <div class="col-sm-12">
       <div class="form-horizontal">
 
+        <!-- Activity Name -->
         <div class="form-group">
-          <label for="name" class="col-sm-2 control-label">Name</label>
-          <div class="col-sm-10">
-            <input type="name" class="form-control" id="name" placeholder="Name"
+          <label for="name" class="col-md-3 control-label">Activity Name</label>
+          <div class="col-md-9">
+            <input type="text" class="form-control" id="name" placeholder="Name"
                    [(ngModel)]="createActivityPlanInput.name">
           </div>
         </div>
 
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="form-horizontal">
+        <!-- Tags -->
         <div class="form-group">
-          <label for="name" class="col-sm-2 control-label">Description</label>
-          <div class="col-sm-10">
-          <textarea class="form-control" placeholder="Description"
-                    [(ngModel)]="createTextDescriptionInput.text"></textarea>
+          <label for="tags" class="col-md-3 control-label">Tags</label>
+          <div class="col-md-9">
+            <input id="tags" class="form-control" [(ngModel)]="pageControls.tagTextsString"
+                   placeholder="Type some tags like these #CUHK #UT #Astronomy #NA">
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="form-horizontal">
+        <!-- Descriptions -->
         <div class="form-group">
-          <label for="name" class="col-sm-2 control-label">Tags</label>
-          <div class="col-sm-10">
-            <input placeholder="Tags"
-                   [(ngModel)]="asyncSelected"
-                   [typeahead]="dataSource"
-                   (typeaheadLoading)="changeTypeaheadLoading($event)"
-                   (typeaheadNoResults)="onTypeaheadNoResults($event)"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                   typeaheadOptionsLimit="10"
-                   typeaheadOptionField="text"
-                   typeaheadWaitMs="100"
-                   typeaheadMinLength="2"
-                   class="form-control">
+          <label class="col-md-3 control-label">Descriptions</label>
+          <div class="col-md-9">
+
+            <!-- Description -->
+            <div [dragula]='"descriptions-bag"' [dragulaModel]="createDescriptionInputs">
+              <div *ngFor="let createDescriptionInput of createDescriptionInputs; let i = index;"
+                   class="row description">
+                <div class="col-xs-1">
+                  <div class="handle drag">
+                    <i class="glyphicon glyphicon-apple" aria-hidden="true"></i>
+                  </div>
+                  <br>
+                  <div class="handle delete" (click)="onClickRemoveDescription(i)">
+                    <i class="glyphicon glyphicon-remove" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div class="col-xs-11" [ngSwitch]="createDescriptionInput.type" style="text-align: center;">
+                  <textarea *ngSwitchCase="0" class="form-control" placeholder="Please enter your description"
+                            [(ngModel)]="createDescriptionInput.input.text"></textarea>
+                  <img *ngSwitchCase="2" style="max-width: 100%; max-height: 300px;"
+                       [src]="createDescriptionInput.input.imageId | internalImage">
+                </div>
+              </div>
+            </div>
+
+            <!-- Add a description -->
+            <button class="btn btn-default btn-block" (click)="onClickAddTextDescription()">Add a Description</button>
+
+            <!-- File Drop -->
+            <div class="row">
+              <div class="col-xs-12">
+                <div *ngIf="fileDropControls.options"
+                     ngFileDrop class="file-drop-box"
+                     [options]="fileDropControls.options"
+                     [ngClass]="{'file-over': fileDropControls.isFileOver}"
+                     (onUpload)="onFileUpload($event)"
+                     (onFileOver)="onFileOver($event)">
+                  Drag a file here.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -56,57 +74,42 @@
   <div class="row">
     <div class="hidden-xs col-sm-2"></div>
     <div class="col-xs-12 col-sm-10">
-      <button type="submit" class="btn btn-primary btn-block" (click)="createActivityPlan()">Create</button>
+      <button type="submit" class="btn btn-primary btn-block" (click)="onClickCreateActivityPlan()">Create</button>
     </div>
   </div>
   <br>
 
-  <div class="row" *ngIf="selectedActivityTemplates && activityTemplates">
+  <div class="row" *ngIf="activityTemplates">
 
     <div class="hidden-xs col-sm-2"></div>
 
+    <!-- Left column -->
     <div class="col-xs-6 col-sm-5">
-      <!--<div class="selected-activity-template-times col-xs-6">-->
-        <!--<div class="time-slot-item"-->
-             <!--*ngFor="let selectedTime of selectedTemplatesTime">-->
-          <!--<p>Start Time</p>-->
-
-          <!--<p>End Time</p>-->
-          <!--<input class="form-control" [ngModel]="selectedTime.endTime | date: 'short'"-->
-                 <!--[(dateTimePicker)]="selectedTime.endTime" [mode]="'dropdown'" readonly>-->
-        <!--</div>-->
-      <!--</div>-->
-
-      <div class="selected-activity-templates" [dragula]="'bag-one'" [dragulaModel]="selectedActivityTemplates">
-        <div class="activity-template"
-             *ngFor="let activityTemplate of selectedActivityTemplates; trackBy: activityTemplate?.id">
-          <input class="form-control" [ngModel]="selectedTemplatesTime.startTime | date: 'short'"
-                 [(dateTimePicker)]="selectedTemplatesTime.startTime" [mode]="'dropdown'" readonly>
-
-          <div class="cover">
-            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
-                 [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
-          </div>
-          <div class="h3 title">{{activityTemplate.name}}</div>
-        </div>
+      <div [ngSwitch]="view">
+        <mwl-calendar-day-view
+          [viewDate]="calendarControls.viewDate"
+          [events]="calendarControls.events">
+        </mwl-calendar-day-view>
       </div>
     </div>
 
+    <!-- Right column -->
     <sticky class="col-xs-6 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="0">
       <div class="form-group">
-        <input type="text" class="form-control" id="keywords" placeholder="Keywords"
-               [formControl]="queryKeywordsControl">
+        <input [formControl]="pageControls.queryKeywordsControl" type="text" class="form-control" id="keywords" placeholder="Keywords">
       </div>
 
-      <div class="activity-templates" [dragula]="'bag-one'" [dragulaModel]="activityTemplates" infinite-scroll
-           (scrolled)="onScroll()">
+      <div class="activity-template-selector"
+           infinite-scroll (scrolled)="onActivityTemplatesSelectorScroll()">
         <div class="activity-template"
              *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
           <div class="cover">
-            <div class="cover-image" *ngIf="activityTemplate.coverImageDescription"
+            <div class="cover-image"
+                 *ngIf="activityTemplate.coverImageDescription"
                  [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}"></div>
           </div>
           <div class="h3 title">{{activityTemplate.name}}</div>
+          <button class="btn btn-default btn-block" (click)="onClickAddToPlan(activityTemplate)">Add to Plan</button>
         </div>
 
         <div class="text-center" *ngIf="isLoading">Loading...</div>
@@ -116,5 +119,4 @@
     </sticky>
 
   </div>
-
 </div>

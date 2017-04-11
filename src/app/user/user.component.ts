@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
 import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
@@ -44,7 +44,8 @@ export class UserComponent implements OnInit {
     events: []
   };
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
               private activityApi: App_activityApi,
               private activityTemplateApi: App_activityTemplateApi,
@@ -52,7 +53,6 @@ export class UserComponent implements OnInit {
               private friendInvitationApi: App_friendInvitationApi,
               private userApi: App_userApi) {
   }
-
 
   ngOnInit() {
     this.route.params
@@ -123,7 +123,8 @@ export class UserComponent implements OnInit {
             this.calendarOptions.events.push({
               title: myActivity.name,
               start: myActivity.startTime,
-              end: myActivity.endTime
+              end: myActivity.endTime,
+              url: this.router.createUrlTree(['./activity', myActivity.id]).toString()
             });
           }
         }
@@ -161,11 +162,13 @@ export class UserComponent implements OnInit {
             this.calendarOptions.events.push({
               title: activity.name,
               start: activity.startTime,
-              end: activity.endTime
+              end: activity.endTime,
+              url: this.router.createUrlTree(['./activity', activity.id]).toString()
             });
           }
         }
 
+        this.pageControls.isLoadedActivities = true;
 
         getActivitiesSubscription.unsubscribe();
       });

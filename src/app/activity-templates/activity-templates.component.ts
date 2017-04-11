@@ -4,7 +4,7 @@ import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
 import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
-import { MouseEvent } from 'angular2-google-maps/core';
+import { MouseEvent } from '@agm/core';
 
 @Component({
   selector: 'app-activity-templates',

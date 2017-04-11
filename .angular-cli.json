@@ -19,9 +19,10 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "styles.scss",
+        "../node_modules/angular-calendar/dist/css/angular-calendar.css",
+        "../node_modules/fullcalendar/dist/fullcalendar.min.css",
         "../node_modules/dragula/dist/dragula.min.css",
-        "../node_modules/fullcalendar/dist/fullcalendar.min.css"
+        "styles.scss"
       ],
       "scripts": [
         "../node_modules/hammerjs/hammer.min.js"

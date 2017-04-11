@@ -9,14 +9,15 @@ import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { AlertModule, BsDropdownModule, CollapseModule, ModalModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
-import { DateTimePickerModule } from 'ng2-date-time-picker';
+import { DateTimePickerModule } from 'ng-pick-datetime';
 import { MomentModule } from 'angular2-moment';
 import { NgUploaderModule } from 'ngx-uploader';
 import { CalendarComponent } from 'angular2-fullcalendar/src/calendar/calendar';
+import { CalendarModule } from 'angular-calendar';
 
 import { TruncatePipe } from './truncate.pipe';
 import { InternalImagePipe } from './internal-image.pipe';
@@ -40,7 +41,8 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
 import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
-
+import { ActivityComponent } from './activity/activity.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -48,6 +50,9 @@ const appRoutes: Routes = [
 
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
+
+
+  {path: 'activity/:id', component: ActivityComponent},
 
   {path: 'create-activity-plan', component: CreateActivityPlanComponent},
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
@@ -97,10 +102,12 @@ const appRoutes: Routes = [
 
     FriendInvitationsComponent,
     ActivityInvitationsComponent,
-    CalendarComponent
+    CalendarComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
@@ -121,6 +128,7 @@ const appRoutes: Routes = [
     }),
     DateTimePickerModule,
     MomentModule,
+    CalendarModule.forRoot(),
 
     // Bootstrap
     CollapseModule.forRoot(),

@@ -1,7 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { CreateActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityTemplateInput';
-import { MapsAPILoader, MouseEvent } from 'angular2-google-maps/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
@@ -9,8 +8,21 @@ import { DragulaService } from 'ng2-dragula';
 import { Observable } from 'rxjs/Rx';
 import { App_locationApi } from '../../abp-http/ut-api-js-services/api/App_locationApi';
 import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
+import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
+import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
+import { DescriptionDto } from 'abp-http/ut-api-js-services';
+import { TokenService } from '../../abp-http/http/token.service';
+import { Router } from '@angular/router';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
+
 
 declare var google: any;
+
+interface CreateDescriptionInput {
+  input: (CreateTextDescriptionInput | CreateInternalImageDescriptionInput);
+
+  type: DescriptionDto.TypeEnum;
+}
 
 @Component({
   selector: 'app-create-activity-template',
@@ -46,17 +58,22 @@ export class CreateActivityTemplateComponent implements OnInit {
     locationId: '',
     tagTexts: []
   };
-  public createTextDescriptionInputs: CreateTextDescriptionInput[] = [];
+
+  public createDescriptionInputs: CreateDescriptionInput[] = [];
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private locationApi: App_locationApi,
               private descriptionApi: App_descriptionApi,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
-              private dragulaService: DragulaService) {
+              private dragulaService: DragulaService,
+              private tokenService: TokenService,
+              private router: Router) {
     this.fileDropControls.options = new NgUploaderOptions({
-      url: 'http://api.ngx-uploader.com/upload',
-      autoUpload: false
+      url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
+      autoUpload: true,
+      authTokenPrefix: 'Bearer',
+      authToken: tokenService.getToken()
     });
 
     const bag: any = this.dragulaService.find('descriptions-bag');
@@ -96,7 +113,7 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
-  public onClickAddATimeSlot() {
+  public onClickAddTimeSlot() {
     const currentTime = new Date();
 
     this.createActivityTemplateInput.referenceTimeSlots.push({
@@ -105,30 +122,38 @@ export class CreateActivityTemplateComponent implements OnInit {
     });
   }
 
-  public onClickAddADescription() {
-    this.createTextDescriptionInputs.push({
-      text: ''
-    });
-  }
-
-  public onClickDeleteATimeSlot(index) {
+  public onClickRemoveTimeSlot(index) {
     if (index > -1) {
       this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
     }
   }
 
-  public onClickDeleteADescription(index) {
+  public onClickAddTextDescription() {
+    this.createDescriptionInputs.push({
+      input: {
+        text: ''
+      },
+      type: 0
+    });
+  }
+
+  public onClickRemoveDescription(index) {
     if (index > -1) {
-      this.createTextDescriptionInputs.splice(index, 1);
+      this.createDescriptionInputs.splice(index, 1);
     }
   }
 
   public onClickCreate() {
+    let createdActivityId = null;
+
     Observable.empty().defaultIfEmpty()
       .flatMap(() => {
         if (this.mapControls.markers.length > 0) {
           return this.locationApi
-            .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
+            .appLocationCreateLocation({
+              latitude: this.mapControls.markers[0].lat,
+              longitude: this.mapControls.markers[0].lng
+            })
             .map(output => {
               return output.id;
             });
@@ -146,35 +171,69 @@ export class CreateActivityTemplateComponent implements OnInit {
         return this.activityTemplateApi
           .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
           .map(createActivityOutput => {
+            createdActivityId = createActivityOutput.id;
             return createActivityOutput.id;
           });
       })
-      .flatMap(activityId => {
-        return this.createTextDescriptionInputs
-          .map((input, index) => {
-            input.activityId = activityId;
+      .flatMap(activityTemplateId => {
+        return this.createDescriptionInputs
+          .map((createDescriptionInput, index) => {
+            const input = createDescriptionInput.input;
+
+            input.activityTemplateId = activityTemplateId;
             input.priority = index;
 
-            return this.descriptionApi
-              .appDescriptionCreateTextDescription(input)
-              .map(output => output.id);
+            if ((<CreateTextDescriptionInput> input).text) {
+              return this.descriptionApi
+                .appDescriptionCreateTextDescription(input)
+                .map(output => output.id);
+            } else if ((<CreateInternalImageDescriptionInput> input).imageId) {
+              return this.descriptionApi
+                .appDescriptionCreateInternalImageDescription(input)
+                .map(output => output.id);
+            }
           });
       })
       .flatMap(observables => {
         return Observable.forkJoin(observables);
       })
       .subscribe(descriptionIds => {
-        console.log(descriptionIds);
+        this.router.navigate(['./activity-template/', createdActivityId]);
       });
   }
 
   public onFileUpload(data: any) {
-    console.log(1);
     setTimeout(() => {
       this.ngZone.run(() => {
-        this.fileDropControls.response = data;
         if (data && data.response) {
-          this.fileDropControls.response = JSON.parse(data.response);
+          const response = JSON.parse(data.response);
+
+          const fileDtos: FileDto[] = response.result;
+
+          let isPushed = false;
+          for (let i = 0; i < fileDtos.length; i++) {
+            const fileId = fileDtos[i].id;
+
+            for (let j = 0; j < this.createDescriptionInputs.length; j++) {
+              if (this.createDescriptionInputs[j].type === 2) {
+                if ((<CreateInternalImageDescriptionInput> this.createDescriptionInputs[j].input).imageId === fileId) {
+                  isPushed = true;
+                  break;
+                }
+              }
+            }
+
+            if (isPushed) {
+              break;
+            }
+
+            this.createDescriptionInputs.push({
+              input: {
+                imageId: fileDtos[i].id
+              },
+              type: 2
+            });
+          }
         }
       });
     });

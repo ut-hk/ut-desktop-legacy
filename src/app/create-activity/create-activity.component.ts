@@ -1,7 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 import { CreateActivityInput } from '../../abp-http/ut-api-js-services/model/CreateActivityInput';
-import { MapsAPILoader, MouseEvent } from 'angular2-google-maps/core';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
@@ -12,6 +12,8 @@ import { TokenService } from '../../abp-http/http/token.service';
 import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
 import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
 import { DescriptionDto } from '../../abp-http/ut-api-js-services/model/DescriptionDto';
+import { Router } from '@angular/router';
+import { DragulaService } from 'ng2-dragula';
 
 declare var google: any;
 
@@ -63,12 +65,24 @@ export class CreateActivityComponent implements OnInit {
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
               private locationApi: App_locationApi,
-              private tokenService: TokenService) {
+              private dragulaService: DragulaService,
+              private tokenService: TokenService,
+              private router: Router) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
       autoUpload: true,
       authTokenPrefix: 'Bearer',
       authToken: tokenService.getToken()
+    });
+
+    const bag: any = this.dragulaService.find('descriptions-bag');
+    if (bag !== undefined) {
+      this.dragulaService.destroy('descriptions-bag');
+    }
+    dragulaService.setOptions('descriptions-bag', {
+      moves: function (el, container, handle) {
+        return handle.className === 'glyphicon glyphicon-apple';
+      }
     });
   }
 
@@ -106,18 +120,22 @@ export class CreateActivityComponent implements OnInit {
     });
   }
 
-  public onClickDeleteDescription(index) {
+  public onClickRemoveDescription(index) {
     if (index > -1) {
       this.createDescriptionInputs.splice(index, 1);
     }
   }
 
   public onClickCreate() {
+    let createdActivityId = null;
+
     Observable.empty().defaultIfEmpty()
       .flatMap(() => {
         if (this.mapControls.markers.length > 0) {
           return this.locationApi
-            .appLocationCreateLocation({latitude: this.mapControls.markers[0].lat, longitude: this.mapControls.markers[0].lng})
+            .appLocationCreateLocation({
+              latitude: this.mapControls.markers[0].lat,
+              longitude: this.mapControls.markers[0].lng})
             .map(output => {
               return output.id;
             });
@@ -135,6 +153,7 @@ export class CreateActivityComponent implements OnInit {
         return this.activityApi
           .appActivityCreateActivity(this.createActivityInput)
           .map(createActivityOutput => {
+            createdActivityId = createActivityOutput.id;
             return createActivityOutput.id;
           });
       })
@@ -161,7 +180,7 @@ export class CreateActivityComponent implements OnInit {
         return Observable.forkJoin(observables);
       })
       .subscribe(descriptionIds => {
-        console.log(descriptionIds);
+        this.router.navigate(['./activity/', createdActivityId]);
       });
   }
 
