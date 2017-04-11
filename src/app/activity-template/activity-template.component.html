@@ -22,55 +22,56 @@
   <div class="row">
     <div class="col-xs-12 col-sm-7">
 
-        <!-- Tags -->
-        <p>
-          <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">{{tag.text}}</span>
-        </p>
+      <!-- Tags -->
+      <p>
+        <span class="tag" *ngFor="let tag of activityTemplate.tags; trackBy: tag?.id">{{tag.text}}</span>
+      </p>
 
-        <!-- Author -->
-        <div class="row">
-          <div class="col-xs-5 col-sm-3">Author</div>
-          <div class="col-xs-7 col-sm-9"><a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></div>
-        </div>
+      <!-- Author -->
+      <div class="row">
+        <div class="col-xs-5 col-sm-3">Author</div>
+        <div class="col-xs-7 col-sm-9"><a routerLink="/user/{{activityTemplate.owner.id}}">@{{activityTemplate.owner.userName}}</a></div>
+      </div>
 
-        <!-- Reference Time Slots -->
-        <div class="row">
-          <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
-          <div class="col-xs-7 col-sm-9">
-            <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
-              <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
-            </div>
+      <!-- Reference Time Slots -->
+      <div class="row">
+        <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
+        <div class="col-xs-7 col-sm-9">
+          <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
+            <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
           </div>
         </div>
+      </div>
 
-        <!-- Location -->
-        <div class="row" *ngIf="activityTemplate.location">
-          <div class="col-xs-5 col-sm-3">Location</div>
-          <div class="col-xs-7 col-sm-9">{{activityTemplate.location.name ? activityTemplate.location.name : 'No Name Provided'}}</div>
-          <div class="col-xs-12">
-            <br>
-            <!-- Map -->
-            <sebm-google-map *ngIf="activityTemplate.location" #locationMap [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude" [zoom]="13">
-              <sebm-google-map-marker [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude"></sebm-google-map-marker>
-            </sebm-google-map>
-          </div>
+      <!-- Location -->
+      <div class="row" *ngIf="activityTemplate.location">
+        <div class="col-xs-5 col-sm-3">Location</div>
+        <div class="col-xs-7 col-sm-9">{{activityTemplate.location.name ? activityTemplate.location.name : 'No Name Provided'}}</div>
+        <div class="col-xs-12">
+          <br>
+          <!-- Map -->
+          <sebm-google-map *ngIf="activityTemplate.location" #locationMap [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude" [zoom]="13">
+            <sebm-google-map-marker [latitude]="activityTemplate.location.latitude" [longitude]="activityTemplate.location.longitude"></sebm-google-map-marker>
+          </sebm-google-map>
         </div>
-        <br>
+      </div>
+      <br>
 
-        <!-- Descriptions -->
-        <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
-             [ngSwitch]="description.type">
-          <p *ngSwitchCase="0">{{description.content}}</p>
-          <div class="text-center" *ngSwitchCase="1">
-            <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
-          </div>
-          <div class="text-center" *ngSwitchCase="2">
-            <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
-          </div>
+      <!-- Descriptions -->
+      <div *ngFor="let description of activityTemplate.descriptions; trackBy: description?.id"
+           [ngSwitch]="description.type">
+        <p *ngSwitchCase="0">{{description.content}}</p>
+        <div class="text-center" *ngSwitchCase="1">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
         </div>
+        <div class="text-center" *ngSwitchCase="2">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+        </div>
+      </div>
 
     </div>
-    <sticky class="col-xs-12 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="20">
+
+    <sticky [sticky-offset-top]="20" [sticky-offset-bottom]="20" [sticky-media-query]="'(min-width: 768px)'" [sticky-parent]="false" class="col-xs-12 col-sm-5">
 
       <!-- Comments -->
       <div>
