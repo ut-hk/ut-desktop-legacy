@@ -25,15 +25,13 @@ export class UserComponent implements OnInit {
 
   public isMyUser = false;
   public isFriend = false;
-  public isInvited = false;
+  public hasInvited = false;
 
   public user: UserDto;
 
   public activities: ActivityListDto[] = [];
   public activityTemplates: ActivityTemplateListDto[] = [];
   public activityPlans: ActivityPlanDto[] = [];
-  public friends: UserListDto[] = [];
-  private friendInvitations: FriendInvitationDto[];
 
   public numberOfFriends: number;
 
@@ -44,7 +42,6 @@ export class UserComponent implements OnInit {
               private activityApi: App_activityApi,
               private activityTemplateApi: App_activityTemplateApi,
               private activityPlanApi: App_activityPlanApi,
-              private relationshipApi: App_relationshipApi,
               private friendInvitationApi: App_friendInvitationApi,
               private userApi: App_userApi) {
   }
@@ -60,14 +57,13 @@ export class UserComponent implements OnInit {
       })
       .subscribe(id => {
         this.isMyUser = this.checkIsMyUser(id);
+
         if (this.isMyUser) {
           this.getMyUserAndMyActivities();
         } else {
           this.getUserAndActivities(id);
         }
       });
-    this.getFriends();
-    this.getMyPendingFriendInvitations();
   }
 
   public onClickAddFriend() {
@@ -129,6 +125,8 @@ export class UserComponent implements OnInit {
       .subscribe(output => {
         this.user = output.user;
         this.numberOfFriends = output.numberOfFriends;
+        this.isFriend = output.isFriend;
+        this.hasInvited = output.hasInvited;
 
         getUserSubscription.unsubscribe();
       });
@@ -174,47 +172,6 @@ export class UserComponent implements OnInit {
         }
 
         getActivityPlansSubscription.unsubscribe();
-      });
-  }
-
-  private getFriends() {
-    const myUser = this.localStorageService.retrieve('myUser');
-    if (myUser == null) {
-      return [];
-    }
-
-    const getFriendsSubscription = this.relationshipApi
-      .appRelationshipGetFriends({targetUserId: myUser.id})
-      .subscribe(output => {
-        const friends = output.friends;
-        this.friends = friends;
-        for (let i = 0; i < this.friends.length; i++) {
-          if (this.friends[i].id == this.id) {
-            this.isFriend = true;
-            break;
-          }
-        }
-        getFriendsSubscription.unsubscribe();
-      });
-  }
-
-  private getMyPendingFriendInvitations() {
-    const getMyPendingFriendInvitationsSubscription = this.friendInvitationApi
-      .appFriendInvitationGetMyPendingFriendInvitations()
-      .subscribe(output => {
-        this.friendInvitations = output.friendInvitations;
-        if (this.isFriend === false) {
-          if (this.friendInvitations != []) {
-            for (let i = 0; i < this.friendInvitations.length; i++) {
-              if (this.friendInvitations[i].owner.id == this.id) {
-                this.isInvited = true;
-                break;
-              }
-            }
-          }
-        }
-
-        getMyPendingFriendInvitationsSubscription.unsubscribe();
       });
   }
 

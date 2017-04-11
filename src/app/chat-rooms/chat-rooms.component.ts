@@ -1,20 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {App_chatRoomApi} from '../../abp-http/ut-api-js-services/api/App_chatRoomApi';
-import {ChatRoomDto} from '../../abp-http/ut-api-js-services/model/ChatRoomDto';
-import {ChatRoomMessageDto} from '../../abp-http/ut-api-js-services/model/ChatRoomMessageDto';
-import {App_chatRoomMessageApi} from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
-import {CreateTextChatRoomMessageInput} from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {LocalStorageService} from 'ng2-webstorage';
-import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
-import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
-import {UpdateChatRoomInput} from '../../abp-http/ut-api-js-services/model/UpdateChatRoomInput';
-import {CreateChatRoomInput} from 'abp-http/ut-api-js-services';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { App_chatRoomApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomApi';
+import { ChatRoomDto } from '../../abp-http/ut-api-js-services/model/ChatRoomDto';
+import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/ChatRoomMessageDto';
+import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
+import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { LocalStorageService } from 'ng2-webstorage';
+import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
+import { UpdateChatRoomInput } from '../../abp-http/ut-api-js-services/model/UpdateChatRoomInput';
+import { CreateChatRoomInput } from 'abp-http/ut-api-js-services';
 
 interface ChatRoom extends ChatRoomDto {
   messages: Array<ChatRoomMessageDto>;
   participantDictionary: object;
 }
+
 interface ParticipantIdInput {
   user: UserListDto;
   isSelected: boolean;
@@ -25,8 +26,6 @@ interface ParticipantIdInput {
   templateUrl: './chat-rooms.component.html',
   styleUrls: ['./chat-rooms.component.scss']
 })
-
-
 export class ChatRoomsComponent implements OnInit {
 
 
@@ -34,15 +33,17 @@ export class ChatRoomsComponent implements OnInit {
   public chatRooms: ChatRoom[];
   public selectedChatRoom: ChatRoom;
   public friends: UserListDto[] = null;
+  public participantIdInputs: ParticipantIdInput[] = [];
   public updateChatRoomInput: UpdateChatRoomInput = {
     name: null,
     id: '',
     participantIds: []
   };
-  public participantIdInputs: ParticipantIdInput[] = [];
   public createTextChatRoomMessageInput: CreateTextChatRoomMessageInput = {
     text: ''
   };
+
+  @ViewChild('chatMessagesContainer') private chatMessagesContainer: ElementRef;
 
   @ViewChild('inviteFriendsModal') public inviteFriendsModal;
   @ViewChild('createChatRoomModal') public createChatRoomModal;
@@ -52,7 +53,6 @@ export class ChatRoomsComponent implements OnInit {
   };
 
   private lastChatMessageId: number;
-
 
   constructor(private localStorageService: LocalStorageService,
               private relationshipApi: App_relationshipApi,
@@ -114,10 +114,8 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
-        this.updateChatRoomInput.name = this.selectedChatRoom.name;
-        if (output.chatRoomMessages.length > 0) {
-          this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
-        }
+
+        this.scrollChatRoomMessagesContainer();
       });
   }
 
@@ -127,19 +125,19 @@ export class ChatRoomsComponent implements OnInit {
       .subscribe((output) => {
         console.log(output);
       });
+
     this.createChatRoomModal.hide();
   }
 
-  public onClickAddFriendToChatRoom(friendIds) {
+  public onClickAddFriendToChatRoom() {
     this.updateChatRoomInput.id = this.selectedChatRoom.id;
-
+    this.updateChatRoomInput.name = this.selectedChatRoom.name;
 
     for (let i = 0; i < this.participantIdInputs.length; i++) {
       if (this.participantIdInputs[i].isSelected == true) {
         this.updateChatRoomInput.participantIds.push(this.participantIdInputs[i].user.id);
       }
     }
-
 
     this.chatRoomApi
       .appChatRoomUpdateChatRoom(this.updateChatRoomInput)
@@ -148,7 +146,6 @@ export class ChatRoomsComponent implements OnInit {
       });
 
     this.inviteFriendsModal.hide();
-
   }
 
   public onClickSendMessage() {
@@ -170,7 +167,15 @@ export class ChatRoomsComponent implements OnInit {
         for (let i = 0; i < output.chatRoomMessages.length; i++) {
           this.selectedChatRoom.messages.push(output.chatRoomMessages[i]);
         }
+
+        this.scrollChatRoomMessagesContainer();
       });
+  }
+
+  private scrollChatRoomMessagesContainer() {
+    setTimeout(() => {
+      this.chatMessagesContainer.nativeElement.scrollTop = this.chatMessagesContainer.nativeElement.scrollHeight;
+    }, 100);
   }
 
 }
