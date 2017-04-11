@@ -1,5 +1,5 @@
 <div class="messenger" *ngIf="chatRooms; else isLoading">
-  <div class="chat-room-selector">
+  <div class="chat-room-selector hidden-xs">
     <div class="chat-rooms-selector-header">
       <h1 class="h2">Chat Rooms</h1>
     </div>
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="side-content">
+      <div class="side-content hidden-xs">
         <div class="selected-chat-room-name">
           <h2 class="h3">{{selectedChatRoom.name}}</h2>
         </div>

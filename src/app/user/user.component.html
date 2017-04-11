@@ -69,7 +69,7 @@
             <ng-container *ngTemplateOutlet="isLoading"></ng-container>
           </div>
 
-          <div *ngIf="activityTemplates.length == 0">
+          <div *ngIf="activityTemplates && activityTemplates.length == 0">
             <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
           </div>
 
@@ -105,7 +105,7 @@
             <ng-container *ngTemplateOutlet="isLoading"></ng-container>
           </div>
 
-          <div *ngIf="activities.length == 0">
+          <div *ngIf="activities && activities.length == 0">
             <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
           </div>
 

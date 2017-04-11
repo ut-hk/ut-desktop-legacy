@@ -16,8 +16,11 @@ import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
 import { DateTimePickerModule } from 'ng2-date-time-picker';
 import { MomentModule } from 'angular2-moment';
 import { NgUploaderModule } from 'ngx-uploader';
+import { CalendarComponent } from 'angular2-fullcalendar/src/calendar/calendar';
 
 import { TruncatePipe } from './truncate.pipe';
+import { InternalImagePipe } from './internal-image.pipe';
+import { GenderPipe } from './gender.pipe';
 
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
@@ -35,10 +38,8 @@ import { CreateActivityTemplateComponent } from './create-activity-template/crea
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
-import { GenderPipe } from './gender.pipe';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
 import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
-import { InternalImagePipe } from './internal-image.pipe';
 
 
 const appRoutes: Routes = [
@@ -73,6 +74,10 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
+    TruncatePipe,
+    GenderPipe,
+    InternalImagePipe,
+
     AppComponent,
     WorldComponent,
     LogInComponent,
@@ -89,11 +94,10 @@ const appRoutes: Routes = [
     UserComponent,
     UpdateUserComponent,
     SignUpProfileComponent,
-    TruncatePipe,
-    GenderPipe,
+
     FriendInvitationsComponent,
     ActivityInvitationsComponent,
-    InternalImagePipe
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
