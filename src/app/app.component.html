@@ -26,7 +26,6 @@
         <li dropdown class="dropdown">
           <a dropdownToggle class="dropdown-toggle" role="button">{{myUser.name}} <span class="caret"></span></a>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li><a routerLink="/user-management">User Management</a></li>
             <li><a routerLink="/user/{{myUser.id}}">User Page</a></li>
             <li><a routerLink="/update-user">Update User</a></li>
             <li><a routerLink="/activity-invitations">Activity Invitations <span class="badge">{{numberOfFriendInvitations}}</span></a></li>

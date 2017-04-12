@@ -1,9 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
-import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
-import {ActivatedRoute} from '@angular/router';
-import {LocalStorageService} from "ng2-webstorage";
-import {UserDto} from "../../abp-http/ut-api-js-services/model/UserDto";
+import { Component, OnInit } from '@angular/core';
+import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
+import { App_managementApi } from '../../abp-http/ut-api-js-services/api/App_managementApi';
 
 
 @Component({
@@ -13,38 +11,19 @@ import {UserDto} from "../../abp-http/ut-api-js-services/model/UserDto";
 })
 export class UserManagementComponent implements OnInit {
 
-  public friends: UserListDto[];
-  public admin : UserDto;
+  public users: UserListDto[];
 
-  constructor(private route: ActivatedRoute,
-              private localStorageService: LocalStorageService,
-              private relationshipApi: App_relationshipApi) {
+  constructor(private managementApi: App_managementApi) {
   }
 
   ngOnInit() {
-    this.admin = this.localStorageService.retrieve('myUser');
-    this.route.params
-      .subscribe(params => {
+    const a = this.managementApi
+      .appManagementGetAllUsers({})
+      .subscribe(output => {
+        this.users = output.users;
 
-        const userId = this.admin.id;
-
-        this.getFriends(userId);
+        a.unsubscribe();
       });
-  }
-
-  private getFriends(userId: number) {
-    const getFriendsSubscription = this.relationshipApi
-      .appRelationshipGetFriends({
-        targetUserId: userId
-      })
-      .subscribe((output) => {
-        this.friends = output.friends;
-
-        getFriendsSubscription.unsubscribe();
-      });
-  }
-  private onClickDeleteUser(userId: number) {
-
   }
 
 }
