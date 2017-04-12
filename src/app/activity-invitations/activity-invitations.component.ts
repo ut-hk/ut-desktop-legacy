@@ -28,6 +28,12 @@ export class ActivityInvitationsComponent implements OnInit {
   }
 
   public onClickAccept(activityInvitation: ActivityInvitationDto) {
+
+    const index = this.activityInvitations.indexOf(activityInvitation);
+    if (index > -1) {
+      this.activityInvitations.splice(index, 1);
+    }
+
     const subscription = this.activityInvitationApi
       .appActivityInvitationAcceptActivityInvitation({id: activityInvitation.id})
       .subscribe(output => {
@@ -38,6 +44,12 @@ export class ActivityInvitationsComponent implements OnInit {
   }
 
   public onClickReject(activityInvitation: ActivityInvitationDto) {
+
+    const index = this.activityInvitations.indexOf(activityInvitation);
+    if (index > -1) {
+      this.activityInvitations.splice(index, 1);
+    }
+
     const subscription = this.activityInvitationApi
       .appActivityInvitationRejectActivityInvitation({id: activityInvitation.id})
       .subscribe(output => {
@@ -48,6 +60,12 @@ export class ActivityInvitationsComponent implements OnInit {
   }
 
   public onClickIgnore(activityInvitation: ActivityInvitationDto) {
+
+    const index = this.activityInvitations.indexOf(activityInvitation);
+    if (index > -1) {
+      this.activityInvitations.splice(index, 1);
+    }
+
     const subscription = this.activityInvitationApi
       .appActivityInvitationIgnoreActivityInvitation({id: activityInvitation.id})
       .subscribe(output => {
