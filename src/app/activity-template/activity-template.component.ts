@@ -61,6 +61,8 @@ export class ActivityTemplateComponent implements OnInit {
       .subscribe(output => {
         this.getActivityTemplate();
 
+        this.createTextCommentInput.content = '';
+
         createTextCommentSubscription.unsubscribe();
       });
   }
@@ -74,6 +76,7 @@ export class ActivityTemplateComponent implements OnInit {
         this.getActivityTemplate();
 
         this.createReplyInput.commentId = null;
+        this.createReplyInput.content = '';
 
         createTextCommentSubscription.unsubscribe();
       });

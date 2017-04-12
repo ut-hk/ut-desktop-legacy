@@ -8,6 +8,10 @@
       <div *ngFor="let chatRoom of chatRooms; trackBy: chatRoom?.id" class="chat-room" [ngClass]="{'active': chatRoom.id == selectedChatRoom?.id}"
            (click)="onClickChatRoom(chatRoom)">
         <p class="h4">{{chatRoom.name}}</p>
+        <p class="last-message" *ngIf="chatRoom.latestMessage">{{chatRoom.latestMessage?.message}}<br> at {{chatRoom.latestMessage?.creationTime | date}}</p>
+        <p class="last-message" *ngIf="!chatRoom.latestMessage">You are in the chat room<br></p>
+
+
       </div>
 
       <div *ngIf="chatRooms.length == 0" class="no-more-buddies">No More Chat Rooms</div>
@@ -24,10 +28,12 @@
         <div class="chat-messages-container" #chatMessagesContainer>
 
           <div *ngFor="let message of selectedChatRoom.messages; trackBy: message?.id;">
-            <p *ngIf="message.ownerId != myUser.id">
-              @{{selectedChatRoom.participantDictionary[message.ownerId]?.userName}}<br>{{message.message}}</p>
-
-            <p *ngIf="message.ownerId == myUser.id" class="text-right">{{message.message}}</p>
+            <div *ngIf="message.ownerId != myUser.id">
+              <p>@{{selectedChatRoom.participantDictionary[message.ownerId]?.userName}}<br>{{message.message}}</p>
+            </div>
+            <div *ngIf="message.ownerId == myUser.id" class="text-right">
+              <p>{{message.message}}</p>
+            </div>
           </div>
         </div>
 

@@ -1,18 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CreateTextCommentInput} from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
-import {App_commentApi} from '../../abp-http/ut-api-js-services/api/App_commentApi';
-import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import {CreateReplyInput} from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
-import {CommentDto} from '../../abp-http/ut-api-js-services/model/CommentDto';
-import {App_replyApi} from '../../abp-http/ut-api-js-services/api/App_replyApi';
-import {ActivityDto, CreateActivityInvitationsInput} from 'abp-http/ut-api-js-services';
-import {UserService} from '../user.service';
-import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
-import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {LocalStorageService} from 'ng2-webstorage';
-import {App_activityInvitationApi} from '../../abp-http/ut-api-js-services/api/App_activityInvitationApi';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
+import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
+import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
+import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
+import { ActivityDto, CreateActivityInvitationsInput } from 'abp-http/ut-api-js-services';
+import { UserService } from '../user.service';
+import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
+import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { LocalStorageService } from 'ng2-webstorage';
+import { App_activityInvitationApi } from '../../abp-http/ut-api-js-services/api/App_activityInvitationApi';
 
 
 interface ParticipantIdInput {
@@ -99,6 +99,8 @@ export class ActivityComponent implements OnInit {
       .subscribe(output => {
         this.getActivity();
 
+        this.createTextCommentInput.content = '';
+
         createTextCommentSubscription.unsubscribe();
       });
   }
@@ -112,6 +114,7 @@ export class ActivityComponent implements OnInit {
         this.getActivity();
 
         this.createReplyInput.commentId = null;
+        this.createReplyInput.content = '';
 
         createTextCommentSubscription.unsubscribe();
       });

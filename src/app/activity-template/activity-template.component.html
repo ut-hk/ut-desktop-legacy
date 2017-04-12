@@ -76,13 +76,13 @@
       <!-- Comments -->
       <div>
         <div class="comments">
-          <div *ngFor="let comment of activityTemplate.comments">
+          <div *ngFor="let comment of activityTemplate.comments; trackBy: comment?.id">
             <div class="comment">
               <div class="row">
 
                 <!-- User Icon -->
                 <div class="col-xs-2">
-                  <img class="user-icon" [src]="comment.owner.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
                 </div>
 
                 <div class="col-xs-10">
@@ -102,10 +102,10 @@
                   <div class="replies">
 
                     <!-- Display Replies-->
-                    <div *ngFor="let reply of comment.replies">
+                    <div *ngFor="let reply of comment.replies; trackBy: reply?.id">
                       <div class="row">
                         <div class="col-xs-2">
-                          <img class="user-icon" [src]="comment.owner.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
                         </div>
                         <div class="col-xs-10">
                           <div style="border: 1px solid #EEEEEE;">
