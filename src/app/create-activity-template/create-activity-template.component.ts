@@ -172,6 +172,7 @@ export class CreateActivityTemplateComponent implements OnInit {
           .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
           .map(createActivityOutput => {
             createdActivityId = createActivityOutput.id;
+
             return createActivityOutput.id;
           });
       })

@@ -89,7 +89,7 @@
             <ng-container *ngTemplateOutlet="isLoading"></ng-container>
           </div>
 
-          <div *ngIf="pageControls.isLoadedActivityTemplates && calendarOptions.events.length == 0">
+          <div *ngIf="pageControls.isLoadedActivityTemplates && activityTemplates.length == 0">
             <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
           </div>
 

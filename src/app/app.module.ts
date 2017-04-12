@@ -44,6 +44,7 @@ import { FriendInvitationsComponent } from './friend-invitations/friend-invitati
 import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
 import { ActivityComponent } from './activity/activity.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserService } from 'app/user.service';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -141,7 +142,8 @@ const appRoutes: Routes = [
     ModalModule.forRoot()
   ],
   providers: [
-    GoogleMapsAPIWrapper
+    GoogleMapsAPIWrapper,
+    UserService
   ],
   bootstrap: [
     AppComponent

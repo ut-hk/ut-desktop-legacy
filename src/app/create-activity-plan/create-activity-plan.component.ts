@@ -14,6 +14,10 @@ import { FormControl } from '@angular/forms';
 import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar/dist/esm/src';
 import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Rx';
+import { App_activityPlanTimeSlotApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanTimeSlotApi';
+import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
+
 
 const colors: any = {
   red: {
@@ -84,9 +88,11 @@ export class CreateActivityPlanComponent implements OnInit {
 
   public activityTemplates: ActivityTemplateDto[] = [];
 
-  constructor(private activityPlanService: App_activityPlanApi,
-              private activityTemplateService: App_activityTemplateApi,
+  constructor(private activityPlanApi: App_activityPlanApi,
+              private activityTemplateApi: App_activityTemplateApi,
+              private activityPlanTimeSlotApi: App_activityPlanTimeSlotApi,
               private tokenService: TokenService,
+              private descriptionApi: App_descriptionApi,
               private ngZone: NgZone) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
@@ -101,11 +107,65 @@ export class CreateActivityPlanComponent implements OnInit {
   }
 
   public onClickCreateActivityPlan() {
-    // this.activityPlanService
-    //   .appActivityPlanCreateActivityPlan(this.createActivityPlanInput)
-    //   .subscribe((output) => {
-    //
-    //   });
+    let createdActivityPlanId = null;
+
+    Observable.empty().defaultIfEmpty()
+      .flatMap(() => {
+        const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
+
+        this.createActivityPlanInput.tagTexts = tagTexts ? tagTexts : [];
+
+        return this.activityPlanApi
+          .appActivityPlanCreateActivityPlan(this.createActivityPlanInput)
+          .map(output => {
+            createdActivityPlanId = output.id;
+
+            return output.id;
+          });
+      })
+      .flatMap(() => {
+        const createActivityPlanTimeSlotInputs = this.calendarControls.events.map(event => {
+          return {
+            activityPlanId: createdActivityPlanId,
+            activityTemplateId: event.activityTemplate.id,
+            startTime: event.start,
+            endTime: event.end
+          };
+        });
+
+        const a = createActivityPlanTimeSlotInputs.map((createActivityPlanTimeSlotInput) => {
+          return this.activityPlanTimeSlotApi
+            .appActivityPlanTimeSlotCreateActivityPlanTimeSlot(createActivityPlanTimeSlotInput)
+            .map(output => output.id);
+        });
+
+        return Observable.forkJoin(a);
+      })
+      .flatMap(() => {
+        const a = this.createDescriptionInputs
+          .map((createDescriptionInput, index) => {
+            const input = createDescriptionInput.input;
+
+            input.activityTemplateId = createdActivityPlanId;
+            input.priority = index;
+
+            if ((<CreateTextDescriptionInput> input).text) {
+              return this.descriptionApi
+                .appDescriptionCreateTextDescription(input)
+                .map(output => output.id);
+            } else if ((<CreateInternalImageDescriptionInput> input).imageId) {
+              return this.descriptionApi
+                .appDescriptionCreateInternalImageDescription(input)
+                .map(output => output.id);
+            }
+          });
+
+        return Observable.forkJoin(a);
+      })
+      .subscribe(() => {
+        console.log(createdActivityPlanId);
+      });
+
   }
 
   public onClickAddTextDescription() {
@@ -126,8 +186,8 @@ export class CreateActivityPlanComponent implements OnInit {
       end: addHours(startOfDay(new Date()), 2),
       activityTemplate: activityTemplate,
       resizable: {
-        beforeStart: false,
-        afterEnd: false
+        beforeStart: true,
+        afterEnd: true
       },
       draggable: true
     };
@@ -195,7 +255,7 @@ export class CreateActivityPlanComponent implements OnInit {
     if (!this.activityActivitySelectorControls.isLoading) {
       this.activityActivitySelectorControls.isLoading = true;
 
-      this.activityTemplateService
+      this.activityTemplateApi
         .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
         .subscribe((output) => {
           if (output.activityTemplates.length === 0) {

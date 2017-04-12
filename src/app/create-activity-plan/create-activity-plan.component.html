@@ -5,7 +5,7 @@
 
         <!-- Activity Name -->
         <div class="form-group">
-          <label for="name" class="col-md-3 control-label">Activity Name</label>
+          <label for="name" class="col-md-3 control-label">Activity Plan Name</label>
           <div class="col-md-9">
             <input type="text" class="form-control" id="name" placeholder="Name"
                    [(ngModel)]="createActivityPlanInput.name">
@@ -70,21 +70,16 @@
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="hidden-xs col-sm-2"></div>
-    <div class="col-xs-12 col-sm-10">
-      <button type="submit" class="btn btn-primary btn-block" (click)="onClickCreateActivityPlan()">Create</button>
-    </div>
-  </div>
   <br>
+</div>
 
+<div class="container-fluid">
   <div class="row" *ngIf="activityTemplates">
 
-    <div class="hidden-xs col-sm-2"></div>
+    <div class="hidden-xs col-md-2"></div>
 
     <!-- Left column -->
-    <div class="col-xs-6 col-sm-5">
+    <div class="col-xs-6 col-md-5">
       <div [ngSwitch]="view">
         <mwl-calendar-day-view
           [viewDate]="calendarControls.viewDate"
@@ -96,7 +91,7 @@
     </div>
 
     <!-- Right column -->
-    <sticky class="col-xs-6 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="0">
+    <sticky class="col-xs-6 col-md-5" [sticky-offset-top]="20" [sticky-offset-bottom]="-20">
       <div class="form-group">
         <input [formControl]="activityActivitySelectorControls.queryKeywordsControl" type="text" class="form-control" id="keywords" placeholder="Keywords">
       </div>
@@ -122,3 +117,16 @@
 
   </div>
 </div>
+
+<div class="container">
+  <div class="row">
+    <div class="hidden-xs col-sm-2"></div>
+    <div class="col-xs-12 col-sm-10">
+      <br>
+      <button type="submit" class="btn btn-primary btn-block" (click)="onClickCreateActivityPlan()">Create</button>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
