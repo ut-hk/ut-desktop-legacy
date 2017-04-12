@@ -5,7 +5,7 @@
 
         <!-- Activity Name -->
         <div class="form-group">
-          <label for="name" class="col-md-3 control-label">Activity Name</label>
+          <label for="name" class="col-md-3 control-label">Activity Plan Name</label>
           <div class="col-md-9">
             <input type="text" class="form-control" id="name" placeholder="Name"
                    [(ngModel)]="createActivityPlanInput.name">
@@ -70,37 +70,34 @@
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="hidden-xs col-sm-2"></div>
-    <div class="col-xs-12 col-sm-10">
-      <button type="submit" class="btn btn-primary btn-block" (click)="onClickCreateActivityPlan()">Create</button>
-    </div>
-  </div>
   <br>
+</div>
 
+<div class="container-fluid">
   <div class="row" *ngIf="activityTemplates">
 
-    <div class="hidden-xs col-sm-2"></div>
+    <div class="hidden-xs col-md-2"></div>
 
     <!-- Left column -->
-    <div class="col-xs-6 col-sm-5">
+    <div class="col-xs-6 col-md-5">
       <div [ngSwitch]="view">
         <mwl-calendar-day-view
           [viewDate]="calendarControls.viewDate"
-          [events]="calendarControls.events">
+          [events]="calendarControls.events"
+          [refresh]="calendarControls.refresh"
+          (eventTimesChanged)="onEventTimesChanged($event)">
         </mwl-calendar-day-view>
       </div>
     </div>
 
     <!-- Right column -->
-    <sticky class="col-xs-6 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="0">
+    <sticky class="col-xs-6 col-md-5" [sticky-offset-top]="20" [sticky-offset-bottom]="-20">
       <div class="form-group">
-        <input [formControl]="pageControls.queryKeywordsControl" type="text" class="form-control" id="keywords" placeholder="Keywords">
+        <input [formControl]="activityActivitySelectorControls.queryKeywordsControl" type="text" class="form-control" id="keywords" placeholder="Keywords">
       </div>
 
       <div class="activity-template-selector"
-           infinite-scroll (scrolled)="onActivityTemplatesSelectorScroll()">
+           infinite-scroll [scrollWindow]="false" (scrolled)="onActivityTemplatesSelectorScroll()">
         <div class="activity-template"
              *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
           <div class="cover">
@@ -112,11 +109,24 @@
           <button class="btn btn-default btn-block" (click)="onClickAddToPlan(activityTemplate)">Add to Plan</button>
         </div>
 
-        <div class="text-center" *ngIf="isLoading">Loading...</div>
-        <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
+        <div class="text-center" *ngIf="activityActivitySelectorControls.isLoading">Loading...</div>
+        <div class="text-center" *ngIf="activityActivitySelectorControls.isNoMoreResults">No More Results...</div>
       </div>
       <br>
     </sticky>
 
   </div>
 </div>
+
+<div class="container">
+  <div class="row">
+    <div class="hidden-xs col-sm-2"></div>
+    <div class="col-xs-12 col-sm-10">
+      <br>
+      <button type="submit" class="btn btn-primary btn-block" (click)="onClickCreateActivityPlan()">Create</button>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>

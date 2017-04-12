@@ -5,7 +5,6 @@ import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/Activit
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
 
 
-
 @Component({
   selector: 'app-world',
   templateUrl: './world.component.html',

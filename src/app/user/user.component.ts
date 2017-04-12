@@ -10,6 +10,7 @@ import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model
 import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
 import { LocalStorageService } from 'ng2-webstorage';
 import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user',
@@ -51,7 +52,8 @@ export class UserComponent implements OnInit {
               private activityTemplateApi: App_activityTemplateApi,
               private activityPlanApi: App_activityPlanApi,
               private friendInvitationApi: App_friendInvitationApi,
-              private userApi: App_userApi) {
+              private userApi: App_userApi,
+              private userService: UserService) {
   }
 
   ngOnInit() {
@@ -64,7 +66,7 @@ export class UserComponent implements OnInit {
         return id;
       })
       .subscribe(id => {
-        this.isMyUser = this.checkIsMyUser(id);
+        this.isMyUser = this.userService.checkIsMyUser(id);
 
         if (this.isMyUser) {
           this.getMyUserAndMyActivities();
@@ -86,16 +88,6 @@ export class UserComponent implements OnInit {
     //   .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
     //   .subscribe((output) => {
     //   });
-  }
-
-  private checkIsMyUser(userId: number): boolean {
-    const myUser = this.localStorageService.retrieve('myUser');
-
-    if (myUser == null) {
-      return false;
-    }
-
-    return myUser.id == userId;
   }
 
   private getMyUserAndMyActivities() {
