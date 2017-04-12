@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  version: '0.2.1',
-  baseUrl: 'https://evening-anchorage-3159.herokuapp.com/api/'
+  version: '0.3.0',
+  baseUrl: 'https://unitime-dev-api.azurewebsites.net'
 };
 

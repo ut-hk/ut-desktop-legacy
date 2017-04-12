@@ -1,31 +1,72 @@
-<div class="container">
-  <div class="col-xs-12" *ngIf="activityPlans">
+<div class="row">
+  <div class="col-xs-12 cover-image">
+    <h1>UniTime</h1>
+    <h3>・Make Time Different・</h3>
+    <hr>
+    <!--<h4>Get Started !</h4>-->
+  </div>
+</div>
 
-    <div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
-      <!-- Name, Tags and Owner-->
-      <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
-      <p class="text-right">
-        <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
-      </p>
-      <p class="text-right">Created by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
+<!--Activity Templates-->
+<div class="contain">
+  <div class="row">
+    <div class="row-inner">
 
-      <!-- Descriptions -->
-      <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"
-           [ngSwitch]="description.type">
-        <p *ngSwitchCase="0">{{description.content}}</p>
-        <div class="text-center">
-          <img *ngSwitchCase="1" [src]="description.content">
+      <div class="tile"
+           *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
+           routerLink="/activity-template/{{activityTemplate.id}}">
+        <div>
+          <img class="tile-img"
+               [src]="activityTemplate.coverImageDescription ? activityTemplate.coverImageDescription.content : './assets/noFoundProfilePicture.png'"
+               alt=""/>
+        </div>
+        <div class="tile-details">
+          <div class="tile-title">
+            {{activityTemplate.name}}
+          </div>
         </div>
       </div>
 
     </div>
+  </div>
+</div>
 
-    <div class="text-center" *ngIf="isLoading">
-      <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+<!--Activity Plans-->
+<div class="container">
+  <div class="col-xs-12" *ngIf="activityPlans">
+
+    <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
+      <!-- Name, Owner and Tag-->
+      <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
+      <div>
+      <p class="text-right"><a
+        routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
+      <span class="tag" *ngIf="activityPlan.tags.length == 0">&nbsp;</span>
+      <p>
+        <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+      </p>
+      </div>
+
+      <!--Cover Image-->
+      <div class="activity-plan-image col-xs-12">
+        <div class="cover-image"
+             *ngIf="activityPlan.coverImageDescription"
+             [ngStyle]="{'background-image': 'url(' + activityPlan.coverImageDescription.content + ')'}"></div>
+        <div class="cover-image"
+             *ngIf="activityPlan.coverImageDescription == null"
+             [ngStyle]="{'background-image': 'url(./assets/keep-calm-its-activity-time-5.png)'}"></div>
+      </div>
+
+      <!--Rating-->
     </div>
-
-    <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
 
   </div>
 </div>
 
+<div style="margin-top: 10px;">
+  <div class="text-center" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
+
+  <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
+</div>

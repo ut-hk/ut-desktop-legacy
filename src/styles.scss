@@ -1,2 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
 @import "styles/bootstrap";
+
+typeahead-container {
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+
+  .dropdown-menu {
+    width: 100% !important;
+  }
+}
+
+.dropdown-menu > li > a {
+  position: relative;
+
+  .badge{
+    position: absolute;
+    right: 5px
+  }
+}
+
+.file-drop-box {
+  background-color: #c8dadf;
+  padding: 30px 0;
+  text-align: center;
+  color: white;
+  margin: 10px 3px;
+  outline: 2px dashed #92b0b3;
+  outline-offset: 0;
+  -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  transition: outline-offset .15s ease-in-out, background-color .15s linear;
+
+  &.file-over {
+    outline-offset: -10px;
+  }
+}
+
+$handle-size: 24px;
+.handle {
+  display: inline-block;
+  color: white;
+  width: $handle-size;
+  height: $handle-size;
+  line-height: $handle-size;
+  text-align: center;
+  margin-bottom: 3px;
+
+  &.drag {
+    background-color: #3a87ad;
+  }
+
+  &.delete {
+    background-color: darkred;
+  }
+
+  .glyphicon {
+    top: 0;
+    line-height: $handle-size;
+  }
+}

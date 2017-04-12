@@ -61,8 +61,8 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationCreateActivityInvitation(input: models.CreateActivityInvitationInput, extraHttpRequestParams?: any): Observable<models.EntityDtoGuid> {
-        return this.appActivityInvitationCreateActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
+    public appActivityInvitationCreateActivityInvitations(input: models.CreateActivityInvitationsInput, extraHttpRequestParams?: any): Observable<models.CreateActivityInvitationsOutput> {
+        return this.appActivityInvitationCreateActivityInvitationsWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -164,14 +164,14 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationCreateActivityInvitationWithHttpInfo(input: models.CreateActivityInvitationInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/CreateActivityInvitation`;
+    public appActivityInvitationCreateActivityInvitationsWithHttpInfo(input: models.CreateActivityInvitationsInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/activityInvitation/CreateActivityInvitations`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationCreateActivityInvitation.');
+            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationCreateActivityInvitations.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [

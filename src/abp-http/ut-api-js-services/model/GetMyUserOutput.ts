@@ -13,8 +13,14 @@
 import * as models from './models';
 
 export interface GetMyUserOutput {
-    myUser?: models.UserDto;
+    myUser?: models.MyUserDto;
 
     guestId?: string;
+
+    numberOfActivityInvitations?: number;
+
+    numberOfFriendInvitations?: number;
+
+    numberOfFriends?: number;
 
 }

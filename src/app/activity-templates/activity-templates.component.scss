@@ -8,7 +8,7 @@
     height: 400px;
   }
   @media (min-width: 992px) {
-    height: 520px;
+    height: 560px;
   }
 
   .cover {
@@ -24,6 +24,14 @@
 
       $like-color: #22B24C;
       $dislike-color: red;
+
+      .image-center {
+        position: absolute;
+        left: 20%;
+        height: 100%;
+        width: 60%;
+        padding-top: 10px;
+      }
       .like, .dislike {
         opacity: 0.02;
         position: absolute;

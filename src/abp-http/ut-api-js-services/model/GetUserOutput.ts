@@ -15,4 +15,10 @@ import * as models from './models';
 export interface GetUserOutput {
     user?: models.UserDto;
 
+    numberOfFriends?: number;
+
+    isFriend?: boolean;
+
+    hasInvited?: boolean;
+
 }

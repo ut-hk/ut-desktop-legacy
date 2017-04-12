@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
 import { TokenService } from '../../abp-http/http/token.service';

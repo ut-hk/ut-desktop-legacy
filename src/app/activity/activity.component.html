@@ -1,0 +1,255 @@
+<div class="container" *ngIf="activity; else isLoading">
+
+  <div class="row" *ngIf="pageControls.isMyUser">
+    <div class="col-xs-12">
+      <div class="text-right">
+
+        <a class="btn btn-default" (click)="onEdit()">Edit</a>
+        <a *ngIf="pageControls.isMyUser" class="btn btn-default" (click)="inviteFriendModal.show()">Invite Friend</a>
+        <a class="btn btn-default" (click)="onDelete()">Delete</a>
+
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- Name -->
+      <h1 class="h3">{{activity.name}}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-7">
+
+      <!-- Tags -->
+      <p>
+        <span class="tag" *ngFor="let tag of activity.tags; trackBy: tag?.id">{{tag.text}}</span>
+      </p>
+
+      <!-- Author -->
+      <div class="row">
+        <div class="col-xs-5 col-sm-3">Author</div>
+        <div class="col-xs-7 col-sm-9"><a routerLink="/user/{{activity.owner.id}}">@{{activity.owner.userName}}</a>
+        </div>
+      </div>
+
+      <!-- Reference Time Slots -->
+      <div class="row">
+        <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
+        <div class="col-xs-7 col-sm-9">
+          <div *ngFor="let referenceTimeSlot of activity.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
+            <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="row" *ngIf="activity.location">
+        <div class="col-xs-5 col-sm-3">Location</div>
+        <div class="col-xs-7 col-sm-9">{{activity.location.name ? activity.location.name : 'No Name Provided'}}</div>
+        <div class="col-xs-12">
+          <br>
+          <!-- Map -->
+          <agm-map *ngIf="activity.location" #locationMap [latitude]="activity.location.latitude"
+                   [longitude]="activity.location.longitude" [zoom]="13">
+            <agm-marker [latitude]="activity.location.latitude"
+                        [longitude]="activity.location.longitude"></agm-marker>
+          </agm-map>
+        </div>
+      </div>
+      <br>
+
+      <!-- Descriptions -->
+      <div *ngFor="let description of activity.descriptions; trackBy: description?.id"
+           [ngSwitch]="description.type">
+        <p *ngSwitchCase="0">{{description.content}}</p>
+        <div class="text-center" *ngSwitchCase="1">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
+               onError="this.src = './assets/noFoundImag.png';">
+        </div>
+        <div class="text-center" *ngSwitchCase="2">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
+               onError="this.src = './assets/noFoundImag.png';">
+        </div>
+        <div class="text-center" *ngSwitchCase="2">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
+               onError="this.src = './assets/noFoundImag.png';">
+        </div>
+      </div>
+
+      <!-- Participant List -->
+
+      <div *ngIf="activity; else isLoading">
+        <h4>Participant List</h4>
+        <div *ngIf="activity.owner" class="friend-invitation">
+          <div class="row">
+
+            <div class="col-xs-2 owner-icon">
+              <img [src]="activity.owner.iconId ? activity.owner.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+            </div>
+
+            <div class="col-xs-7">
+              <p class="h4"><a routerLink="/user/{{activity.owner.id}}">@{{activity.owner.userName}}</a> {{activity.owner.name}}</p>
+            </div>
+
+            <div class="col-xs-3 options">
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="activity.participants.length > 0; else isNoMoreResults">
+          <div *ngFor="let participant of activity.participants" class="friend-invitation">
+            <div class="row">
+
+              <div class="col-xs-2 owner-icon">
+                <img [src]="participant.owner.iconId ? participant.owner.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+              </div>
+
+              <div class="col-xs-7">
+                <p class="h4"><a routerLink="/user/{{participant.owner.id}}">@{{participant.owner.userName}}</a> {{participant.owner.name}}</p>
+              </div>
+
+              <div class="col-xs-3 options">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <sticky [sticky-offset-top]="20" [sticky-offset-bottom]="20" [sticky-media-query]="'(min-width: 768px)'" [sticky-parent]="false" class="col-xs-12 col-sm-5">
+
+      <!-- Comments -->
+      <div>
+        <div class="comments">
+          <div *ngFor="let comment of activity.comments; trackBy: comment?.id">
+            <div class="comment">
+              <div class="row">
+
+                <!-- User Icon -->
+                <div class="col-xs-2">
+                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                </div>
+
+                <div class="col-xs-10">
+
+                  <!-- Display Comments -->
+                  <div>
+                    <div style="border: 1px solid #EEEEEE; margin-bottom: 10px;">
+                      <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
+                        <span class="comment-name"><a href="http://creaticode.com/blog">@{{comment.owner.userName}}</a></span>
+                        <span>{{comment.creationTime | amTimeAgo}}</span>
+                      </div>
+                      <div style="padding: 5px;">{{comment.content}}</div>
+                    </div>
+                  </div>
+
+                  <!-- Replies -->
+                  <div class="replies">
+
+                    <!-- Display Replies-->
+                    <div *ngFor="let reply of comment.replies; trackBy: reply?.id">
+                      <div class="row">
+                        <div class="col-xs-2">
+                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                        </div>
+                        <div class="col-xs-10">
+                          <div style="border: 1px solid #EEEEEE;">
+                            <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
+                              <span><a href="http://creaticode.com/blog">@{{reply.owner.userName}}</a></span>
+                              <span>{{reply.creationTime | amTimeAgo}}</span>
+                            </div>
+                            <div style="padding: 5px;">{{reply.content}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Create Reply -->
+                    <div style="margin-top: 5px;">
+                      <div class="row">
+                        <div class="col-xs-2"></div>
+                        <div class="col-xs-10">
+                          <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Write a reply..." [(ngModel)]="createReplyInput.content" (keyup.enter)="onClickCreateReply(comment)">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Create Comment -->
+          <div>
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Write a comment..." [(ngModel)]="createTextCommentInput.content" (keyup.enter)="onClickCreateTextComment()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </sticky>
+  </div>
+  <br>
+  <br>
+  <br>
+
+
+</div>
+
+
+<div class="modal fade" bsModal #inviteFriendModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Invite Friend to Activity</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="inviteFriendModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div *ngIf="participantIdInputs">
+            <div *ngFor="let participantIdInput of participantIdInputs" class="row">
+              <div class="col-xs-2">
+                <img
+                  [src]="participantIdInput.user.iconId ? participantIdInput.user.iconId : './assets/noFoundProfilePicture.png'"
+                  class="img-circle"
+                  width="60px">
+              </div>
+
+              <div class="col-xs-10">
+                <label>
+                  <input type="checkbox" [(ngModel)]="participantIdInput.isSelected" name="isSelected">
+                  @{{participantIdInput.user.userName}} {{participantIdInput.user.name}}
+                </label>
+              </div>
+
+            </div>
+
+            <div *ngIf="participantIdInputs.length == 0">Friends List is empty.</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-default btn-lg center-block" (click)="onClickInviteFriendToActivity(name)">submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #isLoading>
+  <div class="text-center">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
+</ng-template>

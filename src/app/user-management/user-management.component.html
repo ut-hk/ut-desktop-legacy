@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="text-center">
+    <h2>User Management</h2>
+  </div>
+  <br>
+
+  <div *ngIf="users; else isLoading">
+    <div *ngIf="users.length > 0; else isNoMoreResults">
+      <div *ngFor="let user of users" class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="media">
+              <div class="pull-left">
+                <img [src]="user.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="people"
+                     class="media-object img-circle">
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading margin-v-5"><a href="user/{{user.id}}">{{user.name}}</a></h4>
+                <div class="profile-icons">
+                  <span><i class="fa fa-users"></i> 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <a href="#" class="btn btn-default btn-sm">View <i class="fa fa-user-o"></i></a>
+            <a href="#" class="btn btn-default btn-sm">Delete <i class="fa fa-ban"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #isLoading>
+    <div class="text-center">
+      <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+    </div>
+  </ng-template>
+
+  <ng-template #isNoMoreResults>
+    <div class="text-center">No More Results...
+    </div>
+  </ng-template>
+
+</div>

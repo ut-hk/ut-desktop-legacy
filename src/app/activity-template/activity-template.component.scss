@@ -1,0 +1,19 @@
+agm-map {
+  height: 500px;
+}
+
+.sticky-end {
+  bottom: auto !important;
+}
+
+.comments {
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .user-icon {
+    width: 55px;
+    height: 55px;
+  }
+
+}

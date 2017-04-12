@@ -15,6 +15,8 @@ import * as models from './models';
 export interface ActivityPlanDto {
     name?: string;
 
+    descriptions?: Array<models.DescriptionDto>;
+
     tags?: Array<models.TagDto>;
 
     timeSlots?: Array<models.ActivityPlanTimeSlotDto>;
@@ -25,6 +27,16 @@ export interface ActivityPlanDto {
 
     owner?: models.UserListDto;
 
+    myRatingStatus?: ActivityPlanDto.MyRatingStatusEnum;
+
+    likes?: number;
+
     id?: string;
 
+}
+export namespace ActivityPlanDto {
+    export enum MyRatingStatusEnum {
+        NUMBER_0 = <any> 0,
+        NUMBER_1 = <any> 1
+    }
 }

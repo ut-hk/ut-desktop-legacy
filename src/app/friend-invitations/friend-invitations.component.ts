@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
-import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
+import {Component, OnInit} from '@angular/core';
+import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import {FriendInvitationDto} from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
 
 @Component({
   selector: 'app-friend-invitations',
@@ -9,12 +9,16 @@ import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/Fri
 })
 export class FriendInvitationsComponent implements OnInit {
 
-  private friendInvitations: FriendInvitationDto[];
+  public friendInvitations: FriendInvitationDto[];
 
   constructor(private friendInvitationApi: App_friendInvitationApi) {
   }
 
   ngOnInit() {
+    this.getMyPendingFriendInvitations();
+  }
+
+  private getMyPendingFriendInvitations() {
     const getMyPendingFriendInvitationsSubscription = this.friendInvitationApi
       .appFriendInvitationGetMyPendingFriendInvitations()
       .subscribe(output => {
@@ -25,25 +29,49 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickAccept(friendInvitation: FriendInvitationDto) {
+
+    const index = this.friendInvitations.indexOf(friendInvitation);
+    if (index > -1) {
+      this.friendInvitations.splice(index, 1);
+    }
+
     const subscription = this.friendInvitationApi
       .appFriendInvitationAcceptFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }
 
   public onClickReject(friendInvitation: FriendInvitationDto) {
+
+    const index = this.friendInvitations.indexOf(friendInvitation);
+    if (index > -1) {
+      this.friendInvitations.splice(index, 1);
+    }
+
     const subscription = this.friendInvitationApi
       .appFriendInvitationRejectFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }
 
   public onClickIgnore(friendInvitation: FriendInvitationDto) {
+
+    const index = this.friendInvitations.indexOf(friendInvitation);
+    if (index > -1) {
+      this.friendInvitations.splice(index, 1);
+    }
+
     const subscription = this.friendInvitationApi
       .appFriendInvitationIgnoreFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
+        this.getMyPendingFriendInvitations();
+
         subscription.unsubscribe();
       });
   }

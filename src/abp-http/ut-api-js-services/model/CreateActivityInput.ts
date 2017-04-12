@@ -21,4 +21,6 @@ export interface CreateActivityInput {
 
     locationId?: string;
 
+    tagTexts: Array<string>;
+
 }

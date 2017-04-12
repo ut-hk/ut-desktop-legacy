@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="text-center">
+    <h2>Your Activity Invitations</h2>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-xs-12">
+
+      <!-- Activity Invitations -->
+      <div *ngIf="activityInvitations; else isLoading">
+        <div *ngIf="activityInvitations.length > 0; else isNoMoreResults">
+          <div *ngFor="let activityInvitation of activityInvitations" class="activity-invitation">
+            <div class="row">
+
+              <div class="col-xs-2 owner-icon">
+                <img [src]="activityInvitation.iconId ? activityInvitation.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+              </div>
+
+              <div class="col-xs-7">
+                <p class="h4"><a routerLink="/user/{{activityInvitation.owner.id}}">@{{activityInvitation.owner.userName}}</a> {{activityInvitation.owner.name}}</p>
+                <p>No mutual activitys</p>
+              </div>
+
+              <div class="col-xs-3 options">
+                <img class="icon" src="./assets/plus.svg" alt="Accept" (click)="onClickAccept(activityInvitation)">
+                <img class="icon" src="./assets/error.svg" alt="Reject" (click)="onClickReject(activityInvitation)">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #isLoading>
+    <div class="text-center">
+      <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+    </div>
+  </ng-template>
+
+  <ng-template #isNoMoreResults>
+    <div class="text-center">No More Results...
+    </div>
+  </ng-template>
+
+</div>

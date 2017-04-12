@@ -4,7 +4,7 @@ import { GetActivityTemplatesInput } from 'abp-http/ut-api-js-services';
 import { FormControl } from '@angular/forms';
 import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
 import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
-import { MouseEvent } from 'angular2-google-maps/core';
+import { MouseEvent } from '@agm/core';
 
 @Component({
   selector: 'app-activity-templates',
@@ -45,12 +45,16 @@ export class ActivityTemplatesComponent implements OnInit {
 
   constructor(private activityTemplateApi: App_activityTemplateApi,
               private ratingApi: App_ratingApi) {
-    this.pageControls
-      .queryKeywordsControl.valueChanges
+    this.pageControls.queryKeywordsControl.valueChanges
       .debounceTime(700)
       .distinctUntilChanged()
       .subscribe(queryKeywords => {
-        this.getActivityTemplatesInput.queryKeywords = queryKeywords;
+        const regEx = /(#[a-z0-9][a-z0-9\-_]*)/ig;
+        const tagTexts = queryKeywords.match(regEx);
+
+        this.getActivityTemplatesInput.tagTexts = tagTexts ? tagTexts : [];
+        this.getActivityTemplatesInput.queryKeywords = queryKeywords.replace(regEx, '');
+
         this.onSearchConditionsChange();
       });
   }

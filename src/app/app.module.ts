@@ -9,14 +9,20 @@ import { AbpHttpModule } from '../abp-http/abp-http.module';
 
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { AlertModule, BsDropdownModule, CollapseModule, ModalModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
-import { DateTimePickerModule } from 'ng2-date-time-picker';
+import { DateTimePickerModule } from 'ng-pick-datetime';
 import { MomentModule } from 'angular2-moment';
+import { NgUploaderModule } from 'ngx-uploader';
+import { CalendarComponent } from 'angular2-fullcalendar/src/calendar/calendar';
+import { CalendarModule } from 'angular-calendar';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 import { TruncatePipe } from './truncate.pipe';
+import { InternalImagePipe } from './internal-image.pipe';
+import { GenderPipe } from './gender.pipe';
 
 import { AppComponent } from './app.component';
 import { WorldComponent } from './world/world.component';
@@ -34,27 +40,38 @@ import { CreateActivityTemplateComponent } from './create-activity-template/crea
 import { UserComponent } from './user/user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { SignUpProfileComponent } from './sign-up-profile/sign-up-profile.component';
-import { GenderPipe } from './gender.pipe';
 import { FriendInvitationsComponent } from './friend-invitations/friend-invitations.component';
-import { NgUploaderModule } from 'ngx-uploader';
+import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
+import { ActivityComponent } from './activity/activity.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { UserService } from 'app/user.service';
+import { UpdateActivityTemplateComponent } from './update-activity-template/update-activity-template.component';
 
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
-
   {path: 'activity-plan/:id', component: ActivityPlanComponent},
+
   {path: 'activity-templates', component: ActivityTemplatesComponent},
   {path: 'activity-template/:id', component: ActivityTemplateComponent},
+
+
+  {path: 'activity/:id', component: ActivityComponent},
 
   {path: 'create-activity-plan', component: CreateActivityPlanComponent},
   {path: 'create-activity-template', component: CreateActivityTemplateComponent},
   {path: 'create-activity', component: CreateActivityComponent},
+
+  {path: 'activity-invitations', component: ActivityInvitationsComponent},
 
   {path: 'friend-invitations', component: FriendInvitationsComponent},
   {path: 'friends/:userId', component: FriendsComponent},
 
   {path: 'user/:id', component: UserComponent},
   {path: 'update-user', component: UpdateUserComponent},
+
+  {path: 'user-management', component: UserManagementComponent},
 
   {path: 'log-in', component: LogInComponent},
 
@@ -69,6 +86,10 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
+    TruncatePipe,
+    GenderPipe,
+    InternalImagePipe,
+
     AppComponent,
     WorldComponent,
     LogInComponent,
@@ -85,12 +106,16 @@ const appRoutes: Routes = [
     UserComponent,
     UpdateUserComponent,
     SignUpProfileComponent,
-    TruncatePipe,
-    GenderPipe,
-    FriendInvitationsComponent
+    FriendInvitationsComponent,
+    ActivityInvitationsComponent,
+    CalendarComponent,
+    ActivityComponent,
+    UserManagementComponent,
+    UpdateActivityTemplateComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
@@ -111,6 +136,8 @@ const appRoutes: Routes = [
     }),
     DateTimePickerModule,
     MomentModule,
+    CalendarModule.forRoot(),
+    DragAndDropModule,
 
     // Bootstrap
     CollapseModule.forRoot(),
@@ -122,7 +149,8 @@ const appRoutes: Routes = [
     ModalModule.forRoot()
   ],
   providers: [
-    GoogleMapsAPIWrapper
+    GoogleMapsAPIWrapper,
+    UserService
   ],
   bootstrap: [
     AppComponent

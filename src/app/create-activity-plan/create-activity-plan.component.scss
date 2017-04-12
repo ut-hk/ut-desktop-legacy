@@ -7,23 +7,29 @@
   bottom: auto !important;
 }
 
-.activity-templates {
-  max-height: 90vh;
-  overflow-y: auto;
+.description {
+  padding-bottom: 5px;
 }
 
-.activity-template {
-  margin-bottom: 20px;
+.activity-template-selector {
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 5px;
 
-  .cover {
-    display: block;
+  .activity-template {
+    margin-bottom: 20px;
+    position: relative;
 
-    .cover-image {
+    .cover {
       display: block;
-      width: 100%;
-      padding-bottom: 60%;
-      background: no-repeat 50%;
-      background-size: cover;
+
+      .cover-image {
+        display: block;
+        width: 100%;
+        padding-bottom: 60%;
+        background: no-repeat 50%;
+        background-size: cover;
+      }
     }
   }
 }
