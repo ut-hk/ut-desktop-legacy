@@ -1,3 +1,64 @@
-<p>
-  user-management works!
-</p>
+<div class="container">
+  <div class="text-center">
+    <h2>User List</h2>
+  </div>
+  <br>
+
+  <div *ngIf="friends; else isLoading">
+    <div *ngIf="friends.length > 0; else isNoMoreResults">
+      <div *ngFor="let friend of friends" class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="media">
+              <div class="pull-left">
+                <img [src]="friend.iconId ? (friend.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="people"
+                     class="media-object img-circle">
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading margin-v-5"><a href="user/{{friend.id}}">{{friend.name}}</a></h4>
+                <div class="profile-icons">
+                  <span><i class="fa fa-users"></i> 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="panel-body">-->
+          <!--<p class="common-friends">Common Friends</p>-->
+          <!--<div class="user-friend-list">-->
+          <!--<a href="#">-->
+          <!--<img src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="people" class="img-circle">-->
+          <!--</a>-->
+          <!--<a href="#">-->
+          <!--<img src="http://bootdey.com/img/Content/avatar/avatar2.png" alt="people" class="img-circle">-->
+          <!--</a>-->
+          <!--<a href="#">-->
+          <!--<img src="http://bootdey.com/img/Content/avatar/avatar3.png" alt="people" class="img-circle">-->
+          <!--</a>-->
+          <!--<a href="#">-->
+          <!--<img src="http://bootdey.com/img/Content/avatar/avatar4.png" alt="people" class="img-circle">-->
+          <!--</a>-->
+          <!--</div>-->
+          <!--</div>-->
+          <div class="panel-footer">
+            <a href="#" class="btn btn-default btn-sm">View <i class="fa fa-user-o"></i></a>
+            <a href="#" class="btn btn-default btn-sm">Delete <i class="fa fa-ban"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #isLoading>
+    <div class="text-center">
+      <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+    </div>
+  </ng-template>
+
+
+  <ng-template #isNoMoreResults>
+    <div class="text-center">No More Results...
+    </div>
+  </ng-template>
+
+
+</div>

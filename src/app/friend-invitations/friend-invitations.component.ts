@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
-import { FriendInvitationDto } from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
+import {Component, OnInit} from '@angular/core';
+import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import {FriendInvitationDto} from '../../abp-http/ut-api-js-services/model/FriendInvitationDto';
 
 @Component({
   selector: 'app-friend-invitations',
@@ -29,6 +29,12 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickAccept(friendInvitation: FriendInvitationDto) {
+
+    const index = this.friendInvitations.indexOf(friendInvitation);
+    if (index > -1) {
+      this.friendInvitations.splice(index, 1);
+    }
+
     const subscription = this.friendInvitationApi
       .appFriendInvitationAcceptFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
@@ -39,6 +45,12 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickReject(friendInvitation: FriendInvitationDto) {
+
+    const index = this.friendInvitations.indexOf(friendInvitation);
+    if (index > -1) {
+      this.friendInvitations.splice(index, 1);
+    }
+
     const subscription = this.friendInvitationApi
       .appFriendInvitationRejectFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
@@ -49,6 +61,12 @@ export class FriendInvitationsComponent implements OnInit {
   }
 
   public onClickIgnore(friendInvitation: FriendInvitationDto) {
+
+    const index = this.friendInvitations.indexOf(friendInvitation);
+    if (index > -1) {
+      this.friendInvitations.splice(index, 1);
+    }
+
     const subscription = this.friendInvitationApi
       .appFriendInvitationIgnoreFriendInvitation({id: friendInvitation.id})
       .subscribe(output => {
