@@ -18,6 +18,7 @@ import { MomentModule } from 'angular2-moment';
 import { NgUploaderModule } from 'ngx-uploader';
 import { CalendarComponent } from 'angular2-fullcalendar/src/calendar/calendar';
 import { CalendarModule } from 'angular-calendar';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 import { TruncatePipe } from './truncate.pipe';
 import { InternalImagePipe } from './internal-image.pipe';
@@ -99,7 +100,6 @@ const appRoutes: Routes = [
     UserComponent,
     UpdateUserComponent,
     SignUpProfileComponent,
-
     FriendInvitationsComponent,
     ActivityInvitationsComponent,
     CalendarComponent,
@@ -129,6 +129,7 @@ const appRoutes: Routes = [
     DateTimePickerModule,
     MomentModule,
     CalendarModule.forRoot(),
+    DragAndDropModule,
 
     // Bootstrap
     CollapseModule.forRoot(),

@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { CreateActivityPlanInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanInput';
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { GetActivityTemplatesInput } from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { DragulaService } from 'ng2-dragula';
 import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import { NgUploaderOptions } from 'ngx-uploader';
 import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
@@ -12,17 +11,9 @@ import { DescriptionDto } from '../../abp-http/ut-api-js-services/model/Descript
 import { TokenService } from '../../abp-http/http/token.service';
 import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
 import { FormControl } from '@angular/forms';
-import { CalendarEvent } from 'angular-calendar/dist/esm/src';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
+import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar/dist/esm/src';
+import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
+import { Subject } from 'rxjs/Subject';
 
 const colors: any = {
   red: {
@@ -53,14 +44,16 @@ interface ActivityTemplateEvent extends CalendarEvent {
 
 @Component({
   selector: 'app-create-activity-plan',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './create-activity-plan.component.html',
   styleUrls: ['./create-activity-plan.component.scss']
 })
 export class CreateActivityPlanComponent implements OnInit {
 
   public pageControls = {
-    tagTextsString: '',
+    tagTextsString: ''
+  };
+
+  public activityActivitySelectorControls = {
     isLoading: false,
     isNoMoreResults: false,
 
@@ -81,17 +74,17 @@ export class CreateActivityPlanComponent implements OnInit {
     skipCount: 0
   };
 
-  public calendarControls: { viewDate: Date, events: ActivityTemplateEvent[] } = {
+  public calendarControls: { viewDate: Date, events: ActivityTemplateEvent[], refresh: Subject<any> } = {
     viewDate: new Date(),
-    events: []
+    events: [],
+    refresh: new Subject()
   };
 
   public createDescriptionInputs: CreateDescriptionInput[] = [];
 
   public activityTemplates: ActivityTemplateDto[] = [];
 
-  constructor(private dragulaService: DragulaService,
-              private activityPlanService: App_activityPlanApi,
+  constructor(private activityPlanService: App_activityPlanApi,
               private activityTemplateService: App_activityTemplateApi,
               private tokenService: TokenService,
               private ngZone: NgZone) {
@@ -129,16 +122,30 @@ export class CreateActivityPlanComponent implements OnInit {
       id: activityTemplate.id,
       title: activityTemplate.name,
       color: colors.red,
-      start: addHours(startOfDay(new Date()), 2),
-      activityTemplate: activityTemplate
+      start: addHours(startOfDay(new Date()), 1),
+      end: addHours(startOfDay(new Date()), 2),
+      activityTemplate: activityTemplate,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false
+      },
+      draggable: true
     };
 
-    console.log(this.calendarControls);
     this.calendarControls.events.push(event);
+    this.calendarControls.refresh.next();
+  }
+
+  public onEventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+
+    this.calendarControls.refresh.next();
   }
 
   public onActivityTemplatesSelectorScroll() {
-    if (!this.pageControls.isNoMoreResults) {
+    console.log('S');
+    if (!this.activityActivitySelectorControls.isNoMoreResults) {
       this.getActivityTemplates();
     }
   }
@@ -185,21 +192,21 @@ export class CreateActivityPlanComponent implements OnInit {
   }
 
   private getActivityTemplates() {
-    if (!this.pageControls.isLoading) {
-      this.pageControls.isLoading = true;
+    if (!this.activityActivitySelectorControls.isLoading) {
+      this.activityActivitySelectorControls.isLoading = true;
 
       this.activityTemplateService
         .appActivityTemplateGetActivityTemplates(this.getActivityTemplatesInput)
         .subscribe((output) => {
           if (output.activityTemplates.length === 0) {
-            this.pageControls.isNoMoreResults = true;
+            this.activityActivitySelectorControls.isNoMoreResults = true;
           }
 
           for (let i = 0; i < output.activityTemplates.length; i++) {
             this.activityTemplates.push(output.activityTemplates[i]);
           }
 
-          this.pageControls.isLoading = false;
+          this.activityActivitySelectorControls.isLoading = false;
         });
 
       this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;

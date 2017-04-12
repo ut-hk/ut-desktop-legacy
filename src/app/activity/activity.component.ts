@@ -1,14 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import {ActivatedRoute} from '@angular/router';
-import {CreateTextCommentInput} from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
-import {App_commentApi} from '../../abp-http/ut-api-js-services/api/App_commentApi';
-import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import {CreateReplyInput} from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
-import {CommentDto} from '../../abp-http/ut-api-js-services/model/CommentDto';
-import {App_replyApi} from '../../abp-http/ut-api-js-services/api/App_replyApi';
-import {ActivityDto} from 'abp-http/ut-api-js-services';
+import { Component, OnInit } from '@angular/core';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { ActivatedRoute } from '@angular/router';
+import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
+import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
+import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
+import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
+import { ActivityDto } from 'abp-http/ut-api-js-services';
 
 @Component({
   selector: 'app-activity',

@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import {CreateTextCommentInput} from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
-import {ActivatedRoute} from '@angular/router';
-import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import {App_commentApi} from '../../abp-http/ut-api-js-services/api/App_commentApi';
-import {CreateReplyInput} from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
-import {LocalStorageService} from 'ng2-webstorage';
-import {App_replyApi} from '../../abp-http/ut-api-js-services/api/App_replyApi';
-import {CommentDto} from '../../abp-http/ut-api-js-services/model/CommentDto';
+import { Component, OnInit } from '@angular/core';
+import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
+import { ActivatedRoute } from '@angular/router';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
+import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
+import { LocalStorageService } from 'ng2-webstorage';
+import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
+import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
 
 
 @Component({

@@ -88,7 +88,9 @@
       <div [ngSwitch]="view">
         <mwl-calendar-day-view
           [viewDate]="calendarControls.viewDate"
-          [events]="calendarControls.events">
+          [events]="calendarControls.events"
+          [refresh]="calendarControls.refresh"
+          (eventTimesChanged)="onEventTimesChanged($event)">
         </mwl-calendar-day-view>
       </div>
     </div>
@@ -96,11 +98,11 @@
     <!-- Right column -->
     <sticky class="col-xs-6 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="0">
       <div class="form-group">
-        <input [formControl]="pageControls.queryKeywordsControl" type="text" class="form-control" id="keywords" placeholder="Keywords">
+        <input [formControl]="activityActivitySelectorControls.queryKeywordsControl" type="text" class="form-control" id="keywords" placeholder="Keywords">
       </div>
 
       <div class="activity-template-selector"
-           infinite-scroll (scrolled)="onActivityTemplatesSelectorScroll()">
+           infinite-scroll [scrollWindow]="false" (scrolled)="onActivityTemplatesSelectorScroll()">
         <div class="activity-template"
              *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
           <div class="cover">
@@ -112,8 +114,8 @@
           <button class="btn btn-default btn-block" (click)="onClickAddToPlan(activityTemplate)">Add to Plan</button>
         </div>
 
-        <div class="text-center" *ngIf="isLoading">Loading...</div>
-        <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
+        <div class="text-center" *ngIf="activityActivitySelectorControls.isLoading">Loading...</div>
+        <div class="text-center" *ngIf="activityActivitySelectorControls.isNoMoreResults">No More Results...</div>
       </div>
       <br>
     </sticky>
