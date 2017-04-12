@@ -1,3 +1,5 @@
+
+
 <div class="container" *ngIf="activityPlan; else isLoading">
 
   <div class="row" *ngIf="pageControls.isMyUser">
@@ -38,11 +40,11 @@
         <!--Activities Plan-->
         <h2>Activities Plan</h2>
         <div class="card card-block"
-             *ngFor="let activityTemplate of activityPlan.timeSlots">
-          <h3>{{activityTemplate.activityTemplate.name}}</h3>
+             *ngFor="let timeSlot of activityPlan.timeSlots">
+          <h3>{{timeSlot.activityTemplate.name}}</h3>
 
           <!-- Descriptions -->
-          <div *ngFor="let description of activityTemplate.activityTemplate.descriptions; trackBy: description?.id"
+          <div *ngFor="let description of timeSlot.activityTemplate.descriptions; trackBy: description?.id"
                [ngSwitch]="description.type">
             <p *ngSwitchCase="0">{{description.content}}</p>
             <div class="text-center" *ngSwitchCase="1">
@@ -53,13 +55,13 @@
 
           <!--Time Slots-->
           <div class="row"
-               *ngFor="let timeSlot of activityTemplate.activityTemplate.referenceTimeSlots;">
+               *ngFor="let timeSlot of timeSlot.activityTemplate.referenceTimeSlots;">
             <h5 class="col-xs-6">Time: {{timeSlot.startTime | date: 'short'}}</h5>
             <h5 class="col-xs-6">{{timeSlot.endTime | date: 'short'}}</h5>
           </div>
 
           <!--Owner-->
-          <div class="text-right">Provided by <a routerLink="/user/{{activityTemplate.activityTemplate.owner.id}}">@{{activityTemplate.activityTemplate.owner.userName}}</a>
+          <div class="text-right">Provided by <a routerLink="/user/{{timeSlot.activityTemplate.owner.id}}">@{{timeSlot.activityTemplate.owner.userName}}</a>
           </div>
         </div>
 

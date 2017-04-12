@@ -7,35 +7,67 @@
   </div>
 </div>
 
-<div class="container">
-  <div class="col-xs-12" *ngIf="activityPlans">
+<!--<div class="container">-->
+  <!--<div class="col-xs-12" *ngIf="activityPlans">-->
 
-    <div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
-      <!-- Name, Tags and Owner-->
-      <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
-      <p class="text-right">
-        <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
-      </p>
-      <p class="text-right">Created by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
+    <!--<div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">-->
+      <!--&lt;!&ndash; Name, Tags and Owner&ndash;&gt;-->
+      <!--<h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>-->
+      <!--<p class="text-right">-->
+        <!--<span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>-->
+      <!--</p>-->
+      <!--<p class="text-right">Created by <a-->
+        <!--routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>-->
 
-      <!-- Descriptions -->
-      <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"
-           [ngSwitch]="description.type">
-        <p *ngSwitchCase="0">{{description.content}}</p>
-        <div class="text-center">
-          <img *ngSwitchCase="1" [src]="description.content">
+      <!--&lt;!&ndash; Descriptions &ndash;&gt;-->
+      <!--<div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"-->
+           <!--[ngSwitch]="description.type">-->
+        <!--<p *ngSwitchCase="0">{{description.content}}</p>-->
+        <!--<div class="text-center">-->
+          <!--<img *ngSwitchCase="1" [src]="description.content">-->
+        <!--</div>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+<!--</div>-->
+
+<!--<div style="margin-top: 10px;">-->
+  <!--<div class="text-center" *ngIf="isLoading">-->
+    <!--<i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>-->
+  <!--</div>-->
+
+  <!--<div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>-->
+<!--</div>-->
+
+
+<div class="contain">
+
+  <!--<h1 class="">Activities</h1>-->
+
+  <!--<p>-->
+  <!--Inspired by  <a href="https://twitter.com/Eli_White">Eli White's</a> article <a href="http://eng.wealthfront.com/2015/06/implementing-netflix-redesign.html">Performant CSS Animations: Netflix Case Study</a>, his <a href="http://codepen.io/TheSavior/pen/LVeYBp">example pen</a>, and <a href="http://matthewjamestaylor.com/">Matt Taylor's</a> <a href="http://codepen.io/mattjamestaylor/pen/dodYPr">CSS-only version.</a>-->
+  <!--</p>-->
+
+  <div class="row">
+    <div class="row-inner">
+
+      <div class="tile"
+           *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+        <div>
+          <img class="tile-img"
+               [src]="activityTemplate.coverImageDescription ? activityTemplate.coverImageDescription.content : './assets/noFoundProfilePicture.png'"
+               alt=""/>
+        </div>
+        <div class="tile-details">
+          <div class="tile-title">
+            {{activityTemplate.name}}
+          </div>
         </div>
       </div>
 
     </div>
-
-  </div>
-</div>
-
-<div style="margin-top: 10px;">
-  <div class="text-center" *ngIf="isLoading">
-    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
   </div>
 
-  <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
 </div>
