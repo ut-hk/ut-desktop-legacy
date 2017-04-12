@@ -146,7 +146,7 @@ export class CreateActivityPlanComponent implements OnInit {
           .map((createDescriptionInput, index) => {
             const input = createDescriptionInput.input;
 
-            input.activityTemplateId = createdActivityPlanId;
+            input.activityPlanId = createdActivityPlanId;
             input.priority = index;
 
             if ((<CreateTextDescriptionInput> input).text) {
@@ -204,7 +204,6 @@ export class CreateActivityPlanComponent implements OnInit {
   }
 
   public onActivityTemplatesSelectorScroll() {
-    console.log('S');
     if (!this.activityActivitySelectorControls.isNoMoreResults) {
       this.getActivityTemplates();
     }

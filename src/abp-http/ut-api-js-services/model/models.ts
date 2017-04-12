@@ -42,6 +42,8 @@ export * from './EntityDtoInt64';
 export * from './ErrorInfo';
 export * from './FileDto';
 export * from './FriendInvitationDto';
+export * from './FriendPairDto';
+export * from './GeSocialGraphOutput';
 export * from './GetActivitiesInput';
 export * from './GetActivitiesOutput';
 export * from './GetActivityInvitationsOutput';

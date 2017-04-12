@@ -46,6 +46,7 @@ import { ActivityComponent } from './activity/activity.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { UserService } from 'app/user.service';
+import { UpdateActivityTemplateComponent } from './update-activity-template/update-activity-template.component';
 
 
 const appRoutes: Routes = [
@@ -109,7 +110,8 @@ const appRoutes: Routes = [
     ActivityInvitationsComponent,
     CalendarComponent,
     ActivityComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    UpdateActivityTemplateComponent
   ],
   imports: [
     BrowserModule,

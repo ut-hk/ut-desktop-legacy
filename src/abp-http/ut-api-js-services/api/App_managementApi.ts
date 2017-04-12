@@ -45,8 +45,8 @@ export class App_managementApi {
      * 
      * @param input 
      */
-    public appManagementGetAllUsersAsync(input: models.GetUsersInput, extraHttpRequestParams?: any): Observable<models.GetUsersOutput> {
-        return this.appManagementGetAllUsersAsyncWithHttpInfo(input, extraHttpRequestParams)
+    public appManagementGetAllUsers(input: models.GetUsersInput, extraHttpRequestParams?: any): Observable<models.GetUsersOutput> {
+        return this.appManagementGetAllUsersWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -94,14 +94,14 @@ export class App_managementApi {
      * 
      * @param input 
      */
-    public appManagementGetAllUsersAsyncWithHttpInfo(input: models.GetUsersInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/management/GetAllUsersAsync`;
+    public appManagementGetAllUsersWithHttpInfo(input: models.GetUsersInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/management/GetAllUsers`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appManagementGetAllUsersAsync.');
+            throw new Error('Required parameter input was null or undefined when calling appManagementGetAllUsers.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
