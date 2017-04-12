@@ -5,7 +5,6 @@
       <div class="text-right">
 
         <a class="btn btn-default">Edit</a>
-        <a class="btn btn-default" (click)="addToMyActivitiesModal.show()">Add to My Activities</a>
 
       </div>
     </div>
@@ -53,9 +52,9 @@
           <br>
           <!-- Map -->
           <agm-map *ngIf="activity.location" #locationMap [latitude]="activity.location.latitude"
-                           [longitude]="activity.location.longitude" [zoom]="13">
+                   [longitude]="activity.location.longitude" [zoom]="13">
             <agm-marker [latitude]="activity.location.latitude"
-                                    [longitude]="activity.location.longitude"></agm-marker>
+                        [longitude]="activity.location.longitude"></agm-marker>
           </agm-map>
         </div>
       </div>
@@ -70,10 +69,12 @@
                onError="this.src = './assets/noFoundImag.png';">
         </div>
         <div class="text-center" *ngSwitchCase="2">
-          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
+               onError="this.src = './assets/noFoundImag.png';">
         </div>
         <div class="text-center" *ngSwitchCase="2">
-          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
+               onError="this.src = './assets/noFoundImag.png';">
         </div>
       </div>
 

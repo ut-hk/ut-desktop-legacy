@@ -43,6 +43,7 @@ import { FriendInvitationsComponent } from './friend-invitations/friend-invitati
 import { ActivityInvitationsComponent } from './activity-invitations/activity-invitations.component';
 import { ActivityComponent } from './activity/activity.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserManagementComponent } from './user-management/user-management.component';
 
 const appRoutes: Routes = [
   {path: 'world', component: WorldComponent},
@@ -65,6 +66,8 @@ const appRoutes: Routes = [
 
   {path: 'user/:id', component: UserComponent},
   {path: 'update-user', component: UpdateUserComponent},
+
+  {path: 'user-management', component: UserManagementComponent},
 
   {path: 'log-in', component: LogInComponent},
 
@@ -103,7 +106,8 @@ const appRoutes: Routes = [
     FriendInvitationsComponent,
     ActivityInvitationsComponent,
     CalendarComponent,
-    ActivityComponent
+    ActivityComponent,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,
