@@ -13,13 +13,12 @@ export class UserManagementComponent implements OnInit {
 
   public users: UserListDto[];
 
-  constructor(private relationshipApi: App_relationshipApi,
-              private managementApi: App_managementApi) {
+  constructor(private managementApi: App_managementApi) {
   }
 
   ngOnInit() {
     const a = this.managementApi
-      .appManagementGetAllUsersAsync({})
+      .appManagementGetAllUsers({})
       .subscribe(output => {
         this.users = output.users;
 
