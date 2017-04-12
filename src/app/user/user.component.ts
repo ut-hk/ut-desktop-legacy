@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
-import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { ActivatedRoute, Router } from '@angular/router';
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
-import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
-import { LocalStorageService } from 'ng2-webstorage';
-import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
-import { UserService } from '../user.service';
+import {Component, OnInit} from '@angular/core';
+import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
+import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
+import {ActivatedRoute, Router} from '@angular/router';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import {ActivityTemplateListDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import {ActivityListDto} from '../../abp-http/ut-api-js-services/model/ActivityListDto';
+import {LocalStorageService} from 'ng2-webstorage';
+import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-user',
@@ -77,6 +77,7 @@ export class UserComponent implements OnInit {
   }
 
   public onClickAddFriend() {
+    this.hasInvited = true;
     this.friendInvitationApi
       .appFriendInvitationCreateFriendInvitation({inviteeId: this.user.id})
       .subscribe((output) => {
