@@ -12,15 +12,11 @@
 
 import * as models from './models';
 
-export interface GetMyUserOutput {
-    myUser?: models.MyUserDto;
+export interface CreateActivityInvitationsInput {
+    content?: string;
 
-    guestId?: string;
+    inviteeIds?: Array<number>;
 
-    numberOfActivityInvitations?: number;
-
-    numberOfFriendInvitations?: number;
-
-    numberOfFriends?: number;
+    activityId?: string;
 
 }
