@@ -93,28 +93,6 @@ export class CreateActivityPlanComponent implements OnInit {
   constructor(private dragulaService: DragulaService,
               private activityPlanService: App_activityPlanApi,
               private activityTemplateService: App_activityTemplateApi,
-<<<<<<< HEAD
-              private tagService: App_tagApi) {
-    this.queryKeywordsControl.valueChanges
-      .debounceTime(700)
-      .distinctUntilChanged()
-      .subscribe(queryKeywords => {
-        this.getActivityTemplatesInput.queryKeywords = queryKeywords;
-        this.onQueryKeywordsChanged();
-      });
-
-    this.dataSource = Observable
-      .create((observer: any) => {
-        // Runs on every search
-          observer.next(this.asyncSelected);
-          console.log(this.asyncSelected);
-      })
-      .mergeMap((token: string) => this.getTagsAsObservable(token));
-
-    dragulaService.drop.subscribe((value) => {
-      console.log(value);
-      this.onDropSetTime();
-=======
               private tokenService: TokenService,
               private ngZone: NgZone) {
     this.fileDropControls.options = new NgUploaderOptions({
@@ -122,7 +100,6 @@ export class CreateActivityPlanComponent implements OnInit {
       autoUpload: true,
       authTokenPrefix: 'Bearer',
       authToken: tokenService.getToken()
->>>>>>> db1527943099da73fcbd9caea107e01d3a5ca67b
     });
   }
 
@@ -156,8 +133,8 @@ export class CreateActivityPlanComponent implements OnInit {
       activityTemplate: activityTemplate
     };
 
-    this.calendarControls.events.push(event);
     console.log(this.calendarControls);
+    this.calendarControls.events.push(event);
   }
 
   public onActivityTemplatesSelectorScroll() {
