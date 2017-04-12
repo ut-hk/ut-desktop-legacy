@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { GetActivityPlansInput } from '../../abp-http/ut-api-js-services/model/GetActivityPlansInput';
 import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/activityTemplateDto';
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {GetActivityTemplatesInput} from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
+import {ActivityPlanListDto} from "../../abp-http/ut-api-js-services/model/ActivityPlanListDto";
+import {ActivityTemplateListDto} from "../../abp-http/ut-api-js-services/model/ActivityTemplateListDto";
 
 
 @Component({
@@ -14,22 +19,29 @@ export class WorldComponent implements OnInit {
 
   public isLoading = false;
   public isNoMoreResults = false;
-  public getActivityPlansInput: GetActivityPlansInput = {
-    'queryKeywords': '',
-    'userId': 0,
-    'skipCount': 0
-  };
+  // public getActivityPlansInput: GetActivityPlansInput = {
+  //   'queryKeywords': '',
+  //   'userId': 0,
+  //   'skipCount': 0
+  // };
+  // public getActivityTemplatesInput: GetActivityTemplatesInput = {
+  //   'queryKeywords': '',
+  //   'userId': 0,
+  //   'skipCount': 0
+  // };
 
-  public activityPlans: ActivityPlanDto[] = [];
+  public activityPlans: ActivityPlanListDto[] = [];
+  public activityTemplates: ActivityTemplateListDto[] = [];
 
-  constructor(private activityPlanApi: App_activityPlanApi) {
+  constructor(private activityPlanApi: App_activityPlanApi,
+              private activityTemplateApi: App_activityTemplateApi) {
   }
 
   ngOnInit() {
-    this.getActivityPlans();
+    this.getActivityPlansAndTemplates();
   }
 
-  private getActivityPlans() {
+  private getActivityPlansAndTemplates() {
     if (this.isLoading) {
       return;
     }
@@ -50,8 +62,26 @@ export class WorldComponent implements OnInit {
         this.isLoading = false;
       });
 
-    this.getActivityPlansInput.skipCount = this.getActivityPlansInput.skipCount + 10;
+    // this.getActivityPlansInput.skipCount = this.getActivityPlansInput.skipCount + 10;
 
+    this.activityTemplateApi
+      .appActivityTemplateGetActivityTemplates({})
+      .subscribe((output) => {
+        if (output.activityTemplates.length === 0) {
+          this.isNoMoreResults = true;
+        }
+
+        console.log('activity template:', output);
+
+        for (let i = 0; i < output.activityTemplates.length; i++) {
+          this.activityTemplates.push(output.activityTemplates[i]);
+        }
+
+        // console.log(this.)
+        this.isLoading = false;
+      });
+
+    // this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
   }
 
 }
