@@ -12,11 +12,9 @@
 
 import * as models from './models';
 
-export interface CreateActivityInvitationInput {
-    content?: string;
+export interface UpdateRolePermissionsInput {
+    roleId?: number;
 
-    inviteeId?: number;
-
-    activityId?: string;
+    grantedPermissionNames?: Array<string>;
 
 }

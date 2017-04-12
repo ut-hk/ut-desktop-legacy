@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class App_activityInvitationApi {
+export class App_managementApi {
     protected basePath = 'https://unitime-dev-api.azurewebsites.net';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -45,8 +45,8 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationAcceptActivityInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
-        return this.appActivityInvitationAcceptActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
+    public appManagementGetAllUsersAsync(input: models.GetUsersInput, extraHttpRequestParams?: any): Observable<models.GetUsersOutput> {
+        return this.appManagementGetAllUsersAsyncWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -61,23 +61,8 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationCreateActivityInvitations(input: models.CreateActivityInvitationsInput, extraHttpRequestParams?: any): Observable<models.CreateActivityInvitationsOutput> {
-        return this.appActivityInvitationCreateActivityInvitationsWithHttpInfo(input, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * 
-     */
-    public appActivityInvitationGetMyPendingActivityInvitations(extraHttpRequestParams?: any): Observable<models.GetActivityInvitationsOutput> {
-        return this.appActivityInvitationGetMyPendingActivityInvitationsWithHttpInfo(extraHttpRequestParams)
+    public appManagementRemoveUser(input: models.EntityDtoInt64, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appManagementRemoveUserWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -92,24 +77,8 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationIgnoreActivityInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
-        return this.appActivityInvitationIgnoreActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * 
-     * @param input 
-     */
-    public appActivityInvitationRejectActivityInvitation(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<{}> {
-        return this.appActivityInvitationRejectActivityInvitationWithHttpInfo(input, extraHttpRequestParams)
+    public appManagementUpdateRolePermissions(input: models.UpdateRolePermissionsInput, extraHttpRequestParams?: any): Observable<{}> {
+        return this.appManagementUpdateRolePermissionsWithHttpInfo(input, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -125,14 +94,14 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationAcceptActivityInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/AcceptActivityInvitation`;
+    public appManagementGetAllUsersAsyncWithHttpInfo(input: models.GetUsersInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/management/GetAllUsersAsync`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationAcceptActivityInvitation.');
+            throw new Error('Required parameter input was null or undefined when calling appManagementGetAllUsersAsync.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -164,84 +133,14 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationCreateActivityInvitationsWithHttpInfo(input: models.CreateActivityInvitationsInput, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/CreateActivityInvitations`;
+    public appManagementRemoveUserWithHttpInfo(input: models.EntityDtoInt64, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/management/RemoveUser`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationCreateActivityInvitations.');
-        }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-        ];
-
-        headers.set('Content-Type', 'application/json');
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            body: input == null ? '' : JSON.stringify(input), // https://github.com/angular/angular/issues/10612
-            search: queryParameters
-        });
-
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * 
-     * 
-     */
-    public appActivityInvitationGetMyPendingActivityInvitationsWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/GetMyPendingActivityInvitations`;
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-        ];
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
-            headers: headers,
-            search: queryParameters
-        });
-
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * 
-     * 
-     * @param input 
-     */
-    public appActivityInvitationIgnoreActivityInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/IgnoreActivityInvitation`;
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'input' is not null or undefined
-        if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationIgnoreActivityInvitation.');
+            throw new Error('Required parameter input was null or undefined when calling appManagementRemoveUser.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -273,14 +172,14 @@ export class App_activityInvitationApi {
      * 
      * @param input 
      */
-    public appActivityInvitationRejectActivityInvitationWithHttpInfo(input: models.EntityDtoGuid, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/api/services/app/activityInvitation/RejectActivityInvitation`;
+    public appManagementUpdateRolePermissionsWithHttpInfo(input: models.UpdateRolePermissionsInput, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/api/services/app/management/UpdateRolePermissions`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'input' is not null or undefined
         if (input === null || input === undefined) {
-            throw new Error('Required parameter input was null or undefined when calling appActivityInvitationRejectActivityInvitation.');
+            throw new Error('Required parameter input was null or undefined when calling appManagementUpdateRolePermissions.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
