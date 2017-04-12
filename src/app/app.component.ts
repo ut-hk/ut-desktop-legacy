@@ -45,7 +45,6 @@ export class AppComponent implements OnInit {
 
   public toggleNavigation() {
     this.isCollapsed = !this.isCollapsed;
-    console.log(this.isCollapsed);
 
   }
 

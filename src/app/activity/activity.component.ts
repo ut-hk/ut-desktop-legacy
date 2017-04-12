@@ -131,7 +131,6 @@ export class ActivityComponent implements OnInit {
     this.activityInvitationApi
       .appActivityInvitationCreateActivityInvitations(this.createActivityInvitationInput)
       .subscribe((output) => {
-        console.log(output);
       });
 
     this.inviteFriendModal.hide();
@@ -146,6 +145,7 @@ export class ActivityComponent implements OnInit {
         const activity = output.activity;
 
         this.activity = activity;
+        console.log(activity);
         this.pageControls.isMyUser = this.userService.checkIsMyUser(activity.owner.id);
         if (this.pageControls.isMyUser == true) {
           this.myUser = this.localStorageService.retrieve('myUser');
