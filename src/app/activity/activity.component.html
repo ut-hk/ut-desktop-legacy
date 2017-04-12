@@ -80,6 +80,46 @@
         </div>
       </div>
 
+      <!-- Participant List -->
+
+      <div *ngIf="activity; else isLoading">
+        <h4>Participant List</h4>
+        <div *ngIf="activity.owner" class="friend-invitation">
+          <div class="row">
+
+            <div class="col-xs-2 owner-icon">
+              <img [src]="activity.owner.iconId ? participant.owner.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+            </div>
+
+            <div class="col-xs-7">
+              <p class="h4"><a routerLink="/user/{{activity.owner.id}}">@{{activity.owner.userName}}</a> {{activity.owner.name}}</p>
+            </div>
+
+            <div class="col-xs-3 options">
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="activity.participants.length > 0; else isNoMoreResults">
+          <div *ngFor="let participant of activity.participants" class="friend-invitation">
+            <div class="row">
+
+              <div class="col-xs-2 owner-icon">
+                <img [src]="participant.owner.iconId ? participant.owner.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+              </div>
+
+              <div class="col-xs-7">
+                <p class="h4"><a routerLink="/user/{{participant.owner.id}}">@{{participant.owner.userName}}</a> {{participant.owner.name}}</p>
+              </div>
+
+              <div class="col-xs-3 options">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <sticky class="col-xs-12 col-sm-5" [sticky-offset-top]="20" [sticky-offset-bottom]="20">
 
@@ -148,6 +188,7 @@
               </div>
             </div>
           </div>
+
 
           <!-- Create Comment -->
           <div>
