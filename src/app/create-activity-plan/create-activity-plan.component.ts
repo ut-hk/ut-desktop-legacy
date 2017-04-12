@@ -1,18 +1,18 @@
-import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
-import { CreateActivityPlanInput } from '../../abp-http/ut-api-js-services/model/CreateActivityPlanInput';
-import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { GetActivityTemplatesInput } from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
-import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { DragulaService } from 'ng2-dragula';
-import { CreateTextDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
-import { NgUploaderOptions } from 'ngx-uploader';
-import { CreateInternalImageDescriptionInput } from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
-import { DescriptionDto } from '../../abp-http/ut-api-js-services/model/DescriptionDto';
-import { TokenService } from '../../abp-http/http/token.service';
-import { FileDto } from '../../abp-http/ut-api-js-services/model/FileDto';
-import { FormControl } from '@angular/forms';
-import { CalendarEvent } from 'angular-calendar/dist/esm/src';
+import {ChangeDetectionStrategy, Component, NgZone, OnInit} from '@angular/core';
+import {CreateActivityPlanInput} from '../../abp-http/ut-api-js-services/model/CreateActivityPlanInput';
+import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {GetActivityTemplatesInput} from '../../abp-http/ut-api-js-services/model/GetActivityTemplatesInput';
+import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
+import {DragulaService} from 'ng2-dragula';
+import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
+import {NgUploaderOptions} from 'ngx-uploader';
+import {CreateInternalImageDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
+import {DescriptionDto} from '../../abp-http/ut-api-js-services/model/DescriptionDto';
+import {TokenService} from '../../abp-http/http/token.service';
+import {FileDto} from '../../abp-http/ut-api-js-services/model/FileDto';
+import {FormControl} from '@angular/forms';
+import {CalendarEvent} from 'angular-calendar/dist/esm/src';
 import {
   startOfDay,
   endOfDay,
@@ -23,6 +23,9 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
+import {App_userApi} from "../../abp-http/ut-api-js-services/api/App_userApi";
+import {UserDto} from "../../abp-http/ut-api-js-services/model/UserDto";
+import {LocalStorageService} from "ng2-webstorage";
 
 const colors: any = {
   red: {
@@ -86,6 +89,8 @@ export class CreateActivityPlanComponent implements OnInit {
     events: []
   };
 
+  public user: UserDto;
+
   public createDescriptionInputs: CreateDescriptionInput[] = [];
 
   public activityTemplates: ActivityTemplateDto[] = [];
@@ -93,8 +98,10 @@ export class CreateActivityPlanComponent implements OnInit {
   constructor(private dragulaService: DragulaService,
               private activityPlanService: App_activityPlanApi,
               private activityTemplateService: App_activityTemplateApi,
+              private localStorageService: LocalStorageService,
               private tokenService: TokenService,
-              private ngZone: NgZone) {
+              private ngZone: NgZone,
+              private userApi: App_userApi) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
       autoUpload: true,
@@ -205,5 +212,16 @@ export class CreateActivityPlanComponent implements OnInit {
       this.getActivityTemplatesInput.skipCount = this.getActivityTemplatesInput.skipCount + 10;
     }
   }
+
+  private getUser(id) {
+    const myUser = this.localStorageService.retrieve('myUser');
+
+    if (myUser == null) {
+      return false;
+    }
+
+    this.user = myUser.id;
+  }
+
 
 }

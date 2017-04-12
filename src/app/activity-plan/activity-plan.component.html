@@ -63,7 +63,7 @@
                   <!-- User Icon -->
                   <div class="col-xs-2">
                     <img class="user-icon"
-                         [src]="comment.owner.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
+                         [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
                          alt="">
                   </div>
 
@@ -89,7 +89,7 @@
                         <div class="row">
                           <div class="col-xs-2">
                             <img class="user-icon"
-                                 [src]="comment.owner.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
+                                 [src]="reply.owner.iconId ? (reply.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
                                  alt="">
                           </div>
                           <div class="col-xs-10">

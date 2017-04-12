@@ -152,6 +152,13 @@ export class ChatRoomsComponent implements OnInit {
     for (let i = 0; i < this.participantIdInputs.length; i++) {
       if (this.participantIdInputs[i].isSelected == true) {
         this.updateChatRoomInput.participantIds.push(this.participantIdInputs[i].user.id);
+      } else {
+        if (this.participantIdInputs[i].isSelected == false) {
+          if (this.selectedChatRoom.participantDictionary.hasOwnProperty(this.participantIdInputs[i].user.id)) {
+
+          }
+
+        }
       }
     }
 
@@ -187,6 +194,10 @@ export class ChatRoomsComponent implements OnInit {
 
         this.scrollChatRoomMessagesContainer();
       });
+  }
+
+  private getCurrentParticipant() {
+
   }
 
   private scrollChatRoomMessagesContainer() {
