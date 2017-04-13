@@ -1,4 +1,4 @@
-<div class="container" *ngIf="activityTemplate">
+<div class="container" *ngIf="activityTemplate; else isLoading">
 
   <div class="row">
     <div class="col-xs-12">
@@ -146,6 +146,16 @@
         </div>
       </div>
 
+      <!-- Ratings -->
+      <div>
+        <p class="h3">Ratings</p>
+        <div class="ratings">
+          <div class="rating" *ngFor="let rating of activityTemplate.ratings; trackBy: rating?.id">
+            <img [ngClass]="{'like': rating.ratingStatus == 0, 'dislike': rating.ratingStatus == 1}" [src]="rating.owner.iconId ? (rating.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'">
+          </div>
+        </div>
+      </div>
+
     </sticky>
   </div>
   <br>
@@ -203,3 +213,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #isLoading>
+  <div class="text-center">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
+</ng-template>
