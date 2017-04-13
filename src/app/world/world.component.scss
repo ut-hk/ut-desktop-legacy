@@ -102,16 +102,74 @@
   }
 }
 
-.activity-plan-image {
-  text-align: center;
-}
+.activity-plan {
+  height: 400px;
 
-.activity-plan-image {
-  margin-top: 11px;
-  .cover-image {
-    width: 100%;
-    padding-bottom: 50%;
-    background: no-repeat 50%;
-    background-size: cover;
+  @media (min-width: 500px) {
+    height: 600px;
   }
+  @media (min-width: 768px) {
+    height: 400px;
+  }
+  @media (min-width: 992px) {
+    height: 560px;
+  }
+
+  .cover {
+    display: block;
+
+    .cover-image {
+      display: block;
+      position: relative;
+      width: 100%;
+      padding-bottom: 60%;
+      background: no-repeat 50%;
+      background-size: cover;
+
+      $like-color: #22B24C;
+      $dislike-color: red;
+
+      .image-center {
+        position: absolute;
+        left: 20%;
+        height: 100%;
+        width: 60%;
+        padding-top: 10px;
+      }
+      .rating, .dislike {
+        opacity: 0.02;
+        position: absolute;
+        height: 100%;
+        width: 20%;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 10px;
+
+        &.active {
+          opacity: 0.2;
+          color: white;
+        }
+
+        &:hover {
+          opacity: 0.4;
+          color: white;
+        }
+      }
+
+      .rating {
+        left: 0;
+        color: $like-color;
+        background-color: $like-color;
+      }
+
+      .dislike {
+        right: 0;
+        color: $dislike-color;
+        background-color: $dislike-color;
+      }
+    }
+  }
+
+
+
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
 import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {ActivityPlanListDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanListDto';
-import {ActivityTemplateListDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { ActivityPlanListDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanListDto';
+import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { App_ratingApi } from '../../abp-http/ut-api-js-services/api/App_ratingApi';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class WorldComponent implements OnInit {
   public activityTemplates: ActivityTemplateListDto[] = [];
 
   constructor(private activityPlanApi: App_activityPlanApi,
-              private activityTemplateApi: App_activityTemplateApi) {
+              private activityTemplateApi: App_activityTemplateApi,
+              private ratingApi: App_ratingApi) {
   }
 
   ngOnInit() {
@@ -60,7 +61,32 @@ export class WorldComponent implements OnInit {
 
   }
 
-  // private
+  public onClickLike(activityPlan: ActivityPlanListDto) {
+    this.rate(activityPlan, 0);
+  }
+
+  public onClickDislike(activityPlan: ActivityPlanListDto) {
+    this.rate(activityPlan, 1);
+  }
+
+  private rate(activityPlan: ActivityPlanListDto, ratingStatus: number) {
+    const createRatingSubscription = this.ratingApi
+      .appRatingCreateRating({ratingStatus: ratingStatus, activityPlanId: activityPlan.id})
+      .subscribe(output => {
+        activityPlan.myRatingStatus = ratingStatus;
+
+        switch (ratingStatus) {
+          case 0:
+            activityPlan.likes = activityPlan.likes + 1;
+            break;
+          case 1:
+            activityPlan.likes = activityPlan.likes - 1;
+            break;
+        }
+
+        createRatingSubscription.unsubscribe();
+      });
+  }
 
 }
 
