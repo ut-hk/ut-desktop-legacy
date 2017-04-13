@@ -28,27 +28,16 @@
     </div>
   </div>
 </div>
+<br>
+<br>
+<br>
 
 <!--Activity Plans-->
 <div class="container">
   <div class="col-xs-12" *ngIf="activityPlans">
 
     <div class="col-lg-3 col-md-4 col-sm-6"
-         *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id"
-         [routerLink]="['/activity-plan', activityPlan.id]"
-         routerLinkActive="active">
-      <!-- Name, Owner and Tag-->
-      <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
-      <h2 *ngIf="activityPlan.name.length == 0"><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">(no title)</a></h2>
-      <div>
-      <p class="text-right"><a
-        routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
-      <span class="tag" *ngIf="activityPlan.tags.length == 0">&nbsp;</span>
-      <p>
-        <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
-      </p>
-      </div>
-
+         *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
       <!--Cover Image-->
       <div class="activity-plan-image col-xs-12">
         <div class="cover-image"
@@ -59,7 +48,16 @@
              [ngStyle]="{'background-image': 'url(./assets/keep-calm-its-activity-time-5.png)'}"></div>
       </div>
 
-      <!--Rating-->
+      <!-- Name, Owner and Tag-->
+      <a class="h2" [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name.length > 0 ? activityPlan.name : '(no title)'}}</a>
+      <div>
+        <p class="text-right"><a
+          routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
+        <span class="tag" *ngIf="activityPlan.tags.length == 0">&nbsp;</span>
+        <p>
+          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+        </p>
+      </div>
     </div>
 
   </div>

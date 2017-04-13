@@ -13,7 +13,7 @@
 import * as models from './models';
 
 export interface ActivityPlanTimeSlotDto {
-    activityTemplate?: models.ActivityTemplateDto;
+    activityTemplate?: models.ActivityTemplateListDto;
 
     startTime?: Date;
 
