@@ -33,12 +33,12 @@ export class ChatRoomsComponent implements OnInit {
   };
 
   public myUser: UserDto = null;
-  public chatRooms: ChatRoom[];
-  public friends: UserListDto[] = null;
 
+  public chatRooms: ChatRoom[];
   public selectedChatRoom: ChatRoom;
 
-  public friend: Friend[] = [];
+  public users: UserListDto[] = null;
+  public friends: Friend[] = [];
 
   public updateChatRoomInput: UpdateChatRoomInput = {
     name: null,
@@ -93,9 +93,9 @@ export class ChatRoomsComponent implements OnInit {
         targetUserId: this.myUser.id
       })
       .subscribe((output) => {
-        this.friends = output.friends;
+        this.users = output.friends;
 
-        this.friend = output.friends.map(friend => {
+        this.friends = output.friends.map(friend => {
           return {user: friend, isSelected: false};
         });
 
@@ -146,7 +146,7 @@ export class ChatRoomsComponent implements OnInit {
     this.createChatRoomModal.hide();
   }
 
-  public onClickAddFriendToChatRoom() {
+  public onClickAddFriendsToChatRoom() {
     this.updateChatRoomInput.id = this.selectedChatRoom.id;
     this.updateChatRoomInput.name = this.selectedChatRoom.name;
 
@@ -154,7 +154,7 @@ export class ChatRoomsComponent implements OnInit {
       return participant.id;
     });
 
-    const newParticipantIds = this.friend.filter((friend) => {
+    const newParticipantIds = this.friends.filter((friend) => {
       return friend.isSelected;
     });
 

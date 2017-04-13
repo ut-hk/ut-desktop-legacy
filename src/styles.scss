@@ -59,3 +59,10 @@ $handle-size: 24px;
     line-height: $handle-size;
   }
 }
+
+.tag {
+  margin-right: 5px;
+  color: lightgray;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

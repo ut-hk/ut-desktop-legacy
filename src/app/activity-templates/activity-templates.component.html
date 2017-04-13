@@ -76,7 +76,7 @@
       <div class="cover">
         <a *ngIf="activityTemplate.coverImageDescription" class="cover-image"
            [ngStyle]="{'background-image': 'url(' + activityTemplate.coverImageDescription.content + ')'}">
-          <a class="like" [ngClass]="{'active': activityTemplate.myRatingStatus == 0}" (click)="onClickLike(activityTemplate)"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          <a class="rating" [ngClass]="{'active': activityTemplate.myRatingStatus == 0}" (click)="onClickLike(activityTemplate)"><i class="fa fa-heart" aria-hidden="true"></i></a>
           <a class="image-center"  routerLink="/activity-template/{{activityTemplate.id}}"></a>
           <a class="dislike" [ngClass]="{'active': activityTemplate.myRatingStatus == 1}" (click)="onClickDislike(activityTemplate)"><i class="fa fa-ban" aria-hidden="true"></i></a>
         </a>
@@ -97,12 +97,12 @@
 
     </div>
   </div>
-
-  <div class="text-center" *ngIf="pageControls.isLoading">
-    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
-  </div>
-
-  <div class="text-center" *ngIf="pageControls.isNoMoreResults">No More Results...</div>
-
   <br>
 </div>
+
+<div class="text-center" *ngIf="pageControls.isLoading">
+  <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+</div>
+
+<div class="text-center" *ngIf="pageControls.isNoMoreResults">No More Results...</div>
+<br>

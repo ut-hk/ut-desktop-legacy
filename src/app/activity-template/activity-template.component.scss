@@ -17,3 +17,21 @@ agm-map {
   }
 
 }
+
+.ratings {
+  .rating {
+    img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+
+      &.like {
+        box-shadow: 0 0 4px 0 greenyellow;
+      }
+
+      &.dislike {
+        box-shadow: 0 0 3px 0 red;
+      }
+    }
+  }
+}
