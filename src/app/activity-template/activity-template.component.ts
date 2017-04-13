@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { ActivatedRoute } from '@angular/router';
-import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
-import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
-import { CreateActivityFromActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityFromActivityTemplateInput';
-import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
-import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
-import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
+import {Component, OnInit} from '@angular/core';
+import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CreateTextCommentInput} from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
+import {App_commentApi} from '../../abp-http/ut-api-js-services/api/App_commentApi';
+import {CreateActivityFromActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/CreateActivityFromActivityTemplateInput';
+import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import {CreateReplyInput} from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
+import {CommentDto} from '../../abp-http/ut-api-js-services/model/CommentDto';
+import {App_replyApi} from 'abp-http/ut-api-js-services';
 
 @Component({
   selector: 'app-activity-template',
@@ -32,7 +32,8 @@ export class ActivityTemplateComponent implements OnInit {
               private activityTemplateApi: App_activityTemplateApi,
               private activityApi: App_activityApi,
               private commentApi: App_commentApi,
-              private replyApi: App_replyApi) {
+              private replyApi: App_replyApi,
+              private router: Router) {
     const currentDate = new Date();
 
     this.createActivityFromActivityPlanInput = {
@@ -84,8 +85,8 @@ export class ActivityTemplateComponent implements OnInit {
     const createActivityFromActivityTemplateSubscription = this.activityApi
       .appActivityCreateActivityFromActivityTemplate(this.createActivityFromActivityPlanInput)
       .subscribe(output => {
-        alert('Created.');
         createActivityFromActivityTemplateSubscription.unsubscribe();
+        this.router.navigate(['./activity/', output.id]);
       });
   }
 
