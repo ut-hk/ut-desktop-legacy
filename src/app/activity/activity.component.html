@@ -1,12 +1,12 @@
 <div class="container" *ngIf="activity; else isLoading">
 
-  <div class="row" *ngIf="pageControls.isMyUser">
+  <div class="row" *ngIf="pageControls.isMyActivity">
     <div class="col-xs-12">
       <div class="text-right">
 
         <a class="btn btn-default" (click)="onEdit()">Edit</a>
-        <a *ngIf="pageControls.isMyUser" class="btn btn-default" (click)="inviteFriendModal.show()">Invite Friend</a>
-        <a class="btn btn-default" (click)="onDelete()">Delete</a>
+        <a class="btn btn-default" (click)="inviteFriendModal.show()">Invite Friend</a>
+        <a class="btn btn-danger" (click)="onDelete()">Delete</a>
 
       </div>
     </div>
@@ -35,14 +35,19 @@
         </div>
       </div>
 
-      <!-- Reference Time Slots -->
+      <!-- Start Time -->
       <div class="row">
-        <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
+        <div class="col-xs-5 col-sm-3"></div>
         <div class="col-xs-7 col-sm-9">
-          <div *ngFor="let referenceTimeSlot of activity.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
-            <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span>
-            </div>
-          </div>
+          {{activity.startTime | date}}
+        </div>
+      </div>
+
+      <!-- End Time -->
+      <div class="row">
+        <div class="col-xs-5 col-sm-3"></div>
+        <div class="col-xs-7 col-sm-9">
+          {{activity.endTime | date}}
         </div>
       </div>
 
@@ -88,7 +93,7 @@
           <div class="row">
 
             <div class="col-xs-2 owner-icon">
-              <img [src]="activity.owner.iconId ? activity.owner.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+              <img [src]="activity.owner.iconId ? (activity.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
             </div>
 
             <div class="col-xs-7">
@@ -105,7 +110,7 @@
             <div class="row">
 
               <div class="col-xs-2 owner-icon">
-                <img [src]="participant.owner.iconId ? participant.owner.iconId : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+                <img [src]="participant.owner.iconId ? (participant.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
               </div>
 
               <div class="col-xs-7">
@@ -223,7 +228,7 @@
             <div *ngFor="let participantIdInput of participantIdInputs" class="row">
               <div class="col-xs-2">
                 <img
-                  [src]="participantIdInput.user.iconId ? participantIdInput.user.iconId : './assets/noFoundProfilePicture.png'"
+                  [src]="participantIdInput.user.iconId ? (participantIdInput.user.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
                   class="img-circle"
                   width="60px">
               </div>

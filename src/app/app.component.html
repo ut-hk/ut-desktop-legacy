@@ -17,12 +17,17 @@
         <li><a routerLink="/world" routerLinkActive="active">World</a></li>
         <li><a routerLink="/activity-templates" routerLinkActive="active">Activity Templates</a></li>
         <li *ngIf="myUser"><a routerLink="/chat-rooms" routerLinkActive="active">Chat Rooms</a></li>
-        <li *ngIf="myUser"><a routerLink="/create-activity-template" routerLinkActive="active">Create Activity Template</a></li>
-        <li *ngIf="myUser"><a routerLink="/create-activity-plan" routerLinkActive="active">Create Activity Plan</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right" *ngIf="myUser">
-        <li><a routerLink="/create-activity" routerLinkActive="active">Create Activity</a></li>
+        <li dropdown class="dropdown">
+          <a dropdownToggle class="dropdown-toggle" role="button">Create <span class="caret"></span></a>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li><a routerLink="/create-activity" routerLinkActive="active">Create Activity</a></li>
+            <li *ngIf="myUser"><a routerLink="/create-activity-template" routerLinkActive="active">Create Activity Template</a></li>
+            <li *ngIf="myUser"><a routerLink="/create-activity-plan" routerLinkActive="active">Create Activity Plan</a></li>
+          </ul>
+        </li>
         <li dropdown class="dropdown">
           <a dropdownToggle class="dropdown-toggle" role="button">{{myUser.name}} <span class="caret"></span></a>
           <ul *dropdownMenu class="dropdown-menu" role="menu">

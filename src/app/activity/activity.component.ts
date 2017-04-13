@@ -29,11 +29,9 @@ interface ParticipantIdInput {
 export class ActivityComponent implements OnInit {
 
   public pageControls = {
-    isMyUser: false
+    isMyActivity: false
   };
 
-
-  public isMyActivity = false;
   public myUser: UserDto = null;
   public friends: UserListDto[] = null;
 
@@ -48,7 +46,6 @@ export class ActivityComponent implements OnInit {
   public activityId;
   public activity: ActivityDto;
   @ViewChild('inviteFriendModal') public inviteFriendModal;
-
 
   public createTextCommentInput: CreateTextCommentInput = {
     content: ''
@@ -78,7 +75,6 @@ export class ActivityComponent implements OnInit {
         this.createActivityInvitationInput.activityId = id;
 
         this.getActivity();
-
       });
   }
 
@@ -121,7 +117,6 @@ export class ActivityComponent implements OnInit {
   }
 
   public onClickInviteFriendToActivity() {
-
     for (let i = 0; i < this.participantIdInputs.length; i++) {
       if (this.participantIdInputs[i].isSelected == true) {
         this.createActivityInvitationInput.inviteeIds.push(this.participantIdInputs[i].user.id);
@@ -131,6 +126,7 @@ export class ActivityComponent implements OnInit {
         }
       }
     }
+
     this.activityInvitationApi
       .appActivityInvitationCreateActivityInvitations(this.createActivityInvitationInput)
       .subscribe((output) => {
@@ -148,10 +144,11 @@ export class ActivityComponent implements OnInit {
         const activity = output.activity;
 
         this.activity = activity;
-        console.log(activity);
-        this.pageControls.isMyUser = this.userService.checkIsMyUser(activity.owner.id);
-        if (this.pageControls.isMyUser == true) {
+
+        this.pageControls.isMyActivity = this.userService.checkIsMyUser(activity.owner.id);
+        if (this.pageControls.isMyActivity) {
           this.myUser = this.localStorageService.retrieve('myUser');
+
           this.getMyFriends();
         }
       });
