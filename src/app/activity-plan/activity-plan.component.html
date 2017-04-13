@@ -39,7 +39,7 @@
         <h2>Activity Templates</h2>
         <div class="card card-block"
              *ngFor="let timeSlot of activityPlan.timeSlots">
-          <h3><a routerLink="/user/{{timeSlot.activityTemplate.id}}">{{timeSlot.activityTemplate.name}}</a></h3>
+          <h3><a routerLink="/activity-template/{{timeSlot.activityTemplate.id}}">{{timeSlot.activityTemplate.name}}</a></h3>
 
           <!-- Descriptions -->
           <div *ngFor="let description of timeSlot.activityTemplate.descriptions; trackBy: description?.id"
