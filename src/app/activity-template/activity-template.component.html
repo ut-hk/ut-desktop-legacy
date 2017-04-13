@@ -39,7 +39,7 @@
         <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
         <div class="col-xs-7 col-sm-9">
           <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
-            <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
+            <div>{{referenceTimeSlot.startTime | date : 'short'}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date : 'short'}}</span></div>
           </div>
         </div>
       </div>
@@ -126,7 +126,8 @@
                         <div class="col-xs-2"></div>
                         <div class="col-xs-10">
                           <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Write a reply..." [(ngModel)]="createReplyInput.content" (keyup.enter)="onClickCreateReply(comment)">
+                            <input class="form-control" type="text" placeholder="Write a reply..."
+                                   id="{{comment.id}}" (keyup.enter)="onClickCreateReply(comment)">
                           </div>
                         </div>
                       </div>
@@ -147,7 +148,7 @@
       </div>
 
       <!-- Ratings -->
-      <div>
+      <div *ngIf="activityTemplate.ratings.length > 0">
         <p class="h3">Ratings</p>
         <div class="ratings">
           <div class="rating" *ngFor="let rating of activityTemplate.ratings; trackBy: rating?.id">

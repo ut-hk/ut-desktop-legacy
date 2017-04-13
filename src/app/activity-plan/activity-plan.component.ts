@@ -73,6 +73,8 @@ export class ActivityPlanComponent implements OnInit {
 
   public onClickCreateReply(comment: CommentDto) {
     this.createReplyInput.commentId = comment.id;
+    const inputValue = (<HTMLInputElement>document.getElementById(comment.id.toString())).value;
+    this.createReplyInput.content = inputValue;
 
     const createTextCommentSubscription = this.replyApi
       .appReplyCreateReply(this.createReplyInput)
