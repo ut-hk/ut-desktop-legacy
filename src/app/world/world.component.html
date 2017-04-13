@@ -1,4 +1,4 @@
-<div class="row">
+<div class="netflix-row">
   <div class="col-xs-12 cover-image">
     <h1>UniTime</h1>
     <h3>・Make Time Different・</h3>
@@ -8,20 +8,20 @@
 </div>
 
 <!--Activity Templates-->
-<div class="contain">
-  <div class="row">
-    <div class="row-inner">
+<div class="netflix-container">
+  <div class="netflix-row">
+    <div class="netflix-row-inner">
 
-      <div class="tile"
+      <div class="netflix-tile"
            *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
            routerLink="/activity-template/{{activityTemplate.id}}">
         <div>
-          <img class="tile-img"
+          <img class="netflix-tile-img"
                [src]="activityTemplate.coverImageDescription ? activityTemplate.coverImageDescription.content : './assets/noFoundProfilePicture.png'"
                alt=""/>
         </div>
-        <div class="tile-details">
-          <div class="tile-title">
+        <div class="netflix-tile-details">
+          <div class="netflix-tile-title">
             {{activityTemplate.name}}
           </div>
         </div>

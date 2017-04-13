@@ -4,8 +4,9 @@
     <div class="col-xs-12">
       <div class="text-right">
 
-        <a class="btn btn-default">Edit</a>
         <a class="btn btn-default" (click)="addToMyActivitiesModal.show()">Add to My Activities</a>
+        <a class="btn btn-default" *ngIf="pageControls.isMyActivityTemplate">Edit</a>
+        <a class="btn btn-danger" *ngIf="pageControls.isMyActivityTemplate" (click)="onDelete()">Delete</a>
 
       </div>
     </div>
@@ -152,7 +153,7 @@
   <br>
 
   <!-- Create Activity From Activity Plan -->
-  <div class="modal fade" bsModal #addToMyActivitiesModal="bs-modal" [config]="{backdrop: 'static'}"
+  <div class="modal fade" bsModal #addToMyActivitiesModal="bs-modal"
        tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
