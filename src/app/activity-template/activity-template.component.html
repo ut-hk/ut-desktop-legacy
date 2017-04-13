@@ -126,7 +126,8 @@
                         <div class="col-xs-2"></div>
                         <div class="col-xs-10">
                           <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Write a reply..." [(ngModel)]="createReplyInput.content" (keyup.enter)="onClickCreateReply(comment)">
+                            <input class="form-control" type="text" placeholder="Write a reply..."
+                                   id="{{comment.id}}" (keyup.enter)="onClickCreateReply(comment)">
                           </div>
                         </div>
                       </div>
