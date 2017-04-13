@@ -8,7 +8,7 @@
           <label for="name" class="col-md-3 control-label">Activity Name</label>
           <div class="col-md-9">
             <input type="text" class="form-control" id="name" placeholder="Name"
-                   [(ngModel)]="createActivityTemplateInput.name">
+                   [(ngModel)]="updateActivityTemplateInput.name">
           </div>
         </div>
 
@@ -26,7 +26,7 @@
           <label class="col-md-3 control-label">Reference Time Slots</label>
           <div class="col-md-9">
 
-            <div *ngFor="let timeSlot of createActivityTemplateInput.referenceTimeSlots; let i = index;"
+            <div *ngFor="let timeSlot of updateActivityTemplateInput.referenceTimeSlots; let i = index;"
                  class="row time-slot">
               <div class="col-xs-1">
                 <div class="handle delete" (click)="onClickRemoveTimeSlot(i)">
@@ -77,8 +77,10 @@
                 <div class="col-xs-11" [ngSwitch]="createDescriptionInput.type" style="text-align: center;">
                   <textarea *ngSwitchCase="0" class="form-control" placeholder="Please enter your description"
                             [(ngModel)]="createDescriptionInput.input.text"></textarea>
+                  <img *ngSwitchCase="1" style="max-width: 100%; max-height: 300px;"
+                       [src]="createDescriptionInput.input.imageId ">
                   <img *ngSwitchCase="2" style="max-width: 100%; max-height: 300px;"
-                       [src]="createDescriptionInput.input.imageId | internalImage">
+                       [src]="createDescriptionInput.input.imageId ">
                 </div>
               </div>
             </div>
@@ -143,7 +145,7 @@
         <div class="row">
           <div class="hidden-xs col-md-3"></div>
           <div class="col-xs-12 col-md-9">
-            <button type="button" class="btn btn-primary" (click)="onClickCreate()">Create</button>
+            <button type="button" class="btn btn-primary" (click)="onClickUpdate()">Update</button>
           </div>
         </div>
 
@@ -153,3 +155,4 @@
 </div>
 
 <br><br><br><br>
+x
