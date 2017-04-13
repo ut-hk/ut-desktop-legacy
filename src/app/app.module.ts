@@ -70,6 +70,7 @@ const appRoutes: Routes = [
 
   {path: 'user/:id', component: UserComponent},
   {path: 'update-user', component: UpdateUserComponent},
+  {path: 'update-activity-template/:id', component: UpdateActivityTemplateComponent},
 
   {path: 'user-management', component: UserManagementComponent},
 
