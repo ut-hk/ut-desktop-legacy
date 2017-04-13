@@ -11,7 +11,8 @@
           <div class="panel-heading">
             <div class="media">
               <div class="pull-left">
-                <img [src]="user.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="people"
+                <img [src]="user.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
+                     alt="people"
                      class="media-object img-circle">
               </div>
               <div class="media-body">
@@ -20,6 +21,20 @@
                   <span><i class="fa fa-users"></i> 1</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <h4>Detail</h4>
+            <hr/>
+            <div class="detail">
+              <p>ID: {{user.id}}</p>
+              <p>Email: {{user.emailAddress}}</p>
+
+              <p>Gender: {{user.gender | gender}}</p>
+
+              <p>Last seen: {{user.lastLoginTime | amTimeAgo}}</p>
+
             </div>
           </div>
 
