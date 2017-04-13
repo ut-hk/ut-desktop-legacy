@@ -15,51 +15,47 @@
   <div class="row">
     <div class="col-xs-12">
       <div>
-        <!-- Name and Owner-->
+        <!-- Name-->
         <h1 class="h3">{{activityPlan.name}}</h1>
-        <div class="text-right">Provided by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a>
-        </div>
+
+        <!-- Tags -->
+        <p class="text-right">
+          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+        </p>
+
+        <!-- Owner -->
+        <div class="text-right">Provided by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></div>
 
         <!-- Descriptions -->
         <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"
              [ngSwitch]="description.type">
           <p *ngSwitchCase="0">{{description.content}}</p>
           <div class="text-center" *ngSwitchCase="1">
-            <img class="description_photo" style="margin-bottom: 10px;" [src]="description.content"
+            <img style="margin-bottom: 10px; max-width: 700px;" [src]="description.content"
                  onError="this.src = './assets/noFoundImag.png';">
           </div>
         </div>
 
-        <!-- Tags -->
-        <p class="text-right">
-          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">#{{tag.text}}</span>
-        </p>
+        <hr style="margin: 15px 10%;">
 
         <!--Activities Plan-->
-        <h2>Activity Templates</h2>
-        <div class="card card-block"
-             *ngFor="let timeSlot of activityPlan.timeSlots">
-          <h3><a routerLink="/user/{{timeSlot.activityTemplate.id}}">{{timeSlot.activityTemplate.name}}</a></h3>
-
-          <!-- Descriptions -->
-          <div *ngFor="let description of timeSlot.activityTemplate.descriptions; trackBy: description?.id"
-               [ngSwitch]="description.type">
-            <p *ngSwitchCase="0">{{description.content}}</p>
-            <div class="text-center" *ngSwitchCase="1">
-              <img class="description_photo" style="margin-bottom: 10px;" [src]="description.content"
-                   onError="this.src = './assets/noFoundImag.png';">
+        <div class="time-slot" *ngFor="let timeSlot of activityPlan.timeSlots">
+          <div class="row">
+            <div class="col-sm-3">
+              <p><b>{{timeSlot.startTime | date : 'shortTime'}} to {{timeSlot.endTime | date : 'shortTime'}}</b></p>
+              <p class="h3"><a routerLink="/user/{{timeSlot.activityTemplate.id}}">{{timeSlot.activityTemplate.name}}</a></p>
+              <!--Owner-->
+              <div>Provided by <a routerLink="/user/{{timeSlot.activityTemplate.owner.id}}">@{{timeSlot.activityTemplate.owner.userName}}</a></div>
             </div>
-          </div>
+            <div class="col-sm-9">
 
-          <!--Time Slots-->
-          <div class="row"
-               *ngFor="let timeSlot of timeSlot.activityTemplate.referenceTimeSlots;">
-            <h5 class="col-xs-6">Time: {{timeSlot.startTime | date: 'short'}}</h5>
-            <h5 class="col-xs-6">{{timeSlot.endTime | date: 'short'}}</h5>
-          </div>
-
-          <!--Owner-->
-          <div class="text-right">Provided by <a routerLink="/user/{{timeSlot.activityTemplate.owner.id}}">@{{timeSlot.activityTemplate.owner.userName}}</a>
+              <!-- Cover -->
+              <div class="cover">
+                <a *ngIf="timeSlot.activityTemplate.coverImageDescription" class="cover-image"
+                   [ngStyle]="{'background-image': 'url(' + timeSlot.activityTemplate.coverImageDescription.content + ')'}">
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 

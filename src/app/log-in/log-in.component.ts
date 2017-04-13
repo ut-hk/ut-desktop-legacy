@@ -15,8 +15,8 @@ import { LocalStorageService } from 'ng2-webstorage';
 export class LogInComponent implements OnInit {
 
   public logInInput: LogInInput = {
-    usernameOrEmailAddress: 'leochoi',
-    password: '12345678'
+    usernameOrEmailAddress: '',
+    password: ''
   };
 
   constructor(private tokenService: TokenService,

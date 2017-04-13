@@ -14,7 +14,7 @@ typeahead-container {
 .dropdown-menu > li > a {
   position: relative;
 
-  .badge{
+  .badge {
     position: absolute;
     right: 5px
   }
@@ -65,4 +65,8 @@ $handle-size: 24px;
   color: lightgray;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+img {
+  max-width: 100%;
 }

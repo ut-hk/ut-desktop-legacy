@@ -12,12 +12,20 @@
 
 }
 
-.user-icon{
+.cover {
+  display: block;
 
+  .cover-image {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 290px;
+    background: no-repeat 50%;
+    background-size: cover;
+  }
 }
 
-
-.description_photo{
-  max-width: 100%;
-
+.time-slot {
+  padding-bottom: 10px;
+  max-height: 300px;
 }
