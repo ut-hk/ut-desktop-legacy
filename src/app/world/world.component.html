@@ -6,12 +6,10 @@
     <!--<h4>Get Started !</h4>-->
   </div>
 </div>
-
 <!--Activity Templates-->
 <div class="netflix-container">
   <div class="netflix-row">
     <div class="netflix-row-inner">
-
       <div class="netflix-tile"
            *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
            routerLink="/activity-template/{{activityTemplate.id}}">
@@ -38,30 +36,35 @@
 <div class="container">
   <div class="col-xs-12" *ngIf="activityPlans">
 
-    <div class="col-lg-3 col-md-4 col-sm-6"
+    <div class="col-md-4 col-sm-6"
          *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
-      <!--Cover Image-->
-      <div class="activity-plan-image col-xs-12">
-        <div class="cover-image"
-             *ngIf="activityPlan.coverImageDescription"
-             [ngStyle]="{'background-image': 'url(' + activityPlan.coverImageDescription.content + ')'}"></div>
-        <div class="cover-image"
-             *ngIf="activityPlan.coverImageDescription == null"
-             [ngStyle]="{'background-image': 'url(./assets/keep-calm-its-activity-time-5.png)'}"></div>
+
+      <div class="activity-plan">
+        <!-- Cover Image -->
+        <div class="cover">
+          <a *ngIf="activityPlan.coverImageDescription" class="cover-image"
+             [ngStyle]="{'background-image': 'url(' + activityPlan.coverImageDescription.content + ')'}">
+            <!--<a class="rating" [ngClass]="{'active': activityPlan.myRatingStatus == 0}" (click)="onClickLike(activityPlan)"><i class="fa fa-heart" aria-hidden="true"></i></a>-->
+            <!--<a class="image-center" routerLink="/activity-plan/{{activityPlan.id}}"></a>-->
+            <!--<a class="dislike" [ngClass]="{'active': activityPlan.myRatingStatus == 1}" (click)="onClickDislike(activityPlan)"><i class="fa fa-ban" aria-hidden="true"></i></a>-->
+          </a>
+        </div>
+        <h2 class="h3 title">
+          <a routerLink="/activity-plan/{{activityPlan.id}}">{{activityPlan.name}}</a>
+        </h2>
+
+        <!-- Owner and Tag-->
+        <div>
+          <p>{{activityPlan.coverTextDescription?.content}}</p>
+          <p class="text-right">Created by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
+          <span class="tag" *ngIf="activityPlan.tags.length == 0">&nbsp;</span>
+          <p>
+            <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+          </p>
+        </div>
       </div>
 
-      <!-- Name, Owner and Tag-->
-      <a class="h2" [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name.length > 0 ? activityPlan.name : '(no title)'}}</a>
-      <div>
-        <p class="text-right"><a
-          routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
-        <span class="tag" *ngIf="activityPlan.tags.length == 0">&nbsp;</span>
-        <p>
-          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
-        </p>
-      </div>
     </div>
-
   </div>
 </div>
 

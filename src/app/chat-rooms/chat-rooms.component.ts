@@ -129,6 +129,7 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
+        this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
 
         this.scrollChatRoomMessagesContainer();
       });
