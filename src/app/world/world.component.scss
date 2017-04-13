@@ -21,13 +21,13 @@
   }
 }
 
-.contain {
-  .row {
-    overflow: scroll;
+.netflix-container {
+  .netflix-row {
+    overflow-x: scroll;
     width: 100%;
   }
 
-  .row-inner {
+  .netflix-row-inner {
     transition: 450ms transform;
     font-size: 0;
     white-space: nowrap;
@@ -35,7 +35,7 @@
     padding-bottom: 10px;
   }
 
-  .tile {
+  .netflix-tile {
     position: relative;
     display: inline-block;
     width: 250px;
@@ -47,13 +47,13 @@
     transform-origin: center left;
   }
 
-  .tile-img {
+  .netflix-tile-img {
     width: 250px;
     height: 140.625px;
     object-fit: cover;
   }
 
-  .tile-details {
+  .netflix-tile-details {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -65,8 +65,8 @@
     transition: 450ms opacity;
   }
 
-  .tile-details:after,
-  .tile-details:before {
+  .netflix-tile-details:after,
+  .netflix-tile-details:before {
     content: '';
     position: absolute;
     top: 50%;
@@ -74,30 +74,30 @@
     display: #000;
   }
 
-  .tile:hover .tile-details {
+  .netflix-tile:hover .netflix-tile-details {
     opacity: 1;
   }
 
-  .tile-title {
+  .netflix-tile-title {
     position: absolute;
     bottom: 0;
     padding: 10px;
   }
 
-  .row-inner:hover {
+  .netflix-row-inner:hover {
     transform: translate3d(-62.5px, 0, 0);
   }
 
-  .row-inner:hover .tile {
+  .netflix-row-inner:hover .netflix-tile {
     opacity: 0.3;
   }
 
-  .row-inner:hover .tile:hover {
+  .netflix-row-inner:hover .netflix-tile:hover {
     transform: scale(1.5);
     opacity: 1;
   }
 
-  .tile:hover ~ .tile {
+  .netflix-tile:hover ~ .netflix-tile {
     transform: translate3d(125px, 0, 0);
   }
 }

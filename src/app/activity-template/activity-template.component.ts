@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import { ActivityTemplateDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
 import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
-import { CreateActivityFromActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityFromActivityTemplateInput';
 import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
 import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
 import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
 import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
+import { UserService } from '../user.service';
+import { CreateActivityFromActivityTemplateInput } from '../../abp-http/ut-api-js-services/model/CreateActivityFromActivityTemplateInput';
 
 @Component({
   selector: 'app-activity-template',
@@ -16,6 +17,10 @@ import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi
   styleUrls: ['./activity-template.component.scss']
 })
 export class ActivityTemplateComponent implements OnInit {
+
+  public pageControls = {
+    isMyActivityTemplate: false
+  };
 
   public activityTemplateId: string;
   public activityTemplate: ActivityTemplateDto;
@@ -32,7 +37,9 @@ export class ActivityTemplateComponent implements OnInit {
               private activityTemplateApi: App_activityTemplateApi,
               private activityApi: App_activityApi,
               private commentApi: App_commentApi,
-              private replyApi: App_replyApi) {
+              private replyApi: App_replyApi,
+              private router: Router,
+              private userService: UserService) {
     const currentDate = new Date();
 
     this.createActivityFromActivityPlanInput = {
@@ -82,12 +89,24 @@ export class ActivityTemplateComponent implements OnInit {
       });
   }
 
+  public onEdit() {
+  }
+
+  public onDelete() {
+    this.activityTemplateApi
+      .appActivityTemplateRemoveActivityTemplate({id: this.activityTemplateId})
+      .subscribe(() => {
+        this.router.navigate(['./world']);
+      });
+  }
 
   public onClickAddActivity() {
     const createActivityFromActivityTemplateSubscription = this.activityApi
       .appActivityCreateActivityFromActivityTemplate(this.createActivityFromActivityPlanInput)
       .subscribe(output => {
         alert('Created.');
+        this.router.navigate(['./activity/', output.id]);
+
         createActivityFromActivityTemplateSubscription.unsubscribe();
       });
   }
@@ -98,7 +117,11 @@ export class ActivityTemplateComponent implements OnInit {
     this.activityTemplateApi
       .appActivityTemplateGetActivityTemplate({id: this.activityTemplateId})
       .subscribe((output) => {
-        this.activityTemplate = output.activityTemplate;
+        const activityTemplate = output.activityTemplate;
+
+        this.activityTemplate = activityTemplate;
+
+        this.pageControls.isMyActivityTemplate = this.userService.checkIsMyUser(activityTemplate.owner.id);
       });
   }
 
