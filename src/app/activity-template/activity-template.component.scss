@@ -12,8 +12,8 @@ agm-map {
   overflow-x: hidden;
 
   .user-icon {
-    width: 55px;
-    height: 55px;
+    height: auto;
+    min-width: 150%;
   }
 
 }
