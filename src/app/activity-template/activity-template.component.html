@@ -153,6 +153,7 @@
         <div class="ratings">
           <div class="rating" *ngFor="let rating of activityTemplate.ratings; trackBy: rating?.id">
             <img [ngClass]="{'like': rating.ratingStatus == 0, 'dislike': rating.ratingStatus == 1}" [src]="rating.owner.iconId ? (rating.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'">
+            <div>{{rating.owner.userName}}</div>
           </div>
         </div>
       </div>
