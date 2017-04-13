@@ -15,6 +15,7 @@ import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/mode
 import {DescriptionDto} from '../../abp-http/ut-api-js-services/model/DescriptionDto';
 import {Observable} from 'rxjs';
 import {UpdateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/UpdateActivityTemplateInput';
+import {isNumber} from "util";
 
 
 declare var google: any;
@@ -235,7 +236,7 @@ export class UpdateActivityTemplateComponent implements OnInit {
     console.log(this.updateActivityTemplateInput);
 
 
-    // this.router.navigate(['./activity-template/', this.activityTemplateId]);
+    this.router.navigate(['./activity-template/', this.activityTemplateId]);
 
   }
 
