@@ -35,9 +35,13 @@
 <div class="container">
   <div class="col-xs-12" *ngIf="activityPlans">
 
-    <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">
+    <div class="col-lg-3 col-md-4 col-sm-6"
+         *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id"
+         [routerLink]="['/activity-plan', activityPlan.id]"
+         routerLinkActive="active">
       <!-- Name, Owner and Tag-->
       <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
+      <h2 *ngIf="activityPlan.name.length == 0"><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">(no title)</a></h2>
       <div>
       <p class="text-right"><a
         routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
