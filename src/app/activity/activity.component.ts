@@ -1,18 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CreateTextCommentInput} from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
-import {App_commentApi} from '../../abp-http/ut-api-js-services/api/App_commentApi';
-import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import {CreateReplyInput} from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
-import {CommentDto} from '../../abp-http/ut-api-js-services/model/CommentDto';
-import {App_replyApi} from '../../abp-http/ut-api-js-services/api/App_replyApi';
-import {ActivityDto, CreateActivityInvitationsInput} from 'abp-http/ut-api-js-services';
-import {UserService} from '../user.service';
-import {UserListDto} from '../../abp-http/ut-api-js-services/model/UserListDto';
-import {App_relationshipApi} from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {LocalStorageService} from 'ng2-webstorage';
-import {App_activityInvitationApi} from '../../abp-http/ut-api-js-services/api/App_activityInvitationApi';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreateTextCommentInput } from '../../abp-http/ut-api-js-services/model/CreateTextCommentInput';
+import { App_commentApi } from '../../abp-http/ut-api-js-services/api/App_commentApi';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { CreateReplyInput } from '../../abp-http/ut-api-js-services/model/CreateReplyInput';
+import { CommentDto } from '../../abp-http/ut-api-js-services/model/CommentDto';
+import { App_replyApi } from '../../abp-http/ut-api-js-services/api/App_replyApi';
+import { ActivityDto, CreateActivityInvitationsInput } from 'abp-http/ut-api-js-services';
+import { UserService } from '../user.service';
+import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
+import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { LocalStorageService } from 'ng2-webstorage';
+import { App_activityInvitationApi } from '../../abp-http/ut-api-js-services/api/App_activityInvitationApi';
 
 
 interface ParticipantIdInput {
@@ -29,11 +29,9 @@ interface ParticipantIdInput {
 export class ActivityComponent implements OnInit {
 
   public pageControls = {
-    isMyUser: false
+    isMyActivity: false
   };
 
-
-  public isMyActivity = false;
   public myUser: UserDto = null;
   public friends: UserListDto[] = null;
 
@@ -48,7 +46,6 @@ export class ActivityComponent implements OnInit {
   public activityId;
   public activity: ActivityDto;
   @ViewChild('inviteFriendModal') public inviteFriendModal;
-
 
   public createTextCommentInput: CreateTextCommentInput = {
     content: ''
@@ -78,7 +75,6 @@ export class ActivityComponent implements OnInit {
         this.createActivityInvitationInput.activityId = id;
 
         this.getActivity();
-
       });
   }
 
@@ -99,6 +95,8 @@ export class ActivityComponent implements OnInit {
       .subscribe(output => {
         this.getActivity();
 
+        this.createTextCommentInput.content = '';
+
         createTextCommentSubscription.unsubscribe();
       });
   }
@@ -112,13 +110,13 @@ export class ActivityComponent implements OnInit {
         this.getActivity();
 
         this.createReplyInput.commentId = null;
+        this.createReplyInput.content = '';
 
         createTextCommentSubscription.unsubscribe();
       });
   }
 
   public onClickInviteFriendToActivity() {
-
     for (let i = 0; i < this.participantIdInputs.length; i++) {
       if (this.participantIdInputs[i].isSelected == true) {
         this.createActivityInvitationInput.inviteeIds.push(this.participantIdInputs[i].user.id);
@@ -128,6 +126,7 @@ export class ActivityComponent implements OnInit {
         }
       }
     }
+
     this.activityInvitationApi
       .appActivityInvitationCreateActivityInvitations(this.createActivityInvitationInput)
       .subscribe((output) => {
@@ -145,10 +144,11 @@ export class ActivityComponent implements OnInit {
         const activity = output.activity;
 
         this.activity = activity;
-        console.log(activity);
-        this.pageControls.isMyUser = this.userService.checkIsMyUser(activity.owner.id);
-        if (this.pageControls.isMyUser == true) {
+
+        this.pageControls.isMyActivity = this.userService.checkIsMyUser(activity.owner.id);
+        if (this.pageControls.isMyActivity) {
           this.myUser = this.localStorageService.retrieve('myUser');
+
           this.getMyFriends();
         }
       });

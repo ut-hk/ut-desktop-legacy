@@ -1,67 +1,27 @@
-<div class="row">
+<div class="netflix-row">
   <div class="col-xs-12 cover-image">
     <h1>UniTime</h1>
-    <h3>Make Time Different.</h3>
+    <h3>・Make Time Different・</h3>
     <hr>
     <!--<h4>Get Started !</h4>-->
   </div>
 </div>
 
-<!--<div class="container">-->
-  <!--<div class="col-xs-12" *ngIf="activityPlans">-->
+<!--Activity Templates-->
+<div class="netflix-container">
+  <div class="netflix-row">
+    <div class="netflix-row-inner">
 
-    <!--<div *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id">-->
-      <!--&lt;!&ndash; Name, Tags and Owner&ndash;&gt;-->
-      <!--<h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>-->
-      <!--<p class="text-right">-->
-        <!--<span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>-->
-      <!--</p>-->
-      <!--<p class="text-right">Created by <a-->
-        <!--routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>-->
-
-      <!--&lt;!&ndash; Descriptions &ndash;&gt;-->
-      <!--<div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"-->
-           <!--[ngSwitch]="description.type">-->
-        <!--<p *ngSwitchCase="0">{{description.content}}</p>-->
-        <!--<div class="text-center">-->
-          <!--<img *ngSwitchCase="1" [src]="description.content">-->
-        <!--</div>-->
-      <!--</div>-->
-
-    <!--</div>-->
-
-  <!--</div>-->
-<!--</div>-->
-
-<!--<div style="margin-top: 10px;">-->
-  <!--<div class="text-center" *ngIf="isLoading">-->
-    <!--<i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>-->
-  <!--</div>-->
-
-  <!--<div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>-->
-<!--</div>-->
-
-
-<div class="contain">
-
-  <!--<h1 class="">Activities</h1>-->
-
-  <!--<p>-->
-  <!--Inspired by  <a href="https://twitter.com/Eli_White">Eli White's</a> article <a href="http://eng.wealthfront.com/2015/06/implementing-netflix-redesign.html">Performant CSS Animations: Netflix Case Study</a>, his <a href="http://codepen.io/TheSavior/pen/LVeYBp">example pen</a>, and <a href="http://matthewjamestaylor.com/">Matt Taylor's</a> <a href="http://codepen.io/mattjamestaylor/pen/dodYPr">CSS-only version.</a>-->
-  <!--</p>-->
-
-  <div class="row">
-    <div class="row-inner">
-
-      <div class="tile"
-           *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id">
+      <div class="netflix-tile"
+           *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
+           routerLink="/activity-template/{{activityTemplate.id}}">
         <div>
-          <img class="tile-img"
+          <img class="netflix-tile-img"
                [src]="activityTemplate.coverImageDescription ? activityTemplate.coverImageDescription.content : './assets/noFoundProfilePicture.png'"
                alt=""/>
         </div>
-        <div class="tile-details">
-          <div class="tile-title">
+        <div class="netflix-tile-details">
+          <div class="netflix-tile-title">
             {{activityTemplate.name}}
           </div>
         </div>
@@ -69,5 +29,48 @@
 
     </div>
   </div>
+</div>
 
+<!--Activity Plans-->
+<div class="container">
+  <div class="col-xs-12" *ngIf="activityPlans">
+
+    <div class="col-lg-3 col-md-4 col-sm-6"
+         *ngFor="let activityPlan of activityPlans; trackBy: activityPlan?.id"
+         [routerLink]="['/activity-plan', activityPlan.id]"
+         routerLinkActive="active">
+      <!-- Name, Owner and Tag-->
+      <h2><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">{{activityPlan.name}}</a></h2>
+      <h2 *ngIf="activityPlan.name.length == 0"><a [routerLink]="['/activity-plan', activityPlan.id]" routerLinkActive="active">(no title)</a></h2>
+      <div>
+      <p class="text-right"><a
+        routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></p>
+      <span class="tag" *ngIf="activityPlan.tags.length == 0">&nbsp;</span>
+      <p>
+        <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+      </p>
+      </div>
+
+      <!--Cover Image-->
+      <div class="activity-plan-image col-xs-12">
+        <div class="cover-image"
+             *ngIf="activityPlan.coverImageDescription"
+             [ngStyle]="{'background-image': 'url(' + activityPlan.coverImageDescription.content + ')'}"></div>
+        <div class="cover-image"
+             *ngIf="activityPlan.coverImageDescription == null"
+             [ngStyle]="{'background-image': 'url(./assets/keep-calm-its-activity-time-5.png)'}"></div>
+      </div>
+
+      <!--Rating-->
+    </div>
+
+  </div>
+</div>
+
+<div style="margin-top: 10px;">
+  <div class="text-center" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
+
+  <div class="text-center" *ngIf="isNoMoreResults">No More Results...</div>
 </div>

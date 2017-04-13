@@ -18,7 +18,7 @@ import { UserService } from '../user.service';
 export class ActivityPlanComponent implements OnInit {
 
   public pageControls = {
-    isMyUser: false
+    isMyActivityPlan: false
   };
 
   public activityPlanId;
@@ -94,7 +94,7 @@ export class ActivityPlanComponent implements OnInit {
         const activityPlan = output.activityPlan;
 
         this.activityPlan = activityPlan;
-        this.pageControls.isMyUser = this.userService.checkIsMyUser(activityPlan.owner.id);
+        this.pageControls.isMyActivityPlan = this.userService.checkIsMyUser(activityPlan.owner.id);
 
         getActivityPlanSubscription.unsubscribe();
       });

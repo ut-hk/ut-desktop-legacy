@@ -17,6 +17,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { App_activityPlanTimeSlotApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanTimeSlotApi';
 import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
+import { Router } from '@angular/router';
 
 
 const colors: any = {
@@ -93,7 +94,8 @@ export class CreateActivityPlanComponent implements OnInit {
               private activityPlanTimeSlotApi: App_activityPlanTimeSlotApi,
               private tokenService: TokenService,
               private descriptionApi: App_descriptionApi,
-              private ngZone: NgZone) {
+              private ngZone: NgZone,
+              private router: Router) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
       autoUpload: true,
@@ -163,7 +165,7 @@ export class CreateActivityPlanComponent implements OnInit {
         return Observable.forkJoin(a);
       })
       .subscribe(() => {
-        console.log(createdActivityPlanId);
+        this.router.navigate(['./activity-plan/', createdActivityPlanId]);
       });
 
   }

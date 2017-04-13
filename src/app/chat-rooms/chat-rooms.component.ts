@@ -16,7 +16,7 @@ interface ChatRoom extends ChatRoomDto {
   participantDictionary: object;
 }
 
-interface ParticipantIdInput {
+interface Friend {
   user: UserListDto;
   isSelected: boolean;
 }
@@ -38,7 +38,7 @@ export class ChatRoomsComponent implements OnInit {
 
   public selectedChatRoom: ChatRoom;
 
-  public participantIdInputs: ParticipantIdInput[] = [];
+  public friend: Friend[] = [];
 
   public updateChatRoomInput: UpdateChatRoomInput = {
     name: null,
@@ -94,11 +94,10 @@ export class ChatRoomsComponent implements OnInit {
       })
       .subscribe((output) => {
         this.friends = output.friends;
-        for (let i = 0; i < this.friends.length; i++) {
-          const friendInput: ParticipantIdInput = {user: this.friends[i], isSelected: false};
 
-          this.participantIdInputs.push(friendInput);
-        }
+        this.friend = output.friends.map(friend => {
+          return {user: friend, isSelected: false};
+        });
 
         getFriendsSubscription.unsubscribe();
       });
@@ -136,10 +135,12 @@ export class ChatRoomsComponent implements OnInit {
   }
 
   public onClickCreateChatRoom() {
-    this.chatRoomApi
+    const createChatRoomSubscription = this.chatRoomApi
       .appChatRoomCreateChatRoomWithHttpInfo(this.createChatRoomInput)
       .subscribe((output) => {
-        console.log(output);
+        this.getMyChatRooms();
+
+        createChatRoomSubscription.unsubscribe();
       });
 
     this.createChatRoomModal.hide();
@@ -149,23 +150,26 @@ export class ChatRoomsComponent implements OnInit {
     this.updateChatRoomInput.id = this.selectedChatRoom.id;
     this.updateChatRoomInput.name = this.selectedChatRoom.name;
 
-    for (let i = 0; i < this.participantIdInputs.length; i++) {
-      if (this.participantIdInputs[i].isSelected == true) {
-        this.updateChatRoomInput.participantIds.push(this.participantIdInputs[i].user.id);
-      } else {
-        if (this.participantIdInputs[i].isSelected == false) {
-          if (this.selectedChatRoom.participantDictionary.hasOwnProperty(this.participantIdInputs[i].user.id)) {
+    const participantIds = this.selectedChatRoom.participants.map(participant => {
+      return participant.id;
+    });
 
-          }
+    const newParticipantIds = this.friend.filter((friend) => {
+      return friend.isSelected;
+    });
 
-        }
+    for (let i = 0; i < newParticipantIds.length; i++) {
+      if (participantIds.indexOf(newParticipantIds[i].user.id) == -1) {
+        participantIds.push(newParticipantIds[i].user.id);
       }
     }
+
+    this.updateChatRoomInput.participantIds = participantIds;
 
     this.chatRoomApi
       .appChatRoomUpdateChatRoom(this.updateChatRoomInput)
       .subscribe((output) => {
-        console.log(output);
+        this.getMyChatRooms();
       });
 
     this.inviteFriendsModal.hide();
@@ -196,9 +200,6 @@ export class ChatRoomsComponent implements OnInit {
       });
   }
 
-  private getCurrentParticipant() {
-
-  }
 
   private scrollChatRoomMessagesContainer() {
     setTimeout(() => {
