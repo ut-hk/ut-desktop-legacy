@@ -13,9 +13,7 @@ import {FileDto} from '../../abp-http/ut-api-js-services/model/FileDto';
 import {CreateInternalImageDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
 import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import {DescriptionDto} from '../../abp-http/ut-api-js-services/model/DescriptionDto';
-import {Observable} from 'rxjs';
 import {UpdateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/UpdateActivityTemplateInput';
-import {isNumber} from "util";
 
 
 declare var google: any;
