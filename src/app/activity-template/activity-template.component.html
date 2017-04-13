@@ -5,7 +5,7 @@
       <div class="text-right">
 
         <a class="btn btn-default" (click)="addToMyActivitiesModal.show()">Add to My Activities</a>
-        <a class="btn btn-default" *ngIf="pageControls.isMyActivityTemplate">Edit</a>
+        <a class="btn btn-default" *ngIf="pageControls.isMyActivityTemplate" href="update-activity-template/{{activityTemplateId}}">Edit</a>
         <a class="btn btn-danger" *ngIf="pageControls.isMyActivityTemplate" (click)="onDelete()">Delete</a>
 
       </div>

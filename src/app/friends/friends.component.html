@@ -11,7 +11,8 @@
           <div class="panel-heading">
             <div class="media">
               <div class="pull-left">
-                <img [src]="friend.iconId ? friend.iconId : './assets/noFoundProfilePicture.png'" alt="people"
+                <img [src]="friend.iconId ? friend.iconId | internalImage: './assets/noFoundProfilePicture.png'"
+                     alt="people"
                      class="media-object img-circle">
               </div>
               <div class="media-body">

@@ -13,6 +13,7 @@ import {FileDto} from '../../abp-http/ut-api-js-services/model/FileDto';
 import {CreateInternalImageDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
 import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import {DescriptionDto} from '../../abp-http/ut-api-js-services/model/DescriptionDto';
+import {Observable} from "rxjs";
 
 
 declare var google: any;
@@ -164,8 +165,112 @@ export class UpdateActivityTemplateComponent implements OnInit {
       .appActivityTemplateGetActivityTemplate({id: this.activityTemplateId})
       .subscribe((output) => {
         this.activityTemplate = output.activityTemplate;
+        this.injectData();
       });
   }
+
+  private injectData() {
+    this.createActivityTemplateInput.name = this.activityTemplate.name;
+    this.pageControls.tagTextsString = this.activityTemplate.tags.map(tag => {
+      return tag.text;
+    }).join(' ');
+    for (let i = 0; i < this.activityTemplate.referenceTimeSlots.length; i++) {
+      this.createActivityTemplateInput.referenceTimeSlots.push({
+        startTime: this.activityTemplate.referenceTimeSlots[i].startTime,
+        endTime: this.activityTemplate.referenceTimeSlots[i].endTime,
+      });
+    }
+    for (let i = 0; i < this.activityTemplate.descriptions.length; i++) {
+      if (this.activityTemplate.descriptions[i].type == 0) {
+        this.createDescriptionInputs.push({
+          input: {
+            text: this.activityTemplate.descriptions[i].content
+          },
+          type: 0
+        });
+      } else if (this.activityTemplate.descriptions[i].type == 1) {
+        this.createDescriptionInputs.push({
+          input: {
+            imageId: this.activityTemplate.descriptions[i].content
+          },
+          type: 1
+        });
+
+      } else if (this.activityTemplate.descriptions[i].type == 2) {
+        this.createDescriptionInputs.push({
+          input: {
+            imageId: this.activityTemplate.descriptions[i].content
+          },
+          type: 2
+        });
+
+      }
+    }
+    if (this.activityTemplate.location) {
+      this.updateMarker(this.activityTemplate.location.latitude, this.activityTemplate.location.longitude, '');
+    }
+  }
+
+  public onClickUpdate() {
+    let createdActivityId = null;
+
+    Observable.empty().defaultIfEmpty()
+      .flatMap(() => {
+        if (this.mapControls.markers.length > 0) {
+          return this.locationApi
+            .appLocationCreateLocation({
+              latitude: this.mapControls.markers[0].lat,
+              longitude: this.mapControls.markers[0].lng
+            })
+            .map(output => {
+              return output.id;
+            });
+        }
+
+        return Observable.empty();
+      })
+      .defaultIfEmpty<string>(null)
+      .flatMap(locationId => {
+        const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
+
+        this.createActivityTemplateInput.tagTexts = tagTexts ? tagTexts : [];
+        this.createActivityTemplateInput.locationId = locationId;
+
+        return this.activityTemplateApi
+          .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
+          .map(createActivityOutput => {
+            createdActivityId = createActivityOutput.id;
+
+            return createActivityOutput.id;
+          });
+      })
+      .flatMap(activityTemplateId => {
+        return this.createDescriptionInputs
+          .map((createDescriptionInput, index) => {
+            const input = createDescriptionInput.input;
+
+            input.activityTemplateId = activityTemplateId;
+            input.priority = index;
+
+            if ((<CreateTextDescriptionInput> input).text) {
+              return this.descriptionApi
+                .appDescriptionCreateTextDescription(input)
+                .map(output => output.id);
+            } else if ((<CreateInternalImageDescriptionInput> input).imageId) {
+              return this.descriptionApi
+                .appDescriptionCreateInternalImageDescription(input)
+                .map(output => output.id);
+            }
+          });
+      })
+      .flatMap(observables => {
+        return Observable.forkJoin(observables);
+      })
+      .subscribe(descriptionIds => {
+        this.router.navigate(['./activity-template/', createdActivityId]);
+      });
+  }
+
 
   public onFileUpload(data: any) {
     setTimeout(() => {
