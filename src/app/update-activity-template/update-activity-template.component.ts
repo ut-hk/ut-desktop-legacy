@@ -1,7 +1,7 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
 import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {CreateActivityTemplateInput, App_locationApi} from 'abp-http/ut-api-js-services';
 import {NgUploaderOptions} from 'ngx-uploader';
@@ -13,7 +13,8 @@ import {FileDto} from '../../abp-http/ut-api-js-services/model/FileDto';
 import {CreateInternalImageDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
 import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
 import {DescriptionDto} from '../../abp-http/ut-api-js-services/model/DescriptionDto';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
+import {UpdateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/UpdateActivityTemplateInput';
 
 
 declare var google: any;
@@ -58,8 +59,10 @@ export class UpdateActivityTemplateComponent implements OnInit {
     isFileOver: false
   };
 
-  public createActivityTemplateInput: CreateActivityTemplateInput = {
+  public updateActivityTemplateInput: UpdateActivityTemplateInput = {
+    id: null,
     name: '',
+    descriptionIds: [],
     referenceTimeSlots: [],
     locationId: '',
     tagTexts: []
@@ -74,6 +77,7 @@ export class UpdateActivityTemplateComponent implements OnInit {
               private descriptionApi: App_descriptionApi,
               private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone,
+              private router: Router,
               private dragulaService: DragulaService,
               private tokenService: TokenService) {
     this.fileDropControls.options = new NgUploaderOptions({
@@ -101,6 +105,7 @@ export class UpdateActivityTemplateComponent implements OnInit {
         const id = params['id'];
 
         this.activityTemplateId = id;
+        this.updateActivityTemplateInput.id = id;
 
 
         this.getActivityTemplate();
@@ -131,7 +136,7 @@ export class UpdateActivityTemplateComponent implements OnInit {
   public onClickAddTimeSlot() {
     const currentTime = new Date();
 
-    this.createActivityTemplateInput.referenceTimeSlots.push({
+    this.updateActivityTemplateInput.referenceTimeSlots.push({
       startTime: currentTime,
       endTime: currentTime,
     });
@@ -139,7 +144,7 @@ export class UpdateActivityTemplateComponent implements OnInit {
 
   public onClickRemoveTimeSlot(index) {
     if (index > -1) {
-      this.createActivityTemplateInput.referenceTimeSlots.splice(index, 1);
+      this.updateActivityTemplateInput.referenceTimeSlots.splice(index, 1);
     }
   }
 
@@ -170,15 +175,18 @@ export class UpdateActivityTemplateComponent implements OnInit {
   }
 
   private injectData() {
-    this.createActivityTemplateInput.name = this.activityTemplate.name;
+    this.updateActivityTemplateInput.name = this.activityTemplate.name;
     this.pageControls.tagTextsString = this.activityTemplate.tags.map(tag => {
       return tag.text;
     }).join(' ');
     for (let i = 0; i < this.activityTemplate.referenceTimeSlots.length; i++) {
-      this.createActivityTemplateInput.referenceTimeSlots.push({
+      this.updateActivityTemplateInput.referenceTimeSlots.push({
         startTime: this.activityTemplate.referenceTimeSlots[i].startTime,
         endTime: this.activityTemplate.referenceTimeSlots[i].endTime,
       });
+    }
+    for (let i = 0; i < this.activityTemplate.descriptions.length; i++) {
+      this.updateActivityTemplateInput.descriptionIds.push(this.activityTemplate.descriptions[i].id);
     }
     for (let i = 0; i < this.activityTemplate.descriptions.length; i++) {
       if (this.activityTemplate.descriptions[i].type == 0) {
@@ -203,72 +211,32 @@ export class UpdateActivityTemplateComponent implements OnInit {
           },
           type: 2
         });
-
       }
     }
     if (this.activityTemplate.location) {
       this.updateMarker(this.activityTemplate.location.latitude, this.activityTemplate.location.longitude, '');
     }
+    if (this.activityTemplate.location.id) {
+      this.updateActivityTemplateInput.locationId = this.activityTemplate.location.id;
+    }
   }
 
   public onClickUpdate() {
-    let createdActivityId = null;
 
-    Observable.empty().defaultIfEmpty()
-      .flatMap(() => {
-        if (this.mapControls.markers.length > 0) {
-          return this.locationApi
-            .appLocationCreateLocation({
-              latitude: this.mapControls.markers[0].lat,
-              longitude: this.mapControls.markers[0].lng
-            })
-            .map(output => {
-              return output.id;
-            });
-        }
+    const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
 
-        return Observable.empty();
-      })
-      .defaultIfEmpty<string>(null)
-      .flatMap(locationId => {
-        const tagTexts = this.pageControls.tagTextsString.match(/(#[a-z0-9][a-z0-9\-_]*)/ig);
-
-        this.createActivityTemplateInput.tagTexts = tagTexts ? tagTexts : [];
-        this.createActivityTemplateInput.locationId = locationId;
-
-        return this.activityTemplateApi
-          .appActivityTemplateCreateActivityTemplate(this.createActivityTemplateInput)
-          .map(createActivityOutput => {
-            createdActivityId = createActivityOutput.id;
-
-            return createActivityOutput.id;
-          });
-      })
-      .flatMap(activityTemplateId => {
-        return this.createDescriptionInputs
-          .map((createDescriptionInput, index) => {
-            const input = createDescriptionInput.input;
-
-            input.activityTemplateId = activityTemplateId;
-            input.priority = index;
-
-            if ((<CreateTextDescriptionInput> input).text) {
-              return this.descriptionApi
-                .appDescriptionCreateTextDescription(input)
-                .map(output => output.id);
-            } else if ((<CreateInternalImageDescriptionInput> input).imageId) {
-              return this.descriptionApi
-                .appDescriptionCreateInternalImageDescription(input)
-                .map(output => output.id);
-            }
-          });
-      })
-      .flatMap(observables => {
-        return Observable.forkJoin(observables);
-      })
-      .subscribe(descriptionIds => {
-        this.router.navigate(['./activity-template/', createdActivityId]);
+    this.updateActivityTemplateInput.tagTexts = tagTexts ? tagTexts : [];
+    const updateActivityTemplateSubscription = this.activityTemplateApi
+      .appActivityTemplateUpdateActivityTemplate(this.updateActivityTemplateInput)
+      .subscribe(updateoutput => {
+        console.log(updateoutput);
       });
+
+    console.log(this.updateActivityTemplateInput);
+
+
+    // this.router.navigate(['./activity-template/', this.activityTemplateId]);
+
   }
 
 
