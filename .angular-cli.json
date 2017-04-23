@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "version": "0.3.0",
+    "version": "0.4.0",
     "name": "ut-desktop"
   },
   "apps": [
@@ -20,7 +20,6 @@
       "prefix": "app",
       "styles": [
         "../node_modules/angular-calendar/dist/css/angular-calendar.css",
-        "../node_modules/fullcalendar/dist/fullcalendar.min.css",
         "../node_modules/dragula/dist/dragula.min.css",
         "styles.scss"
       ],

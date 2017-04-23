@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, XHRBackend, Headers, Request, Response, RequestOptionsArgs, ResponseOptions, RequestOptions } from '@angular/http';
+import { Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 
 import { MessageService } from './message.service';
 import { LogService } from './log.service';
 import { TokenService } from './token.service';
 import { UtilsService } from './utils.service';
+import { UserService } from '../../app/user.service';
 
 export interface IValidationErrorInfo {
 
@@ -48,7 +49,8 @@ export interface IAjaxResponse {
 export class AbpHttpConfiguration {
 
   constructor(private _messageService: MessageService,
-              private _logService: LogService) {
+              private _logService: LogService,
+              private userService: UserService) {
 
   }
 
@@ -95,13 +97,7 @@ export class AbpHttpConfiguration {
   handleUnAuthorizedRequest(messagePromise: any, targetUrl?: string) {
     const self = this;
 
-    if (messagePromise) {
-      messagePromise.done(() => {
-        this.handleTargetUrl(targetUrl || '/');
-      });
-    } else {
-      self.handleTargetUrl(targetUrl || '/');
-    }
+    this.userService.clearUserStorage();
   }
 
   handleNonAbpErrorResponse(response: Response) {

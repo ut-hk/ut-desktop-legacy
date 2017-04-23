@@ -11,7 +11,7 @@ import { UserService } from '../user.service';
 import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
 import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 import { App_activityInvitationApi } from '../../abp-http/ut-api-js-services/api/App_activityInvitationApi';
 
 

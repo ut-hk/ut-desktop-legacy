@@ -18,22 +18,7 @@ import { Observable } from 'rxjs/Rx';
 import { App_activityPlanTimeSlotApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanTimeSlotApi';
 import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
 import { Router } from '@angular/router';
-
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import { calendarColors } from '../calendar-colors';
 
 interface CreateDescriptionInput {
   input: (CreateTextDescriptionInput | CreateInternalImageDescriptionInput);
@@ -183,7 +168,7 @@ export class CreateActivityPlanComponent implements OnInit {
     const event: ActivityTemplateEvent = {
       id: activityTemplate.id,
       title: activityTemplate.name,
-      color: colors.red,
+      color: calendarColors.red,
       start: addHours(startOfDay(new Date()), 1),
       end: addHours(startOfDay(new Date()), 2),
       activityTemplate: activityTemplate,

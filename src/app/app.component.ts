@@ -5,7 +5,8 @@ import { TokenService } from '../abp-http/http/token.service';
 import { Router, RoutesRecognized } from '@angular/router';
 import { App_analysisApi } from '../abp-http/ut-api-js-services/api/App_analysisApi';
 import { environment } from '../environments/environment';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit {
               private localStorageService: LocalStorageService,
               private tokenService: TokenService,
               private userApi: App_userApi,
-              private analysisApi: App_analysisApi) {
+              private analysisApi: App_analysisApi,
+              private userService: UserService) {
     this.checkVersion();
   }
 
@@ -49,11 +51,7 @@ export class AppComponent implements OnInit {
   }
 
   public onLogOut() {
-    this.tokenService.clearToken();
-
-    this.localStorageService.clear('myUser');
-    this.localStorageService.clear('userGuestId');
-    this.localStorageService.clear('anonymousGuestId');
+    this.userService.clearUserStorage();
 
     this.router.navigate(['./log-in']);
   }

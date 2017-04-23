@@ -12,16 +12,17 @@ agm-map {
   overflow-x: hidden;
 
   .user-icon {
-    height: auto;
-    min-width: 150%;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 50%;
   }
-
 }
 
 .ratings {
   .rating {
     display:inline-block;
     margin: 0 7px 5px 0;
+    text-align: center;
 
     img {
       width: 55px;

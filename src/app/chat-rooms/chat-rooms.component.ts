@@ -5,7 +5,7 @@ import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/Chat
 import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
 import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
 import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
 import { UpdateChatRoomInput } from '../../abp-http/ut-api-js-services/model/UpdateChatRoomInput';

@@ -93,7 +93,7 @@
                     <div style="border: 1px solid #EEEEEE; margin-bottom: 10px;">
                       <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
                         <span class="comment-name"><a href="http://creaticode.com/blog">@{{comment.owner.userName}}</a></span>
-                        <span>{{comment.creationTime | amTimeAgo}}</span>
+                        <span>{{comment.creationTime | timeAgo}}</span>
                       </div>
                       <div style="padding: 5px;">{{comment.content}}</div>
                     </div>
@@ -112,7 +112,7 @@
                           <div style="border: 1px solid #EEEEEE;">
                             <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
                               <span><a href="http://creaticode.com/blog">@{{reply.owner.userName}}</a></span>
-                              <span>{{reply.creationTime | amTimeAgo}}</span>
+                              <span>{{reply.creationTime | timeAgo}}</span>
                             </div>
                             <div style="padding: 5px;">{{reply.content}}</div>
                           </div>
@@ -153,7 +153,7 @@
         <div class="ratings">
           <div class="rating" *ngFor="let rating of activityTemplate.ratings; trackBy: rating?.id">
             <img [ngClass]="{'like': rating.ratingStatus == 0, 'dislike': rating.ratingStatus == 1}" [src]="rating.owner.iconId ? (rating.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'">
-            <div><a routerLink="/user/{{rating.owner.id}}">{{rating.owner.userName}}</a></div>
+            <div><a routerLink="/user/{{rating.owner.id}}">@{{rating.owner.userName}}</a></div>
           </div>
         </div>
       </div>

@@ -9,14 +9,15 @@
 <!--Activity Templates-->
 <div class="netflix-container">
   <div class="netflix-row">
-    <div class="netflix-row-inner">
-      <div class="netflix-tile"
-           *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
-           routerLink="/activity-template/{{activityTemplate.id}}">
+    <div class="netflix-row-inner" *ngIf="activityTemplates">
+
+      <div *ngFor="let activityTemplate of activityTemplates; trackBy: activityTemplate?.id"
+           routerLink="/activity-template/{{activityTemplate.id}}"
+           class="netflix-tile">
         <div>
           <img class="netflix-tile-img"
                [src]="activityTemplate.coverImageDescription ? activityTemplate.coverImageDescription.content : './assets/noFoundProfilePicture.png'"
-               alt=""/>
+               alt="activityTemplate.name">
         </div>
         <div class="netflix-tile-details">
           <div class="netflix-tile-title">

@@ -4,7 +4,7 @@ import { LogInInput } from '../../abp-http/ut-api-js-services/model/LogInInput';
 import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
 import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
 import { Router } from '@angular/router';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 
 
 @Component({
