@@ -63,10 +63,10 @@
            [ngSwitch]="description.type">
         <p *ngSwitchCase="0">{{description.content}}</p>
         <div class="text-center" *ngSwitchCase="1">
-          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/not-found-image.png';">
         </div>
         <div class="text-center" *ngSwitchCase="2">
-          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/not-found-image.png';">
         </div>
       </div>
 
@@ -83,7 +83,7 @@
 
                 <!-- User Icon -->
                 <div class="col-xs-2">
-                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" alt="">
                 </div>
 
                 <div class="col-xs-10">
@@ -106,7 +106,7 @@
                     <div *ngFor="let reply of comment.replies; trackBy: reply?.id">
                       <div class="row">
                         <div class="col-xs-2">
-                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" alt="">
                         </div>
                         <div class="col-xs-10">
                           <div style="border: 1px solid #EEEEEE;">
@@ -152,7 +152,7 @@
         <p class="h3">Ratings</p>
         <div class="ratings">
           <div class="rating" *ngFor="let rating of activityTemplate.ratings; trackBy: rating?.id">
-            <img [ngClass]="{'like': rating.ratingStatus == 0, 'dislike': rating.ratingStatus == 1}" [src]="rating.owner.iconId ? (rating.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'">
+            <img [ngClass]="{'like': rating.ratingStatus == 0, 'dislike': rating.ratingStatus == 1}" [src]="rating.owner.iconId ? (rating.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'">
             <div><a routerLink="/user/{{rating.owner.id}}">@{{rating.owner.userName}}</a></div>
           </div>
         </div>

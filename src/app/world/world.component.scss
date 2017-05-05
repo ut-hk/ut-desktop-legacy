@@ -1,11 +1,10 @@
 .cover-image {
   background-size: cover;
-  background-position: center;
   padding-top: 25%;
   padding-bottom: 20%;
   text-align: center;
   margin-top: -21px;
-  background-image: url(https://images.weserv.nl/?url=goo.gl/hMsQ7e&output=jpg);
+  background: url(https://unitime.hk/assets/cover-image.jpg) center;
 
   h1, h3, h4 {
     color: white;
@@ -71,7 +70,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    display: #000;
   }
 
   .netflix-tile:hover .netflix-tile-details {
