@@ -28,6 +28,7 @@ export class SignUpComponent implements OnInit {
   }
 
   public signUp() {
+    // Request server to do signup
     this.accountApi
       .accountSignUpWithHttpInfo(this.signUpInput)
       .subscribe(output => {

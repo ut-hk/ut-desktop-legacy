@@ -30,6 +30,7 @@ export class LogInComponent implements OnInit {
   }
 
   public logIn() {
+    // Request server to validate login form
     const subscription = this.accountApi
       .accountLogInWithHttpInfo(this.logInInput)
       .flatMap((output) => {

@@ -1,19 +1,19 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {ActivityTemplateDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateDto';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl} from '@angular/forms';
-import {CreateActivityTemplateInput, App_locationApi} from 'abp-http/ut-api-js-services';
-import {NgUploaderOptions} from 'ngx-uploader';
-import {App_descriptionApi} from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
-import {MapsAPILoader, MouseEvent} from '@agm/core';
-import {DragulaService} from 'ng2-dragula';
-import {TokenService} from '../../abp-http/http/token.service';
-import {FileDto} from '../../abp-http/ut-api-js-services/model/FileDto';
-import {CreateInternalImageDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput';
-import {CreateTextDescriptionInput} from '../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput';
-import {DescriptionDto} from '../../abp-http/ut-api-js-services/model/DescriptionDto';
-import {UpdateActivityTemplateInput} from '../../abp-http/ut-api-js-services/model/UpdateActivityTemplateInput';
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from "@angular/core";
+import {App_activityTemplateApi} from "../../abp-http/ut-api-js-services/api/App_activityTemplateApi";
+import {ActivityTemplateDto} from "../../abp-http/ut-api-js-services/model/ActivityTemplateDto";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormControl} from "@angular/forms";
+import {App_locationApi} from "abp-http/ut-api-js-services";
+import {NgUploaderOptions} from "ngx-uploader";
+import {App_descriptionApi} from "../../abp-http/ut-api-js-services/api/App_descriptionApi";
+import {MapsAPILoader, MouseEvent} from "@agm/core";
+import {DragulaService} from "ng2-dragula";
+import {TokenService} from "../../abp-http/http/token.service";
+import {FileDto} from "../../abp-http/ut-api-js-services/model/FileDto";
+import {CreateInternalImageDescriptionInput} from "../../abp-http/ut-api-js-services/model/CreateInternalImageDescriptionInput";
+import {CreateTextDescriptionInput} from "../../abp-http/ut-api-js-services/model/CreateTextDescriptionInput";
+import {DescriptionDto} from "../../abp-http/ut-api-js-services/model/DescriptionDto";
+import {UpdateActivityTemplateInput} from "../../abp-http/ut-api-js-services/model/UpdateActivityTemplateInput";
 
 
 declare var google: any;
