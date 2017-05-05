@@ -5,7 +5,7 @@ import { ChatRoomMessageDto } from '../../abp-http/ut-api-js-services/model/Chat
 import { App_chatRoomMessageApi } from '../../abp-http/ut-api-js-services/api/App_chatRoomMessageApi';
 import { CreateTextChatRoomMessageInput } from '../../abp-http/ut-api-js-services/model/CreateTextChatRoomMessageInput';
 import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 import { App_relationshipApi } from '../../abp-http/ut-api-js-services/api/App_relationshipApi';
 import { UserListDto } from '../../abp-http/ut-api-js-services/model/UserListDto';
 import { UpdateChatRoomInput } from '../../abp-http/ut-api-js-services/model/UpdateChatRoomInput';
@@ -16,7 +16,7 @@ interface ChatRoom extends ChatRoomDto {
   participantDictionary: object;
 }
 
-interface ParticipantIdInput {
+interface Friend {
   user: UserListDto;
   isSelected: boolean;
 }
@@ -33,12 +33,12 @@ export class ChatRoomsComponent implements OnInit {
   };
 
   public myUser: UserDto = null;
-  public chatRooms: ChatRoom[];
-  public friends: UserListDto[] = null;
 
+  public chatRooms: ChatRoom[];
   public selectedChatRoom: ChatRoom;
 
-  public participantIdInputs: ParticipantIdInput[] = [];
+  public users: UserListDto[] = null;
+  public friends: Friend[] = [];
 
   public updateChatRoomInput: UpdateChatRoomInput = {
     name: null,
@@ -93,12 +93,11 @@ export class ChatRoomsComponent implements OnInit {
         targetUserId: this.myUser.id
       })
       .subscribe((output) => {
-        this.friends = output.friends;
-        for (let i = 0; i < this.friends.length; i++) {
-          const friendInput: ParticipantIdInput = {user: this.friends[i], isSelected: false};
+        this.users = output.friends;
 
-          this.participantIdInputs.push(friendInput);
-        }
+        this.friends = output.friends.map(friend => {
+          return {user: friend, isSelected: false};
+        });
 
         getFriendsSubscription.unsubscribe();
       });
@@ -130,42 +129,48 @@ export class ChatRoomsComponent implements OnInit {
         }
 
         this.selectedChatRoom = chatRoom;
+        this.lastChatMessageId = output.chatRoomMessages[output.chatRoomMessages.length - 1].id;
 
         this.scrollChatRoomMessagesContainer();
       });
   }
 
   public onClickCreateChatRoom() {
-    this.chatRoomApi
+    const createChatRoomSubscription = this.chatRoomApi
       .appChatRoomCreateChatRoomWithHttpInfo(this.createChatRoomInput)
       .subscribe((output) => {
-        console.log(output);
+        this.getMyChatRooms();
+
+        createChatRoomSubscription.unsubscribe();
       });
 
     this.createChatRoomModal.hide();
   }
 
-  public onClickAddFriendToChatRoom() {
+  public onClickAddFriendsToChatRoom() {
     this.updateChatRoomInput.id = this.selectedChatRoom.id;
     this.updateChatRoomInput.name = this.selectedChatRoom.name;
 
-    for (let i = 0; i < this.participantIdInputs.length; i++) {
-      if (this.participantIdInputs[i].isSelected == true) {
-        this.updateChatRoomInput.participantIds.push(this.participantIdInputs[i].user.id);
-      } else {
-        if (this.participantIdInputs[i].isSelected == false) {
-          if (this.selectedChatRoom.participantDictionary.hasOwnProperty(this.participantIdInputs[i].user.id)) {
+    const participantIds = this.selectedChatRoom.participants.map(participant => {
+      return participant.id;
+    });
 
-          }
+    const newParticipantIds = this.friends.filter((friend) => {
+      return friend.isSelected;
+    });
 
-        }
+    for (let i = 0; i < newParticipantIds.length; i++) {
+      if (participantIds.indexOf(newParticipantIds[i].user.id) == -1) {
+        participantIds.push(newParticipantIds[i].user.id);
       }
     }
+
+    this.updateChatRoomInput.participantIds = participantIds;
 
     this.chatRoomApi
       .appChatRoomUpdateChatRoom(this.updateChatRoomInput)
       .subscribe((output) => {
-        console.log(output);
+        this.getMyChatRooms();
       });
 
     this.inviteFriendsModal.hide();
@@ -196,9 +201,6 @@ export class ChatRoomsComponent implements OnInit {
       });
   }
 
-  private getCurrentParticipant() {
-
-  }
 
   private scrollChatRoomMessagesContainer() {
     setTimeout(() => {

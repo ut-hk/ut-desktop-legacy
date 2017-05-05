@@ -32,7 +32,7 @@
         width: 60%;
         padding-top: 10px;
       }
-      .like, .dislike {
+      .rating, .dislike {
         opacity: 0.02;
         position: absolute;
         height: 100%;
@@ -52,7 +52,7 @@
         }
       }
 
-      .like {
+      .rating {
         left: 0;
         color: $like-color;
         background-color: $like-color;

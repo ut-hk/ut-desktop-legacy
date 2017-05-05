@@ -129,6 +129,7 @@ export class CreateActivityComponent implements OnInit {
   public onClickCreate() {
     let createdActivityId = null;
 
+    // Request server to validate signup form
     Observable.empty().defaultIfEmpty()
       .flatMap(() => {
         if (this.mapControls.markers.length > 0) {

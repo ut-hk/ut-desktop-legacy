@@ -47,7 +47,7 @@ export class UpdateUserComponent implements OnInit {
         this.updateMyUserInput = {
           name: myUser.name,
           surname: myUser.surname,
-          phoneNumber: '',
+          phoneNumber: myUser.phoneNumber,
           gender: myUser.gender,
           birthday: myUser.birthday,
           iconId: myUser.iconId,

@@ -1,13 +1,11 @@
-
-
 <div class="container" *ngIf="activityPlan; else isLoading">
 
-  <div class="row" *ngIf="pageControls.isMyUser">
+  <div class="row" *ngIf="pageControls.isMyActivityPlan">
     <div class="col-xs-12">
       <div class="text-right">
 
         <a class="btn btn-default" (click)="onEdit()">Edit</a>
-        <a class="btn btn-default" (click)="onDelete()">Delete</a>
+        <a class="btn btn-danger" (click)="onDelete()">Delete</a>
 
       </div>
     </div>
@@ -17,51 +15,47 @@
   <div class="row">
     <div class="col-xs-12">
       <div>
-        <!-- Name and Owner-->
-        <h1 class="h3">{{activityPlan.name}}</h1>
-        <div class="text-right">Provided by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a>
-        </div>
+        <!-- Name-->
+        <h1 class="h2">{{activityPlan.name}}</h1>
+
+        <!-- Tags -->
+        <p class="text-right">
+          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">{{tag.text}}</span>
+        </p>
+
+        <!-- Owner -->
+        <div class="text-right">Provided by <a routerLink="/user/{{activityPlan.owner.id}}">@{{activityPlan.owner.userName}}</a></div>
 
         <!-- Descriptions -->
         <div *ngFor="let description of activityPlan.descriptions; trackBy: description?.id"
              [ngSwitch]="description.type">
           <p *ngSwitchCase="0">{{description.content}}</p>
           <div class="text-center" *ngSwitchCase="1">
-            <img style="margin-bottom: 10px;" [src]="description.content"
-                 onError="this.src = './assets/noFoundImag.png';">
+            <img [src]="description.content"
+                 onError="this.src = './assets/not-found-image.png';">
           </div>
         </div>
 
-        <!-- Tags -->
-        <p class="text-right">
-          <span class="tag" *ngFor="let tag of activityPlan.tags; trackBy: tag?.id">#{{tag.text}}</span>
-        </p>
+        <hr style="margin: 15px 10%;">
 
         <!--Activities Plan-->
-        <h2>Activity Templates</h2>
-        <div class="card card-block"
-             *ngFor="let timeSlot of activityPlan.timeSlots">
-          <h3>{{timeSlot.activityTemplate.name}}</h3>
-
-          <!-- Descriptions -->
-          <div *ngFor="let description of timeSlot.activityTemplate.descriptions; trackBy: description?.id"
-               [ngSwitch]="description.type">
-            <p *ngSwitchCase="0">{{description.content}}</p>
-            <div class="text-center" *ngSwitchCase="1">
-              <img style="margin-bottom: 10px;" [src]="description.content"
-                   onError="this.src = './assets/noFoundImag.png';">
+        <div class="time-slot" *ngFor="let timeSlot of activityPlan.timeSlots">
+          <div class="row">
+            <div class="col-sm-3">
+              <p><b>{{timeSlot.startTime | date : 'shortTime'}} to {{timeSlot.endTime | date : 'shortTime'}}</b></p>
+              <p class="h3"><a routerLink="/activity-template/{{timeSlot.activityTemplate.id}}">{{timeSlot.activityTemplate.name}}</a></p>
+              <!--Owner-->
+              <div>Provided by <a routerLink="/activity-template/{{timeSlot.activityTemplate.owner.id}}">@{{timeSlot.activityTemplate.owner.userName}}</a></div>
             </div>
-          </div>
+            <div class="col-sm-9">
 
-          <!--Time Slots-->
-          <div class="row"
-               *ngFor="let timeSlot of timeSlot.activityTemplate.referenceTimeSlots;">
-            <h5 class="col-xs-6">Time: {{timeSlot.startTime | date: 'short'}}</h5>
-            <h5 class="col-xs-6">{{timeSlot.endTime | date: 'short'}}</h5>
-          </div>
-
-          <!--Owner-->
-          <div class="text-right">Provided by <a routerLink="/user/{{timeSlot.activityTemplate.owner.id}}">@{{timeSlot.activityTemplate.owner.userName}}</a>
+              <!-- Cover -->
+              <div class="cover">
+                <a *ngIf="timeSlot.activityTemplate.coverImageDescription" class="cover-image"
+                   [ngStyle]="{'background-image': 'url(' + timeSlot.activityTemplate.coverImageDescription.content + ')'}">
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -76,7 +70,7 @@
                   <!-- User Icon -->
                   <div class="col-xs-2">
                     <img class="user-icon"
-                         [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
+                         [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'"
                          alt="">
                   </div>
 
@@ -88,7 +82,7 @@
                         <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
                           <span class="comment-name"><a
                             href="http://creaticode.com/blog">@{{comment.owner.userName}}</a></span>
-                          <span>{{comment.creationTime | amTimeAgo}}</span>
+                          <span>{{comment.creationTime | timeAgo}}</span>
                         </div>
                         <div style="padding: 5px;">{{comment.content}}</div>
                       </div>
@@ -102,14 +96,14 @@
                         <div class="row">
                           <div class="col-xs-2">
                             <img class="user-icon"
-                                 [src]="reply.owner.iconId ? (reply.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
+                                 [src]="reply.owner.iconId ? (reply.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'"
                                  alt="">
                           </div>
                           <div class="col-xs-10">
                             <div style="border: 1px solid #EEEEEE;">
                               <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
                                 <span><a href="http://creaticode.com/blog">@{{reply.owner.userName}}</a></span>
-                                <span>{{reply.creationTime | amTimeAgo}}</span>
+                                <span>{{reply.creationTime | timeAgo}}</span>
                               </div>
                               <div style="padding: 5px;">{{reply.content}}</div>
                             </div>
@@ -124,7 +118,7 @@
                           <div class="col-xs-10">
                             <div class="form-group">
                               <input class="form-control" type="text" placeholder="Write a reply..."
-                                     [(ngModel)]="createReplyInput.content" (keyup.enter)="onClickCreateReply(comment)">
+                                     id="{{comment.id}}" (keyup.enter)="onClickCreateReply(comment)">
                             </div>
                           </div>
                         </div>

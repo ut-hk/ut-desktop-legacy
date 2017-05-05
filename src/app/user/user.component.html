@@ -8,13 +8,13 @@
       <button *ngIf="!isMyUser && isFriend" type="button" class="btn btn-danger" (click)="onClickUnFriend()">Unfriend</button>
       <button *ngIf="!isFriend && hasInvited" type="button" class="btn btn-info" disabled="disabled">Pending Request</button>
 
-      <button type="button" class="btn btn-info">Send me a message</button>
+      <button *ngIf="!isMyUser" type="button" class="btn btn-info">Send me a message</button>
       <button type="button" class="btn btn-default" routerLink="/update-user">Update Profile</button>
       <br>
     </div>
     <div class="col-sm-2 text-center">
       <img class="img-circle img-responsive" style="display: inline-block; margin-top: 20px;"
-           [src]="user.iconId ? (user.iconId | internalImage) : './assets/noFoundProfilePicture.png'">
+           [src]="user.iconId ? (user.iconId | internalImage) : './assets/not-found-profile-picture.png'">
     </div>
   </div>
 
@@ -40,7 +40,7 @@
         </li>
         <li class="list-group-item text-right truncate">
           <span class="pull-left"><strong class="">Last seen</strong></span>
-          {{user.lastLoginTime | amTimeAgo}}
+          {{user.lastLoginTime | timeAgo}}
         </li>
         <li class="list-group-item text-right truncate">
           <a href="friends/{{user.id}}">
@@ -66,15 +66,14 @@
 
         <div class="panel-body">
 
-          <div *ngIf="!pageControls.isLoadedActivities">
-            <ng-container *ngTemplateOutlet="isLoading"></ng-container>
-          </div>
-
-          <div *ngIf="pageControls.isLoadedActivities && calendarOptions.events.length == 0">
-            <ng-container *ngTemplateOutlet="noMoreResults"></ng-container>
-          </div>
-
-          <angular2-fullcalendar *ngIf="pageControls.isLoadedActivities && calendarOptions.events.length > 0" [options]="calendarOptions"></angular2-fullcalendar>
+          <mwl-calendar-month-view
+            [viewDate]="calendarControls.viewDate"
+            [events]="calendarControls.events"
+            [refresh]="calendarControls.refresh"
+            [activeDayIsOpen]="calendarControls.activeDayIsOpen"
+            (dayClicked)="onDayClicked($event.day)"
+            (eventClicked)="onEventClicked('Clicked', $event.event)">
+          </mwl-calendar-month-view>
 
         </div>
       </div>

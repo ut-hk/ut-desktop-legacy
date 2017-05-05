@@ -7,18 +7,15 @@ import { CommonModule } from '@angular/common';
 
 import { AbpHttpModule } from '../abp-http/abp-http.module';
 
-import { Ng2Webstorage } from 'ng2-webstorage';
+import { Ng2Webstorage } from 'ngx-webstorage';
 import { AlertModule, BsDropdownModule, CollapseModule, ModalModule, PopoverModule, TimepickerModule, TypeaheadModule } from 'ngx-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DragulaModule } from 'ng2-dragula';
 import { StickyModule } from 'ng2-sticky-kit/ng2-sticky-kit';
 import { DateTimePickerModule } from 'ng-pick-datetime';
-import { MomentModule } from 'angular2-moment';
 import { NgUploaderModule } from 'ngx-uploader';
-import { CalendarComponent } from 'angular2-fullcalendar/src/calendar/calendar';
 import { CalendarModule } from 'angular-calendar';
-import { DragAndDropModule } from 'angular-draggable-droppable';
 
 import { TruncatePipe } from './truncate.pipe';
 import { InternalImagePipe } from './internal-image.pipe';
@@ -47,6 +44,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { UserService } from 'app/user.service';
 import { UpdateActivityTemplateComponent } from './update-activity-template/update-activity-template.component';
+import { CustomFormsModule } from 'ng2-validation';
+import { TimeAgoPipe } from './time-ago.pipe';
 
 
 const appRoutes: Routes = [
@@ -70,6 +69,7 @@ const appRoutes: Routes = [
 
   {path: 'user/:id', component: UserComponent},
   {path: 'update-user', component: UpdateUserComponent},
+  {path: 'update-activity-template/:id', component: UpdateActivityTemplateComponent},
 
   {path: 'user-management', component: UserManagementComponent},
 
@@ -108,10 +108,10 @@ const appRoutes: Routes = [
     SignUpProfileComponent,
     FriendInvitationsComponent,
     ActivityInvitationsComponent,
-    CalendarComponent,
     ActivityComponent,
     UserManagementComponent,
-    UpdateActivityTemplateComponent
+    UpdateActivityTemplateComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -135,9 +135,8 @@ const appRoutes: Routes = [
       libraries: ['places']
     }),
     DateTimePickerModule,
-    MomentModule,
     CalendarModule.forRoot(),
-    DragAndDropModule,
+    CustomFormsModule,
 
     // Bootstrap
     CollapseModule.forRoot(),

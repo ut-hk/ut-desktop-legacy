@@ -1,21 +1,31 @@
-import {Component, OnInit} from '@angular/core';
-import {App_userApi} from '../../abp-http/ut-api-js-services/api/App_userApi';
-import {App_activityApi} from '../../abp-http/ut-api-js-services/api/App_activityApi';
-import {UserDto} from '../../abp-http/ut-api-js-services/model/UserDto';
-import {ActivatedRoute, Router} from '@angular/router';
-import {App_activityTemplateApi} from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
-import {App_activityPlanApi} from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
-import {ActivityPlanDto} from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
-import {ActivityTemplateListDto} from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
-import {ActivityListDto} from '../../abp-http/ut-api-js-services/model/ActivityListDto';
-import {LocalStorageService} from 'ng2-webstorage';
-import {App_friendInvitationApi} from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
-import {UserService} from '../user.service';
+import { Component, OnInit } from '@angular/core';
+import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
+import { App_activityApi } from '../../abp-http/ut-api-js-services/api/App_activityApi';
+import { UserDto } from '../../abp-http/ut-api-js-services/model/UserDto';
+import { ActivatedRoute } from '@angular/router';
+import { App_activityTemplateApi } from '../../abp-http/ut-api-js-services/api/App_activityTemplateApi';
+import { App_activityPlanApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanApi';
+import { ActivityPlanDto } from '../../abp-http/ut-api-js-services/model/ActivityPlanDto';
+import { ActivityTemplateListDto } from '../../abp-http/ut-api-js-services/model/ActivityTemplateListDto';
+import { ActivityListDto } from '../../abp-http/ut-api-js-services/model/ActivityListDto';
+import { LocalStorageService } from 'ngx-webstorage';
+import { App_friendInvitationApi } from '../../abp-http/ut-api-js-services/api/App_friendInvitationApi';
+import { UserService } from '../user.service';
+import { Subject } from 'rxjs/Subject';
+import { CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar/dist/esm/src';
+import { ActivityEvent } from '../activity-event';
+import * as moment from 'moment';
+import { CustomEventTitleFormatter } from '../custom-event-title-formatter';
+import { calendarColors } from '../calendar-colors';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
+  providers: [{
+    provide: CalendarEventTitleFormatter,
+    useClass: CustomEventTitleFormatter
+  }]
 })
 export class UserComponent implements OnInit {
 
@@ -30,23 +40,22 @@ export class UserComponent implements OnInit {
   public activityPlans: ActivityPlanDto[] = [];
 
   public pageControls = {
-    isLoadedActivities: false,
     isLoadedActivityTemplates: false,
     isLoadedActivityPlans: false
+  };
+
+  public calendarControls: { viewDate: Date, events: ActivityEvent[], refresh: Subject<any>, activeDayIsOpen: boolean } = {
+    viewDate: new Date(),
+    events: [],
+    refresh: new Subject(),
+    activeDayIsOpen: false
   };
 
   public numberOfFriends: number;
 
   private id: number;
 
-  public calendarOptions = {
-    height: 700,
-    editable: false,
-    events: []
-  };
-
-  constructor(private router: Router,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
               private activityApi: App_activityApi,
               private activityTemplateApi: App_activityTemplateApi,
@@ -91,6 +100,34 @@ export class UserComponent implements OnInit {
     //   });
   }
 
+  public onDayClicked({date, events}: { date: Date, events: CalendarEvent[] }): void {
+    this.calendarControls.viewDate = date;
+    this.calendarControls.activeDayIsOpen = events.length > 0;
+  }
+
+  public onEventClicked(action: string, event: CalendarEvent): void {
+    // this.modalData = {event, action};
+    // this.modal.open(this.modalContent, {size: 'lg'});
+  }
+
+  private addToCalendar(activity: ActivityListDto) {
+    const event: ActivityEvent = {
+      id: activity.id,
+      title: activity.name,
+      color: calendarColors.red,
+      start: moment(activity.startTime).toDate(),
+      end: moment(activity.endTime).toDate(),
+      activity: activity,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false
+      },
+      draggable: false
+    };
+
+    this.calendarControls.events.push(event);
+  }
+
   private getMyUserAndMyActivities() {
     const getMyUserSubscription = this.userApi
       .appUserGetMyUser()
@@ -113,16 +150,11 @@ export class UserComponent implements OnInit {
           const myActivity = myActivities[i];
 
           if (myActivity.startTime) {
-            this.calendarOptions.events.push({
-              title: myActivity.name,
-              start: myActivity.startTime,
-              end: myActivity.endTime,
-              url: this.router.createUrlTree(['./activity', myActivity.id]).toString()
-            });
+            this.addToCalendar(myActivity);
           }
         }
 
-        this.pageControls.isLoadedActivities = true;
+        this.calendarControls.refresh.next();
 
         getMyActivitiesSubscription.unsubscribe();
       });
@@ -152,16 +184,11 @@ export class UserComponent implements OnInit {
           const activity = activities[i];
 
           if (activity.startTime) {
-            this.calendarOptions.events.push({
-              title: activity.name,
-              start: activity.startTime,
-              end: activity.endTime,
-              url: this.router.createUrlTree(['./activity', activity.id]).toString()
-            });
+            this.addToCalendar(activity);
           }
         }
 
-        this.pageControls.isLoadedActivities = true;
+        this.calendarControls.refresh.next();
 
         getActivitiesSubscription.unsubscribe();
       });

@@ -1,5 +1,37 @@
 # UtDesktop
 
+#Folder Structure
+Most of the source inside "src/app/"
+Every directory inside mean a page
+Every Page construct by 4 files which are
+1. html layout (*.component.html)
+2. css (*.component.scss)
+3. spec (*.component.spec.ts)
+4. controller (*.component.ts)
+
+Total 19 pages
+activity-invitations/
+activity-plan/ 
+activity-template/ 
+activity-templates/ 
+activity/ 
+chat-rooms/ 
+create-activity-plan/ 
+create-activity-template/ 
+create-activity/ 
+friend-invitations/ 
+friends/ 
+log-in/ 
+page-not-found/ 
+sign-up-profile/ 
+sign-up/ 
+update-activity-template/ 
+update-user/ 
+user-management/ 
+user/ 
+world/
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-beta.32.3.
 
 ## Development server
@@ -23,5 +55,5 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Further help
+can contact our developer
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

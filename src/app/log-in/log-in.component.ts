@@ -4,7 +4,7 @@ import { LogInInput } from '../../abp-http/ut-api-js-services/model/LogInInput';
 import { AccountApi } from '../../abp-http/ut-api-js-services/api/AccountApi';
 import { App_userApi } from '../../abp-http/ut-api-js-services/api/App_userApi';
 import { Router } from '@angular/router';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 
 
 @Component({
@@ -15,8 +15,8 @@ import { LocalStorageService } from 'ng2-webstorage';
 export class LogInComponent implements OnInit {
 
   public logInInput: LogInInput = {
-    usernameOrEmailAddress: 'leochoi',
-    password: '12345678'
+    usernameOrEmailAddress: '',
+    password: ''
   };
 
   constructor(private tokenService: TokenService,
@@ -30,6 +30,7 @@ export class LogInComponent implements OnInit {
   }
 
   public logIn() {
+    // Request server to validate login form
     const subscription = this.accountApi
       .accountLogInWithHttpInfo(this.logInInput)
       .flatMap((output) => {

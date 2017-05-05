@@ -80,14 +80,12 @@
 
     <!-- Left column -->
     <div class="col-xs-6 col-md-5">
-      <div [ngSwitch]="view">
-        <mwl-calendar-day-view
-          [viewDate]="calendarControls.viewDate"
-          [events]="calendarControls.events"
-          [refresh]="calendarControls.refresh"
-          (eventTimesChanged)="onEventTimesChanged($event)">
-        </mwl-calendar-day-view>
-      </div>
+      <mwl-calendar-day-view
+        [viewDate]="calendarControls.viewDate"
+        [events]="calendarControls.events"
+        [refresh]="calendarControls.refresh"
+        (eventTimesChanged)="onEventTimesChanged($event)">
+      </mwl-calendar-day-view>
     </div>
 
     <!-- Right column -->

@@ -17,22 +17,8 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
 import { App_activityPlanTimeSlotApi } from '../../abp-http/ut-api-js-services/api/App_activityPlanTimeSlotApi';
 import { App_descriptionApi } from '../../abp-http/ut-api-js-services/api/App_descriptionApi';
-
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import { Router } from '@angular/router';
+import { calendarColors } from '../calendar-colors';
 
 interface CreateDescriptionInput {
   input: (CreateTextDescriptionInput | CreateInternalImageDescriptionInput);
@@ -93,7 +79,8 @@ export class CreateActivityPlanComponent implements OnInit {
               private activityPlanTimeSlotApi: App_activityPlanTimeSlotApi,
               private tokenService: TokenService,
               private descriptionApi: App_descriptionApi,
-              private ngZone: NgZone) {
+              private ngZone: NgZone,
+              private router: Router) {
     this.fileDropControls.options = new NgUploaderOptions({
       url: 'https://unitime-dev-api.azurewebsites.net/api/File/PostFile',
       autoUpload: true,
@@ -163,7 +150,7 @@ export class CreateActivityPlanComponent implements OnInit {
         return Observable.forkJoin(a);
       })
       .subscribe(() => {
-        console.log(createdActivityPlanId);
+        this.router.navigate(['./activity-plan/', createdActivityPlanId]);
       });
 
   }
@@ -181,7 +168,7 @@ export class CreateActivityPlanComponent implements OnInit {
     const event: ActivityTemplateEvent = {
       id: activityTemplate.id,
       title: activityTemplate.name,
-      color: colors.red,
+      color: calendarColors.red,
       start: addHours(startOfDay(new Date()), 1),
       end: addHours(startOfDay(new Date()), 2),
       activityTemplate: activityTemplate,

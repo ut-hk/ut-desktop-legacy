@@ -1,11 +1,12 @@
-<div class="container" *ngIf="activityTemplate">
+<div class="container" *ngIf="activityTemplate; else isLoading">
 
   <div class="row">
     <div class="col-xs-12">
       <div class="text-right">
 
-        <a class="btn btn-default">Edit</a>
         <a class="btn btn-default" (click)="addToMyActivitiesModal.show()">Add to My Activities</a>
+        <a class="btn btn-default" *ngIf="pageControls.isMyActivityTemplate" href="update-activity-template/{{activityTemplateId}}">Edit</a>
+        <a class="btn btn-danger" *ngIf="pageControls.isMyActivityTemplate" (click)="onDelete()">Delete</a>
 
       </div>
     </div>
@@ -38,7 +39,7 @@
         <div class="col-xs-5 col-sm-3">Reference Time Slots</div>
         <div class="col-xs-7 col-sm-9">
           <div *ngFor="let referenceTimeSlot of activityTemplate.referenceTimeSlots; trackBy: referenceTimeSlot?.startTime">
-            <div>{{referenceTimeSlot.startTime | date}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date}}</span></div>
+            <div>{{referenceTimeSlot.startTime | date : 'short'}}<span *ngIf="referenceTimeSlot.endTime"> to {{referenceTimeSlot.endTime | date : 'short'}}</span></div>
           </div>
         </div>
       </div>
@@ -62,10 +63,10 @@
            [ngSwitch]="description.type">
         <p *ngSwitchCase="0">{{description.content}}</p>
         <div class="text-center" *ngSwitchCase="1">
-          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/not-found-image.png';">
         </div>
         <div class="text-center" *ngSwitchCase="2">
-          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/noFoundImag.png';">
+          <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content" onError="this.src = './assets/not-found-image.png';">
         </div>
       </div>
 
@@ -82,7 +83,7 @@
 
                 <!-- User Icon -->
                 <div class="col-xs-2">
-                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" alt="">
                 </div>
 
                 <div class="col-xs-10">
@@ -92,7 +93,7 @@
                     <div style="border: 1px solid #EEEEEE; margin-bottom: 10px;">
                       <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
                         <span class="comment-name"><a href="http://creaticode.com/blog">@{{comment.owner.userName}}</a></span>
-                        <span>{{comment.creationTime | amTimeAgo}}</span>
+                        <span>{{comment.creationTime | timeAgo}}</span>
                       </div>
                       <div style="padding: 5px;">{{comment.content}}</div>
                     </div>
@@ -105,13 +106,13 @@
                     <div *ngFor="let reply of comment.replies; trackBy: reply?.id">
                       <div class="row">
                         <div class="col-xs-2">
-                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" alt="">
                         </div>
                         <div class="col-xs-10">
                           <div style="border: 1px solid #EEEEEE;">
                             <div style="border-bottom: 1px solid #CCCCCC; padding: 5px; background: #F5F5F5;">
                               <span><a href="http://creaticode.com/blog">@{{reply.owner.userName}}</a></span>
-                              <span>{{reply.creationTime | amTimeAgo}}</span>
+                              <span>{{reply.creationTime | timeAgo}}</span>
                             </div>
                             <div style="padding: 5px;">{{reply.content}}</div>
                           </div>
@@ -125,7 +126,8 @@
                         <div class="col-xs-2"></div>
                         <div class="col-xs-10">
                           <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Write a reply..." [(ngModel)]="createReplyInput.content" (keyup.enter)="onClickCreateReply(comment)">
+                            <input class="form-control" type="text" placeholder="Write a reply..."
+                                   id="{{comment.id}}" (keyup.enter)="onClickCreateReply(comment)">
                           </div>
                         </div>
                       </div>
@@ -145,6 +147,17 @@
         </div>
       </div>
 
+      <!-- Ratings -->
+      <div *ngIf="activityTemplate.ratings.length > 0">
+        <p class="h3">Ratings</p>
+        <div class="ratings">
+          <div class="rating" *ngFor="let rating of activityTemplate.ratings; trackBy: rating?.id">
+            <img [ngClass]="{'like': rating.ratingStatus == 0, 'dislike': rating.ratingStatus == 1}" [src]="rating.owner.iconId ? (rating.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'">
+            <div><a routerLink="/user/{{rating.owner.id}}">@{{rating.owner.userName}}</a></div>
+          </div>
+        </div>
+      </div>
+
     </sticky>
   </div>
   <br>
@@ -152,7 +165,7 @@
   <br>
 
   <!-- Create Activity From Activity Plan -->
-  <div class="modal fade" bsModal #addToMyActivitiesModal="bs-modal" [config]="{backdrop: 'static'}"
+  <div class="modal fade" bsModal #addToMyActivitiesModal="bs-modal"
        tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -202,3 +215,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #isLoading>
+  <div class="text-center">
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px"></i>
+  </div>
+</ng-template>

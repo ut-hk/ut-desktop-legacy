@@ -18,7 +18,7 @@ import { UserService } from '../user.service';
 export class ActivityPlanComponent implements OnInit {
 
   public pageControls = {
-    isMyUser: false
+    isMyActivityPlan: false
   };
 
   public activityPlanId;
@@ -73,6 +73,8 @@ export class ActivityPlanComponent implements OnInit {
 
   public onClickCreateReply(comment: CommentDto) {
     this.createReplyInput.commentId = comment.id;
+    const inputValue = (<HTMLInputElement>document.getElementById(comment.id.toString())).value;
+    this.createReplyInput.content = inputValue;
 
     const createTextCommentSubscription = this.replyApi
       .appReplyCreateReply(this.createReplyInput)
@@ -94,7 +96,7 @@ export class ActivityPlanComponent implements OnInit {
         const activityPlan = output.activityPlan;
 
         this.activityPlan = activityPlan;
-        this.pageControls.isMyUser = this.userService.checkIsMyUser(activityPlan.owner.id);
+        this.pageControls.isMyActivityPlan = this.userService.checkIsMyUser(activityPlan.owner.id);
 
         getActivityPlanSubscription.unsubscribe();
       });
