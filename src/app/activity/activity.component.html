@@ -73,15 +73,15 @@
         <p *ngSwitchCase="0">{{description.content}}</p>
         <div class="text-center" *ngSwitchCase="1">
           <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
-               onError="this.src = './assets/noFoundImag.png';">
+               onError="this.src = './assets/not-found-image.png';">
         </div>
         <div class="text-center" *ngSwitchCase="2">
           <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
-               onError="this.src = './assets/noFoundImag.png';">
+               onError="this.src = './assets/not-found-image.png';">
         </div>
         <div class="text-center" *ngSwitchCase="2">
           <img style="margin-bottom: 10px; max-width: 100%;" [src]="description.content"
-               onError="this.src = './assets/noFoundImag.png';">
+               onError="this.src = './assets/not-found-image.png';">
         </div>
       </div>
 
@@ -93,7 +93,7 @@
           <div class="row">
 
             <div class="col-xs-2 owner-icon">
-              <img [src]="activity.owner.iconId ? (activity.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+              <img [src]="activity.owner.iconId ? (activity.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" class="img-circle" width="60px">
             </div>
 
             <div class="col-xs-7">
@@ -110,7 +110,7 @@
             <div class="row">
 
               <div class="col-xs-2 owner-icon">
-                <img [src]="participant.owner.iconId ? (participant.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" class="img-circle" width="60px">
+                <img [src]="participant.owner.iconId ? (participant.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" class="img-circle" width="60px">
               </div>
 
               <div class="col-xs-7">
@@ -137,7 +137,7 @@
 
                 <!-- User Icon -->
                 <div class="col-xs-2">
-                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                  <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" alt="">
                 </div>
 
                 <div class="col-xs-10">
@@ -160,7 +160,7 @@
                     <div *ngFor="let reply of comment.replies; trackBy: reply?.id">
                       <div class="row">
                         <div class="col-xs-2">
-                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/noFoundProfilePicture.png'" alt="">
+                          <img class="user-icon" [src]="comment.owner.iconId ? (comment.owner.iconId | internalImage) : './assets/not-found-profile-picture.png'" alt="">
                         </div>
                         <div class="col-xs-10">
                           <div style="border: 1px solid #EEEEEE;">
@@ -228,7 +228,7 @@
             <div *ngFor="let participantIdInput of participantIdInputs" class="row">
               <div class="col-xs-2">
                 <img
-                  [src]="participantIdInput.user.iconId ? (participantIdInput.user.iconId | internalImage) : './assets/noFoundProfilePicture.png'"
+                  [src]="participantIdInput.user.iconId ? (participantIdInput.user.iconId | internalImage) : './assets/not-found-profile-picture.png'"
                   class="img-circle"
                   width="60px">
               </div>
